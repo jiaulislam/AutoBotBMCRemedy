@@ -17,7 +17,7 @@ class CloseRequests(BasePage):
         super().__init__(driver)
         self.__change_type = None
         self.__change_number = None
-        self.__invalid_change_numbers = None
+        self.__invalid_change_numbers = []
 
     def __set_change_number(self, change_number: str) -> None:
         """ Set the value of Change Number """
@@ -40,7 +40,7 @@ class CloseRequests(BasePage):
         table_of_change_numbers = []
         try:
             # get all the element object from the change table
-            change_number_element = WebDriverWait(self.driver, self.timeout).until(
+            WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CloseChangeLocators.ALL_CHANGE_TABLE))
             change_number_elements = self.find_elements(*CloseChangeLocators.ALL_CHANGE_TABLE)
         except TimeoutException as error:
