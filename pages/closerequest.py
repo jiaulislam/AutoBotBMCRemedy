@@ -1,0 +1,206 @@
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.base import BasePage
+from utilities.locators import PageLocators, CloseChangeLocators
+
+
+# This class will help us to close the Change Request as per user requirement.
+# It will inherit the base page class for the basic functionality.
+
+
+class CloseRequests(BasePage):
+    """ Close the Change Request in BMC Remedy """
+
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.__change_type = None
+        self.__change_number = None
+        self.__invalid_change_numbers = None
+
+    def __set_change_number(self, change_number: str) -> None:
+        """ Set the value of Change Number """
+        self.__change_number = change_number
+
+    def get_change_number(self) -> str:
+        """ Get the Value of Change Number """
+        return self.__change_number
+
+    def __set_change_type(self) -> None:
+        """ Set the Value of Change Type """
+        self.__change_type = self.__is_service_effective()
+
+    def get_change_type(self) -> str:
+        """ Get the Change Request type """
+        return self.__change_type
+
+    def get_all_change_numbers(self) -> list:
+        """ Get all the change number from the homepage table """
+        table_of_change_numbers = []
+        try:
+            # get all the element object from the change table
+            change_number_element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(CloseChangeLocators.ALL_CHANGE_TABLE))
+            change_number_elements = self.find_elements(*CloseChangeLocators.ALL_CHANGE_TABLE)
+        except TimeoutException as error:
+            print(error)
+
+        # parse the numbers from the objects and append it to the list table_of_change_numbers
+        for change in change_number_elements:
+            table_of_change_numbers.append(change.text)
+
+        return table_of_change_numbers
+
+    def get_actual_start_date(self) -> (object, str):
+        """ Get the Closing Change Request Date & Time """
+        self.click(PageLocators.DATE_PAGE)
+        if self.get_value_of_element(CloseChangeLocators.ACTUAL_START_DATE_VALUE) != "":
+            return self.get_value_of_element(CloseChangeLocators.ACTUAL_START_DATE_VALUE)
+        else:
+            return None
+
+    @staticmethod
+    def get_index_for_change_number(change_number: str, list_of_change_number: list):
+        """ returns the correct position of the change number from the list """
+        try:
+            return list_of_change_number.index(change_number) + 2
+        except ValueError:
+            return None
+
+    def add_change_to_invalid_list(self, change_number: str):
+        """ append the invalid change_number found the the invalid list """
+        self.__invalid_change_numbers.append(change_number)
+
+    def find_the_change_request(self, change_number: str, index: int):
+        """ Find the Change Request with respect to user shared number"""
+
+        final_xpath = "//table[@id='T301444200']//tr[" + str(index) + "]//td[1]/nobr[1]/span"
+
+        dynamicXPATH = CloseChangeLocators.get_changeable_xpath(final_xpath)  # get the tuple
+
+        try:
+            self.double_click(dynamicXPATH)
+            self.__set_change_number(change_number)
+        except NoSuchElementException as error:
+            print(error)
+
+    def get_invalid_change_numbers(self):
+        """ Fetch all the invalid change numbers from the list """
+        if len(self.__invalid_change_numbers):
+            print("Below change request number not found:")
+            for inv in self.__invalid_change_numbers:
+                print(inv)
+            print("\n")
+        else:
+            pass
+
+    def __is_task_closed_already(self) -> bool:
+        """ Check if the task is already closed or not """
+        if self.find_element(*CloseChangeLocators.TASK_INIT_STATUS).get_attribute("value") == "Closed":
+            return True
+        else:
+            return False
+
+    def __is_change_status_closed(self) -> bool:
+        """
+        Check if the Change status is already closed or completed
+        """
+        status = self.find_element(*CloseChangeLocators.CHANGE_STATUS_INPUT).get_attribute("value")
+
+        if status == 'Closed' or status == 'Completed':
+            return True
+        else:
+            return False
+
+    def __is_service_effective(self) -> bool:
+        """Check if the current working Change is service effective or not.
+            :rtype: bool
+        """
+        try:
+            if self.is_visible(PageLocators.START_TIME_IN_TASK):
+                if self.find_element(*PageLocators.START_TIME_IN_TASK).get_attribute("value") != self.find_element(
+                        *PageLocators.END_TIME_IN_TASK).get_attribute("value"):
+                    return True
+                else:
+                    return False
+        except NoSuchElementException as error:
+            print(error)
+
+    def __back_to_change_task_page(self):
+        """ Go back to the Change request control page """
+        makeXPATH = f"//a[@class='btn'][contains(text(),'{self.__change_number}')]"
+        dynamicXPATH = CloseChangeLocators.get_changeable_xpath(makeXPATH)
+        self.back_to_home_page(dynamicXPATH)
+
+    def close_service_downtime_duration_task(self, actual_start_time: str, actual_end_time: str):
+        """
+        Close the Task for: Service_Downtime_Duration_Task(2) ,
+        If CR Task Status is already closed then will go back to
+        the task page.
+        """
+        self.double_click(PageLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
+
+        if not self.__is_task_closed_already():
+            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.__set_change_type()
+            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(PageLocators.SAVE_TASK_BTN)
+            self.__back_to_change_task_page()
+        else:
+            print("WARN: Service Downtime Duration Task is closed already !")
+            self.__back_to_change_task_page()
+
+    def close_service_downtime_window_task(self, actual_start_time: str, current_time_of_user: str):
+        """
+        Close the Task for: Service_Downtime_Window_Task(3) ,
+        If CR Task Status is already closed then will go back to
+        the task page.
+        """
+        self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+
+        if not self.__is_task_closed_already():
+            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, current_time_of_user)
+            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(PageLocators.SAVE_TASK_BTN)
+            self.__back_to_change_task_page()
+        else:
+            print("WARN: Service Downtime Duration Task is closed already !")
+            self.__back_to_change_task_page()
+
+    def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str):
+        """
+            Close the Task for: System_Downtime_Task(4) ,
+            If CR Task Status is already closed then will go back to
+            the task page.
+        """
+        self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
+
+        if not self.__is_task_closed_already():
+            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            self.click(PageLocators.SAVE_TASK_BTN)
+            self.__back_to_change_task_page()
+        else:
+            print("WARN: Service Downtime Duration Task is closed already !")
+            self.__back_to_change_task_page()
+
+    def goto_next_stage(self):
+        """ Take the Change Request to Next Stage after closing all 3 tasks """
+        if not self.__is_change_status_closed():
+            self.click(CloseChangeLocators.NEXT_STAGE_BUTTON)
+            self.check_for_expected_frame(PageLocators.FRAME_OK_BUTTON)
+        else:
+            print("WARN: Change Was Closed already!")

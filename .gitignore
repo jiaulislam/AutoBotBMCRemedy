@@ -1,0 +1,9 @@
+__pycache__/
+debug.log
+*.txt
+*.xlsx
+.vscode/
+.idea/
+Lib/
+Scripts/
+pyvenv.cfg
