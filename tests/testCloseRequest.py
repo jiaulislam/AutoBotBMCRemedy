@@ -23,6 +23,7 @@ class CloseChangeRequests(BasePage):
         user_list_for_close = make_data.list_of_change(StaticData.CLOSE_CHANGE_TXT_FILE_PATH)
 
         for a_change in user_list_for_close:
+            print(a_change)
             if a_change in all_changes_list:
                 index = self.close_requests.get_index_for_change_number(a_change, all_changes_list)
                 if index is not None:
@@ -45,5 +46,6 @@ class CloseChangeRequests(BasePage):
             else:
                 print(f"{self.close_requests.get_change_number()} is not found !")
                 self.close_requests.add_change_to_invalid_list(a_change)
+        self.home_page.click_logout_button()
 
 

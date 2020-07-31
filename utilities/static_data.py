@@ -14,4 +14,4 @@ class StaticData(object):
     READ_EXCEL_FILE = 'E:/AutoBotBMCRemedy/data_driver/Change_Requirement.xlsx'
     WRITE_EXCEL_FILE = 'E:/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx'
     CANCEL_CHANGE_TXT_FILE_PATH = 'E:/AutoBotBMCRemedy/data_driver/cancel.txt'
-    CLOSE_CHANGE_TXT_FILE_PATH = 'E:/AutoBotBMCRemedy/data_driver/change.txt'
+    CLOSE_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/change.txt'

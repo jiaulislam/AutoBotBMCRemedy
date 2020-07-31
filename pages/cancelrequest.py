@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import BasePage
-from utilities.locators import *
+from utilities.locators import PageLocators, CancelRequestLocators, CloseChangeLocators
 
 
 class CancelRequests(BasePage):

@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import BasePage
-from utilities.locators import PageLocators, CloseChangeLocators
+from utilities.locators import PageLocators, CloseChangeLocators, CancelRequestLocators
 
 """
 This class will help us to close the Change Request as per user requirement.
@@ -81,7 +81,8 @@ class CloseRequests(BasePage):
 
     def __is_task_closed_already(self) -> bool:
         """ Check if the task is already closed or not """
-        if self.find_element(*CloseChangeLocators.TASK_INIT_STATUS).get_attribute("value") == "Closed":
+        if self.get_value_of_element(CloseChangeLocators.TASK_INIT_STATUS) == "Closed":
+        # if self.find_element(*CloseChangeLocators.TASK_INIT_STATUS).get_attribute("value") == "Closed":
             return True
         else:
             return False
@@ -90,7 +91,7 @@ class CloseRequests(BasePage):
         """
         Check if the Change status is already closed or completed
         """
-        status = self.find_element(*CloseChangeLocators.CHANGE_STATUS_INPUT).get_attribute("value")
+        status = self.get_value_of_element(CancelRequestLocators.STATUS_AREA)
 
         if status == 'Closed' or status == 'Completed':
             return True
@@ -103,8 +104,7 @@ class CloseRequests(BasePage):
         """
         try:
             if self.is_visible(PageLocators.START_TIME_IN_TASK):
-                if self.find_element(*PageLocators.START_TIME_IN_TASK).get_attribute("value") != self.find_element(
-                        *PageLocators.END_TIME_IN_TASK).get_attribute("value"):
+                if self.get_value_of_element(PageLocators.START_TIME_IN_TASK) != self.get_value_of_element(PageLocators.END_TIME_IN_TASK):
                     return True
                 else:
                     return False
@@ -123,21 +123,24 @@ class CloseRequests(BasePage):
         If CR Task Status is already closed then will go back to
         the task page.
         """
-        self.double_click(PageLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
+        if not self.__is_change_status_closed:
+            self.double_click(PageLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
 
-        if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
-            self.__set_change_type()
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
-            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
-            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(PageLocators.SAVE_TASK_BTN)
-            self.__back_to_change_task_page()
+            if not self.__is_task_closed_already():
+                self.click(PageLocators.DATE_SECTOR_IN_TASK)
+                self.__set_change_type()
+                self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+                self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+                self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+                self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(PageLocators.SAVE_TASK_BTN)
+                self.__back_to_change_task_page()
+            else:
+                print("WARN: Service Downtime Duration Task is closed already !")
+                self.__back_to_change_task_page()
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
-            self.__back_to_change_task_page()
+            pass
 
     def close_service_downtime_window_task(self, actual_start_time: str, current_time_of_user: str):
         """
@@ -145,20 +148,23 @@ class CloseRequests(BasePage):
         If CR Task Status is already closed then will go back to
         the task page.
         """
-        self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+        if not self.__is_change_status_closed():
+            self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
 
-        if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, current_time_of_user)
-            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
-            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(PageLocators.SAVE_TASK_BTN)
-            self.__back_to_change_task_page()
+            if not self.__is_task_closed_already():
+                self.click(PageLocators.DATE_SECTOR_IN_TASK)
+                self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+                self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, current_time_of_user)
+                self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+                self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(PageLocators.SAVE_TASK_BTN)
+                self.__back_to_change_task_page()
+            else:
+                print("WARN: Service Downtime Duration Task is closed already !")
+                self.__back_to_change_task_page()
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
-            self.__back_to_change_task_page()
+            pass
 
     def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str):
         """
@@ -166,20 +172,23 @@ class CloseRequests(BasePage):
             If CR Task Status is already closed then will go back to
             the task page.
         """
-        self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
+        if not self.__is_change_status_closed():
+            self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
 
-        if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
-            self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
-            self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(PageLocators.SAVE_TASK_BTN)
-            self.__back_to_change_task_page()
+            if not self.__is_task_closed_already():
+                self.click(PageLocators.DATE_SECTOR_IN_TASK)
+                self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
+                self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+                self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+                self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+                self.click(PageLocators.SAVE_TASK_BTN)
+                self.__back_to_change_task_page()
+            else:
+                print("WARN: Service Downtime Duration Task is closed already !")
+                self.__back_to_change_task_page()
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
-            self.__back_to_change_task_page()
+            pass
 
     def goto_next_stage(self):
         """ Take the Change Request to Next Stage after closing all 3 tasks """
