@@ -13,7 +13,6 @@ it will inherit the base page class for the basic functionality.
 
 class CloseRequests(BasePage):
     """ Close the Change Request in BMC Remedy """
-
     def __init__(self, driver):
         super().__init__(driver)
         self.__change_type = None
@@ -196,7 +195,7 @@ class CloseRequests(BasePage):
             self.click(CloseChangeLocators.NEXT_STAGE_BUTTON)
             self.check_for_expected_frame(PageLocators.FRAME_OK_BUTTON)
         else:
-            print("WARN: Change Was Closed already!")
+            print("WARN: Change Status  Was Closed already!")
 
     def goto_task_page(self):
         """ Goto the task section on the close change page """

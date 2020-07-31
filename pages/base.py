@@ -12,6 +12,7 @@ all over the project/pages to work with.
 
 
 class BasePage(object):
+
     def __init__(self, driver) -> None:
         self.driver = driver
         self.timeout = 30

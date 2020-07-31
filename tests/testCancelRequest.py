@@ -8,6 +8,7 @@ from utilities.static_data import StaticData
 
 
 class CancelChangeRequest(BasePage):
+
     def __init__(self, driver):
         super().__init__(driver)
         self.login_page = LoginPage(self.driver)
