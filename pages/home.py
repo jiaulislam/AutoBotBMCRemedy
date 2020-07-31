@@ -1,7 +1,7 @@
 from pages.base import BasePage
 from utilities.locators import PageLocators
 
-from selenium.common.exceptions import TimeoutException,NoSuchElementException
+from selenium.common.exceptions import TimeoutException,NoSuchElementException,ElementClickInterceptedException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -50,3 +50,17 @@ class HomePage(BasePage):
             table_of_change_numbers.append(change.text)
 
         return table_of_change_numbers
+
+    def go_to_home(self):
+        """ Return back to IT HOME """
+        try:
+            WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(PageLocators.HOME_ICON_BTN))
+            javascript = "document.getElementById('reg_img_304248660').click();"
+            self.driver.execute_script(javascript)
+        except ElementClickInterceptedException:
+            home_icon = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(PageLocators.HOME_ICON_BTN))
+            self.click(home_icon)
+        except TimeoutException as error:
+            print(error)

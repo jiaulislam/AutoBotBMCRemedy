@@ -32,9 +32,9 @@ class CancelChangeRequest(BasePage):
                     if not self.cancel_requests.is_cancelled():
                         self.cancel_requests.select_cancel()
                         self.cancel_requests.save_status()
-                        self.cancel_requests.go_to_home()
+                        self.home_page.go_to_home()
                     else:
-                        self.cancel_requests.go_to_home()
+                        self.home_page.go_to_home()
                 else:
-                    self.cancel_requests.go_to_home()
+                    self.home_page.go_to_home()
         self.home_page.click_logout_button()

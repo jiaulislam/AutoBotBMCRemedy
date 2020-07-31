@@ -28,18 +28,24 @@ class CloseChangeRequests(BasePage):
                 index = self.close_requests.get_index_for_change_number(a_change, all_changes_list)
                 if index is not None:
                     self.close_requests.find_the_change_request(a_change, index)
-                    actual_open_time = self.close_requests.get_actual_start_date()
-                    if actual_open_time is not None:
-                        actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
-                        current_sys_time = make_data.get_current_system_time()
-                        self.close_requests.goto_task_page()
-                        self.close_requests.close_service_downtime_duration_task(actual_open_time, actual_closing_time)
-                        self.close_requests.close_service_downtime_window_task(actual_open_time, current_sys_time)
-                        self.close_requests.close_system_downtime_duration_task(actual_open_time, actual_closing_time)
-                        self.close_requests.goto_next_stage()
+                    if not self.close_requests.is_change_status_closed():
+                        actual_open_time = self.close_requests.get_actual_start_date()
+                        if actual_open_time is not None:
+                            actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
+                            current_sys_time = make_data.get_current_system_time()
+                            self.close_requests.goto_task_page()
+                            self.close_requests.close_service_downtime_duration_task(actual_open_time, actual_closing_time)
+                            self.close_requests.close_service_downtime_window_task(actual_open_time, current_sys_time)
+                            self.close_requests.close_system_downtime_duration_task(actual_open_time, actual_closing_time)
+                            self.close_requests.goto_next_stage()
+                            self.home_page.go_to_home()
+                        else:
+                            print(f"{self.close_requests.get_change_number()} is not Opened !")
+                            self.close_requests.add_change_to_invalid_list(a_change)
+                            self.home_page.go_to_home()
                     else:
-                        print(f"{self.close_requests.get_change_number()} is not Opened !")
-                        self.close_requests.add_change_to_invalid_list(a_change)
+                        print(f"{self.close_requests.get_change_number()} change already closed !")
+                        self.home_page.go_to_home()
                 else:
                     print(f"{self.close_requests.get_change_number()} is not found !")
                     self.close_requests.add_change_to_invalid_list(a_change)

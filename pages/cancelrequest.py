@@ -40,20 +40,6 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def go_to_home(self):
-        """ Return back to IT HOME """
-        try:
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(CancelRequestLocators.HOME_ICON_BTN))
-            javascript = "document.getElementById('reg_img_304248660').click();"
-            self.driver.execute_script(javascript)
-        except ElementClickInterceptedException:
-            home_icon = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(CancelRequestLocators.HOME_ICON_BTN))
-            self.click(home_icon)
-        except TimeoutException as error:
-            print(error)
-
     def select_cancel(self):
         """ select the Cancel Option from Status Menu """
         try:

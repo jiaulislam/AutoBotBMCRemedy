@@ -13,6 +13,7 @@ class PageLocators(object):
     APPLICATION_BUTTON = (By.XPATH, "//*[@id='reg_img_304316340']")
     CHANGE_MANAGEMENT_LIST = (By.XPATH, "//*[text()='Change Management']")
     NEW_CHANGE_LIST = (By.XPATH, "//*[text()='New Change']")
+    HOME_ICON_BTN = (By.ID, "reg_img_304248660")
 
     # ==> NEW_CHANGE PAGE LOCATORS <== #
     SUMMARY_TEXTBOX = (By.XPATH, "//*[@id='arid_WIN_3_1000000000']")
@@ -164,6 +165,5 @@ class CancelRequestLocators(object):
     MENU_FOR_STATUS = (By.XPATH, "//div[@id='WIN_3_303502600']//a[@class='btn btn3d menu']")
     SELECT_CANCEL = (By.XPATH, "//td[@class='MenuEntryNameHover']")
     CANCEL_OPTION_SELECT = (By.XPATH, "//td[contains(text(),'Cancel')]")
-    HOME_ICON_BTN = (By.ID, "reg_img_304248660")
     SAVE = (By.XPATH, "//a[@id='WIN_3_1003']//div[@class='f1'][contains(text(),'Save')]")
     STATUS_AREA = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
