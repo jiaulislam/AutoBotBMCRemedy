@@ -5,9 +5,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from pages.base import BasePage
 from utilities.locators import PageLocators, CloseChangeLocators
 
-
-# This class will help us to close the Change Request as per user requirement.
-# It will inherit the base page class for the basic functionality.
+"""
+This class will help us to close the Change Request as per user requirement.
+It will inherit the base page class for the basic functionality.
+"""
 
 
 class CloseRequests(BasePage):
