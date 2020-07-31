@@ -20,7 +20,7 @@ class CancelChangeRequest(BasePage):
         self.login_page.enter_password_textbox()
         self.login_page.click_login_button()
 
-        all_changes_web = self.closeRequest.get_all_change_numbers()
+        all_changes_web = self.home_page.get_all_change_numbers()
         all_changes_file = make_data.list_of_change(StaticData.CANCEL_CHANGE_TXT_FILE_PATH)
 
         for a_change in all_changes_file:

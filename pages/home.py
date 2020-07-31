@@ -1,6 +1,10 @@
 from pages.base import BasePage
 from utilities.locators import PageLocators
 
+from selenium.common.exceptions import TimeoutException,NoSuchElementException
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+
 """
 This is the most important class file here. Home page will have the 
 all the functions and classes or inside work in BMC Remedy. This class
@@ -30,3 +34,19 @@ class HomePage(BasePage):
     def click_logout_button(self) -> None:
         """ Click the Logout Button on home page """
         self.click(PageLocators.LOGOUT_BUTTON)
+
+    def get_all_change_numbers(self) -> list:
+        """ Get all the change number from the homepage table """
+        table_of_change_numbers = []
+        try:
+            # get all the element object from the change table
+            WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(PageLocators.ALL_CHANGE_TABLE))
+            change_number_elements = self.find_elements(*PageLocators.ALL_CHANGE_TABLE)
+        except TimeoutException as error:
+            print(error)
+        # parse the numbers from the objects and append it to the list table_of_change_numbers
+        for change in change_number_elements:
+            table_of_change_numbers.append(change.text)
+
+        return table_of_change_numbers

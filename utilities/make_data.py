@@ -96,3 +96,12 @@ def get_current_system_time():
     """ parse the current system time with formatted string """
     current_time = datetime.datetime.now()
     return current_time.strftime("%m/%d/%Y %I:%M %p")
+
+def make_downtime_from_open_time(open_time: str):
+    """ make and return e downtime duration with the help of open time """
+    original_date = datetime.datetime.strptime(
+        open_time, "%m/%d/%Y %I:%M:%S %p")
+    # add extra 30 minute with the parsed time to close for service effective NCR
+    original_date += datetime.timedelta(minutes=30)
+
+    return str(original_date.strftime("%m/%d/%Y %I:%M:%S %p"))

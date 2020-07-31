@@ -7,7 +7,7 @@ from utilities.locators import PageLocators, CloseChangeLocators
 
 """
 This class will help us to close the Change Request as per user requirement.
-It will inherit the base page class for the basic functionality.
+it will inherit the base page class for the basic functionality.
 """
 
 
@@ -36,24 +36,7 @@ class CloseRequests(BasePage):
         """ Get the Change Request type """
         return self.__change_type
 
-    def get_all_change_numbers(self) -> list:
-        """ Get all the change number from the homepage table """
-        table_of_change_numbers = []
-        try:
-            # get all the element object from the change table
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(CloseChangeLocators.ALL_CHANGE_TABLE))
-            change_number_elements = self.find_elements(*CloseChangeLocators.ALL_CHANGE_TABLE)
-        except TimeoutException as error:
-            print(error)
-
-        # parse the numbers from the objects and append it to the list table_of_change_numbers
-        for change in change_number_elements:
-            table_of_change_numbers.append(change.text)
-
-        return table_of_change_numbers
-
-    def get_actual_start_date(self) -> (object, str):
+    def get_actual_start_date(self) -> str:
         """ Get the Closing Change Request Date & Time """
         self.click(PageLocators.DATE_PAGE)
         if self.get_value_of_element(CloseChangeLocators.ACTUAL_START_DATE_VALUE) != "":
@@ -62,7 +45,7 @@ class CloseRequests(BasePage):
             return None
 
     @staticmethod
-    def get_index_for_change_number(change_number: str, list_of_change_number: list):
+    def get_index_for_change_number(change_number: str, list_of_change_number: list) -> int:
         """ returns the correct position of the change number from the list """
         try:
             return list_of_change_number.index(change_number) + 2
@@ -205,3 +188,8 @@ class CloseRequests(BasePage):
             self.check_for_expected_frame(PageLocators.FRAME_OK_BUTTON)
         else:
             print("WARN: Change Was Closed already!")
+
+    def goto_task_page(self):
+        """ Goto the task section on the close change page """
+        self.click(PageLocators.TASK_PAGE)
+

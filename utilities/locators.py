@@ -138,11 +138,11 @@ class PageLocators(object):
 
     RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")
 
+    ALL_CHANGE_TABLE = (By.XPATH, "//table[@id='T301444200']//td[1]//nobr[1]//span")
 
 class CloseChangeLocators(object):
     """ This Class is going to store all the required new Locators for Closing a Change Request """
 
-    ALL_CHANGE_TABLE = (By.XPATH, "//table[@id='T301444200']//td[1]//nobr[1]//span")
     ACTUAL_START_DATE_VALUE = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
     ACTUAL_END_DATE_VALUE = (By.XPATH, "//input[@id= 'arid_WIN_4_1000000364']")
     CLOSE_MENU_SELECT = (By.XPATH, "//input[@id= 'arid_WIN_4_7']")
