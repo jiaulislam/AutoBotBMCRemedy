@@ -14,7 +14,7 @@ class Data_Export:
     def __init__(self):
         try:
             self._change_list_excel = openpyxl.load_workbook(
-                filename='Change_Request_List.xlsx', data_only=True)
+                filename='E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx', data_only=True)
             self._sheet = self._change_list_excel.active
         except FileNotFoundError as error:
             print(error)

@@ -6,9 +6,9 @@ from utilities.read_excel_data import Read_Data
 from utilities import make_data
 from utilities.data_export import Data_Export
 from utilities.static_data import StaticData
+import os
 
-
-class Testt_CreateChangeRequest(BasePage):
+class CreateChangeRequest(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -40,12 +40,12 @@ class Testt_CreateChangeRequest(BasePage):
             site_group = self.read_data.parse_site_group(change)
             commercial_zone = self.read_data.parse_commercial_zone(change)
             change_manager = self.read_data.parse_change_manager(change)
-            location_service = (company, region, site_group, commercial_zone)
+            location_service = (company, region, site_group, commercial_zone) 
 
             summary = project_name + " || " + service_type + "\n"
             notes = project_name + " || " + service_type + "\n" + change_activity + "\n"
             impact_list = make_data.make_impact_list(impact_sites, site_group)
-            file_location = site_group + '.txt'
+            file_location = os.getcwd() + "/" +  site_group + '.txt'
 
             # ---------------make_data: Task Time Calculation ---------------- #
             cr_start_time = make_data.get_change_start_time(m_date)
@@ -57,7 +57,7 @@ class Testt_CreateChangeRequest(BasePage):
             # ------------------------------END----------------------------- #
 
             # --------------------- BMCRemedey: Create the Change Request as provided data ------------ #
-            self.createChangeRequest.change_location(*location_service)
+            self.createChangeRequest.change_location(location_service)
             self.createChangeRequest.insert_text_summary(summary)
             self.createChangeRequest.insert_text_notes(notes)
             self.createChangeRequest.insert_impact_list_in_notes(impact_list)
@@ -98,3 +98,6 @@ class Testt_CreateChangeRequest(BasePage):
             self.createChangeRequest.save_change()
             self.createChangeRequest.go_back_to_homepage()
             self.createChangeRequest.go_back_to_homepage()
+        self.homePage.click_logout_button()
+        self.export_data.close_workbook()
+        self.read_data.close_workbook()

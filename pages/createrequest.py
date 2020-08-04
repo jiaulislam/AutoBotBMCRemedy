@@ -89,9 +89,10 @@ class CreateRequests(BasePage):
         else:
             raise ValueError("Manager Not Found !")
 
-    def change_location(self, *location_details: tuple) -> None:
+    def change_location(self, location_details: tuple) -> None:
 
         # Need to store Parent windows ID cause after click new Window will pop-up
+        print()
         parent_window = self.driver.current_window_handle
         self.click(PageLocators.LOCATION_MENU_BTN)
         for child_window in self.driver.window_handles:
@@ -100,15 +101,15 @@ class CreateRequests(BasePage):
                 self.click(PageLocators.CLEAR_BUTTON)
                 self.click(PageLocators.SEARCH_ICON_IMG)
                 # Another window pop-up after clicking Search button.
-                for grand_child_window in self.driver.current_window_handle:
+                for grand_child_window in self.driver.window_handles:
                     if grand_child_window != parent_window and grand_child_window != child_window:
                         # Switch to the new Child window
                         self.driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
-                        self.write(PageLocators.COMPANY_TEXTBOX, *location_details[0])
-                        self.write(PageLocators.REGION_TEXTBOX, *location_details[1])
-                        self.write(PageLocators.SITE_GROUP_TEXTBOX, *location_details[2])
-                        self.write(PageLocators.SITE_TEXTBOX, *location_details[3])
+                        self.write(PageLocators.COMPANY_TEXTBOX, location_details[0])
+                        self.write(PageLocators.REGION_TEXTBOX, location_details[1])
+                        self.write(PageLocators.SITE_GROUP_TEXTBOX, location_details[2])
+                        self.write(PageLocators.SITE_TEXTBOX, location_details[3])
                         self.click(PageLocators.SEARCH_LOCATION_BTN)
                         self.click(PageLocators.SELECT_LOCATION_BTN)
                         break
