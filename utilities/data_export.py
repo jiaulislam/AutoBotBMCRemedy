@@ -11,10 +11,10 @@ the change request is belong to.
 
 
 class Data_Export:
-    def __init__(self):
+    def __init__(self, file_path):
         try:
             self._change_list_excel = openpyxl.load_workbook(
-                filename='E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx', data_only=True)
+                filename=file_path)
             self._sheet = self._change_list_excel.active
         except FileNotFoundError as error:
             print(error)
@@ -75,10 +75,10 @@ class Data_Export:
         """ insert the change manager in the excel file """
         self._sheet['L' + str(index)] = change_manager
 
-    def save_workbook(self, driver):
+    def save_workbook(self, driver, file_path):
         """ Save the workbook """
         try:
-            self._change_list_excel.save('Change_Request_List.xlsx')
+            self._change_list_excel.save(file_path)
         except PermissionError:
             print("WARN: File is in already use by user. Please close the file first ! Work won't be saved.")
             driver.logout()

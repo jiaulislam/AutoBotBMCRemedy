@@ -1,3 +1,5 @@
+import time
+
 from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterceptedException,
                                         NoSuchElementException, NoSuchWindowException)
 
@@ -16,11 +18,11 @@ class CreateRequests(BasePage):
         super().__init__(driver)
         self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar']
         self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman']
-        self.__change_number = None
+        self.__change_number = ""
 
     def __set_change_number(self):
         """ Set the private variable of the class """
-        self.__change_number = self.find_element(*PageLocators.CHANGE_NUMBER_VALUE).get_attribute("value")
+        self.__change_number = self.find_element(*PageLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
 
     def __str__(self):
         """ Set the str of the object """
@@ -32,6 +34,7 @@ class CreateRequests(BasePage):
 
     def insert_text_summary(self, summary: str) -> None:
         """ Write the excel data into Summary section """
+        self.__set_change_number()
         self.write(PageLocators.SUMMARY_TEXTBOX, summary)
 
     def insert_text_notes(self, notes: str) -> None:
@@ -50,6 +53,7 @@ class CreateRequests(BasePage):
         self.write(PageLocators.CHOOSE_ATTACHMENT_FRAME, location_of_file)
         self.click(PageLocators.OK_ATTACHMENT_FRAME_BUTTON)
         self.driver.switch_to.default_content()
+        time.sleep(1)
         self.click(PageLocators.ADD_NOTE_ATTACHMENT_BUTTON)
 
     def select_manager_group(self, change_manager: str) -> None:
