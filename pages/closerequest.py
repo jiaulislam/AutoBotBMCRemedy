@@ -64,7 +64,7 @@ class CloseRequests(BasePage):
 
         try:
             self.double_click(dynamicXPATH)
-            self.__set_change_number(change_number)
+            self.__set_change_number(change_number) # set the change number for future use
         except NoSuchElementException as error:
             print(error)
 

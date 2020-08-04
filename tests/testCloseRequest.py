@@ -46,10 +46,10 @@ class CloseChangeRequests(BasePage):
                         print(f"{self.close_requests.get_change_number()} change already closed !")
                         self.home_page.go_to_home()
                 else:
-                    print(f"{self.close_requests.get_change_number()} is not found !")
+                    print(f"{a_change} change not found !")
                     self.close_requests.add_change_to_invalid_list(a_change)
             else:
-                print(f"{self.close_requests.get_change_number()} is not found !")
+                print(f"{a_change} change not found !")
                 self.close_requests.add_change_to_invalid_list(a_change)
         self.home_page.click_logout_button()
 

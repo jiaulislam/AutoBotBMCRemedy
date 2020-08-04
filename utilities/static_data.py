@@ -11,7 +11,7 @@ class StaticData(object):
     USERNAME = os.environ.get("BMC_USER")  # Get the username
     PASSWORD = os.environ.get("BMC_PASS")  # Get the password
     IT_HOME = 'IT Home'
-    READ_EXCEL_FILE = 'E:/AutoBotBMCRemedy/data_driver/Change_Requirement.xlsx'
-    WRITE_EXCEL_FILE = 'E:/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx'
-    CANCEL_CHANGE_TXT_FILE_PATH = 'E:/AutoBotBMCRemedy/data_driver/cancel.txt'
+    READ_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Requirement.xlsx'
+    WRITE_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx'
+    CANCEL_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/cancel.txt'
     CLOSE_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/change.txt'
