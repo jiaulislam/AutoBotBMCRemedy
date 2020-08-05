@@ -18,7 +18,7 @@ class CloseChangeRequests(BasePage):
         self.login_page.enter_username_textbox()
         self.login_page.enter_password_textbox()
         self.login_page.click_login_button()
-        
+
         all_changes_list = self.home_page.get_all_change_numbers()
         user_list_for_close = make_data.list_of_change(StaticData.CLOSE_CHANGE_TXT_FILE_PATH)
 
@@ -33,9 +33,11 @@ class CloseChangeRequests(BasePage):
                             actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
                             current_sys_time = make_data.get_current_system_time()
                             self.close_requests.goto_task_page()
-                            self.close_requests.close_service_downtime_duration_task(actual_open_time, actual_closing_time)
+                            self.close_requests.close_service_downtime_duration_task(actual_open_time,
+                                                                                     actual_closing_time)
                             self.close_requests.close_service_downtime_window_task(actual_open_time, current_sys_time)
-                            self.close_requests.close_system_downtime_duration_task(actual_open_time, actual_closing_time)
+                            self.close_requests.close_system_downtime_duration_task(actual_open_time,
+                                                                                    actual_closing_time)
                             self.close_requests.goto_next_stage()
                             self.home_page.go_to_home()
                         else:
@@ -52,5 +54,3 @@ class CloseChangeRequests(BasePage):
                 print(f"{a_change} change not found !")
                 self.close_requests.add_change_to_invalid_list(a_change)
         self.home_page.click_logout_button()
-
-
