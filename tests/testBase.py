@@ -3,8 +3,8 @@ import unittest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-from tests.testCloseRequest import CloseChangeRequests
 from tests.testCancelRequest import CancelChangeRequest
+from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from utilities.static_data import StaticData
 
@@ -35,7 +35,7 @@ class Test_CancelChangeRequest(Test_Base_Case):
 
 
 class Test_CloseChangeRequests(Test_Base_Case):
-    
+
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()

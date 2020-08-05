@@ -1,3 +1,5 @@
+from typing import Iterable
+
 from selenium.common.exceptions import NoSuchFrameException, NoSuchElementException, ElementClickInterceptedException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -21,7 +23,7 @@ class BasePage(object):
         """ Find the element by the help of the locator that user shared """
         return self.driver.find_element(*locator)
 
-    def find_elements(self, *locator) -> object:
+    def find_elements(self, *locator) -> Iterable:
         """ Find the elements by the help of the locator that user shared """
         return self.driver.find_elements(*locator)
 

@@ -1,6 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
 
 from pages.base import BasePage
 from utilities.locators import PageLocators, CloseChangeLocators, CancelRequestLocators
@@ -13,6 +11,7 @@ it will inherit the base page class for the basic functionality.
 
 class CloseRequests(BasePage):
     """ Close the Change Request in BMC Remedy """
+
     def __init__(self, driver):
         super().__init__(driver)
         self.__change_type = None
@@ -64,7 +63,7 @@ class CloseRequests(BasePage):
 
         try:
             self.double_click(dynamicXPATH)
-            self.__set_change_number(change_number) # set the change number for future use
+            self.__set_change_number(change_number)  # set the change number for future use
         except NoSuchElementException as error:
             print(error)
 
@@ -81,7 +80,6 @@ class CloseRequests(BasePage):
     def __is_task_closed_already(self) -> bool:
         """ Check if the task is already closed or not """
         if self.get_value_of_element(CloseChangeLocators.TASK_INIT_STATUS) == "Closed":
-        # if self.find_element(*CloseChangeLocators.TASK_INIT_STATUS).get_attribute("value") == "Closed":
             return True
         else:
             return False
@@ -103,7 +101,8 @@ class CloseRequests(BasePage):
         """
         try:
             if self.is_visible(PageLocators.START_TIME_IN_TASK):
-                if self.get_value_of_element(PageLocators.START_TIME_IN_TASK) != self.get_value_of_element(PageLocators.END_TIME_IN_TASK):
+                if self.get_value_of_element(PageLocators.START_TIME_IN_TASK) != self.get_value_of_element(
+                        PageLocators.END_TIME_IN_TASK):
                     return True
                 else:
                     return False
@@ -157,8 +156,8 @@ class CloseRequests(BasePage):
             self.__back_to_change_task_page()
         else:
             print("WARN: Service Downtime Duration Task is closed already !")
-            self.__back_to_change_task_page() 
-                
+            self.__back_to_change_task_page()
+
     def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str):
         """
             Close the Task for: System_Downtime_Task(4) ,
@@ -191,4 +190,3 @@ class CloseRequests(BasePage):
     def goto_task_page(self):
         """ Goto the task section on the close change page """
         self.click(PageLocators.TASK_PAGE)
-

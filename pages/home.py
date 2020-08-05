@@ -1,9 +1,9 @@
-from pages.base import BasePage
-from utilities.locators import PageLocators
-
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,ElementClickInterceptedException
+from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.base import BasePage
+from utilities.locators import PageLocators
 
 """
 This is the most important class file here. Home page will have the 
@@ -45,9 +45,10 @@ class HomePage(BasePage):
             change_number_elements = self.find_elements(*PageLocators.ALL_CHANGE_TABLE)
         except TimeoutException as error:
             print(error)
-        # parse the numbers from the objects and append it to the list table_of_change_numbers
-        for change in change_number_elements:
-            table_of_change_numbers.append(change.text)
+        else:
+            # parse the numbers from the objects and append it to the list table_of_change_numbers
+            for change in change_number_elements:
+                table_of_change_numbers.append(change.text)
 
         return table_of_change_numbers
 

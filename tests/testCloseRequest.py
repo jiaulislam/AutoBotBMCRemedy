@@ -1,9 +1,9 @@
 from pages.base import BasePage
-from pages.login import LoginPage
+from pages.closerequest import CloseRequests
 from pages.home import HomePage
+from pages.login import LoginPage
 from utilities import make_data
 from utilities.static_data import StaticData
-from pages.closerequest import CloseRequests
 
 
 class CloseChangeRequests(BasePage):
