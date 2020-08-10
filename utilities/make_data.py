@@ -6,7 +6,7 @@ data is formatted through this python file.
 """
 
 
-def get_change_start_time(m_date):
+def get_change_start_time(m_date) -> str:
     """ Get the Change Start Time """
     make_date_time = parse_datetime(m_date)
     if make_date_time <= datetime.datetime.today():
@@ -15,14 +15,14 @@ def get_change_start_time(m_date):
     return start_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
-def get_service_start_downtime(m_date):
+def get_service_start_downtime(m_date) -> str:
     """ Get the Change Start downtime """
     make_date_time = parse_datetime(m_date)
     start_downtime = make_date_time.replace(hour=11, minute=0, second=0)
     return start_downtime.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
-def get_service_end_downtime(start_downtime, duration):
+def get_service_end_downtime(start_downtime, duration) -> str:
     """ Get the Change End Time """
     make_date_time = datetime.datetime.strptime(str(start_downtime), '%m/%d/%Y %I:%M:%S %p')
 
@@ -39,14 +39,14 @@ def get_service_end_downtime(start_downtime, duration):
     return make_date_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
-def get_change_close_start_time(m_date):
+def get_change_close_start_time(m_date) -> str:
     """ Get the Change Close Start Time """
     make_date_time = parse_datetime(m_date)
     close_start_time = make_date_time.replace(hour=17, minute=0, second=0)
     return close_start_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
-def get_change_close_end_time(m_date):
+def get_change_close_end_time(m_date) -> str:
     """ Get the Change Close End Time """
     make_date_time = parse_datetime(m_date)
     close_start_time = make_date_time.replace(hour=18, minute=0, second=0)
@@ -96,6 +96,7 @@ def get_current_system_time():
     """ parse the current system time with formatted string """
     current_time = datetime.datetime.now()
     return current_time.strftime("%m/%d/%Y %I:%M %p")
+
 
 def make_downtime_from_open_time(open_time: str):
     """ make and return e downtime duration with the help of open time """

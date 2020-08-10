@@ -25,9 +25,6 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def get_info(self):
-        pass
-
     def is_cancelled(self):
         """ Checks if the Cancellation is successful or not """
         try:

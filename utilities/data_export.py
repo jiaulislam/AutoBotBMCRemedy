@@ -13,8 +13,7 @@ the change request is belong to.
 class Data_Export:
     def __init__(self, file_path):
         try:
-            self._change_list_excel = openpyxl.load_workbook(
-                filename=file_path)
+            self._change_list_excel = openpyxl.load_workbook(filename=file_path)
             self._sheet = self._change_list_excel.active
         except FileNotFoundError as error:
             print(error)

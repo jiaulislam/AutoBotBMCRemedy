@@ -1,4 +1,5 @@
 import os
+import time
 
 from pages.base import BasePage
 from pages.createrequest import CreateRequests
@@ -59,7 +60,7 @@ class CreateChangeRequest(BasePage):
             # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
             self.homePage.click_application_btn()
             self.homePage.click_new_change()
-            self.createChangeRequest.change_location(location_service)
+            time.sleep(2)
             self.createChangeRequest.insert_text_summary(summary)
             self.createChangeRequest.insert_text_notes(notes)
             self.createChangeRequest.insert_impact_list_in_notes(impact_list)
@@ -68,6 +69,7 @@ class CreateChangeRequest(BasePage):
             self.createChangeRequest.select_manager_group(change_manager)
             self.createChangeRequest.select_change_manager(change_manager)
             self.createChangeRequest.insert_text_note_and_upload_files(notes, file_location)
+            self.createChangeRequest.change_location(location_service)
             os.remove(file_location)
             self.createChangeRequest.insert_schedule_date_time(cr_start_time, cr_end_time)
             self.createChangeRequest.create_task_template()

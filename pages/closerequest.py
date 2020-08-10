@@ -183,7 +183,7 @@ class CloseRequests(BasePage):
         """ Take the Change Request to Next Stage after closing all 3 tasks """
         if not self.is_change_status_closed():
             self.click(CloseChangeLocators.NEXT_STAGE_BUTTON)
-            self.check_for_expected_frame(PageLocators.FRAME_OK_BUTTON)
+            self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
         else:
             print("WARN: Change Status  Was Closed already!")
 

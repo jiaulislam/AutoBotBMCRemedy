@@ -15,3 +15,4 @@ class StaticData(object):
     WRITE_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx'
     CANCEL_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/cancel.txt'
     CLOSE_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/change.txt'
+    VIEW_ATTACHMENT_DEFAULT_STATE = 'View Attachment Disabled'

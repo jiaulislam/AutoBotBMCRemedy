@@ -1,13 +1,16 @@
 from selenium.webdriver.common.by import By
 
 
-class PageLocators(object):
+class LoginPageLocators(object):
+    """ Login Page related XPATH class Variable are declared here """
     # ==> LOGIN PAGE LOCATORS <== #
     LOGO_IMG = (By.XPATH, "//img[@src='images/login_logo.gif']")
     USERNAME_TEXTBOX = (By.XPATH, "//*[@id='username-id']")
     PASSWORD_TEXTBOX = (By.XPATH, "//*[@id='pwd-id']")
     LOGIN_BUTTON = (By.XPATH, "//input[@name='login']")
 
+
+class PageLocators(object):
     # ==> HOME PAGE LOCATORS <== #
     IT_HOME_TEXT = (By.XPATH, "//label[@id='label80137'][contains(text(), 'IT Home')]")
     APPLICATION_BUTTON = (By.XPATH, "//*[@id='reg_img_304316340']")
@@ -64,6 +67,7 @@ class PageLocators(object):
     ADD_NOTE_ATTACHMENT_BUTTON = (By.XPATH, "//a[@id='WIN_3_304247110']//div[@class='f1'][contains(text(),'Add')]")
     MORE_DETAILS_BUTTON = (By.XPATH, "//div[@id='WIN_3_304247070']//a[@class='pagebtn ']")
     WORK_INFO_TYPE_BUTTON = (By.XPATH, "//input[@id='arid_WIN_3_304247210']")
+    VIEW_ATTACHMENT_BUTTON = (By.ID, "reg_img_304252650")
 
     # ==> CHANGE CLASS TYPE SECTION LOCATORS <== #
     CHANGE_CLASS_TYPE_BUTTON = (By.XPATH, "//input[@id='arid_WIN_3_1000000568']")
@@ -140,6 +144,7 @@ class PageLocators(object):
     RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")
 
     ALL_CHANGE_TABLE = (By.XPATH, "//table[@id='T301444200']//td[1]//nobr[1]//span")
+
 
 class CloseChangeLocators(object):
     """ This Class is going to store all the required new Locators for Closing a Change Request """

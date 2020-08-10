@@ -2,6 +2,7 @@ import time
 
 from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterceptedException,
                                         NoSuchElementException, NoSuchWindowException)
+from utilities.static_data import StaticData
 
 from pages.base import BasePage
 from utilities.locators import PageLocators
@@ -49,11 +50,12 @@ class CreateRequests(BasePage):
         """ Write the info and attach the file in work info section """
         self.write(PageLocators.INFO_NOTES_TEXTBOX, notes)
         self.click(PageLocators.ATTACH_FILE_ICON_BUTTON)
-        self.switch_to_frame(PageLocators.UPLOAD_ATTACHMENT_FRAME)
-        self.write(PageLocators.CHOOSE_ATTACHMENT_FRAME, location_of_file)
-        self.click(PageLocators.OK_ATTACHMENT_FRAME_BUTTON)
-        self.driver.switch_to.default_content()
-        time.sleep(1)
+        if self.__get_title_of_view_attachment_btn():
+            self.switch_to_frame(PageLocators.UPLOAD_ATTACHMENT_FRAME)
+            self.write(PageLocators.CHOOSE_ATTACHMENT_FRAME, location_of_file)
+            self.click(PageLocators.OK_ATTACHMENT_FRAME_BUTTON)
+            time.sleep(1)
+            self.driver.switch_to.default_content()
         self.click(PageLocators.ADD_NOTE_ATTACHMENT_BUTTON)
 
     def select_manager_group(self, change_manager: str) -> None:
@@ -93,10 +95,9 @@ class CreateRequests(BasePage):
         else:
             raise ValueError("Manager Not Found !")
 
-    def change_location(self, location_details: tuple) -> None:
+    def change_location(self, change_location_details: tuple) -> None:
 
         # Need to store Parent windows ID cause after click new Window will pop-up
-        print()
         parent_window = self.driver.current_window_handle
         self.click(PageLocators.LOCATION_MENU_BTN)
         for child_window in self.driver.window_handles:
@@ -110,10 +111,10 @@ class CreateRequests(BasePage):
                         # Switch to the new Child window
                         self.driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
-                        self.write(PageLocators.COMPANY_TEXTBOX, location_details[0])
-                        self.write(PageLocators.REGION_TEXTBOX, location_details[1])
-                        self.write(PageLocators.SITE_GROUP_TEXTBOX, location_details[2])
-                        self.write(PageLocators.SITE_TEXTBOX, location_details[3])
+                        self.write(PageLocators.COMPANY_TEXTBOX, change_location_details[0])
+                        self.write(PageLocators.REGION_TEXTBOX, change_location_details[1])
+                        self.write(PageLocators.SITE_GROUP_TEXTBOX, change_location_details[2])
+                        self.write(PageLocators.SITE_TEXTBOX, change_location_details[3])
                         self.click(PageLocators.SEARCH_LOCATION_BTN)
                         self.click(PageLocators.SELECT_LOCATION_BTN)
                         break
@@ -196,7 +197,24 @@ class CreateRequests(BasePage):
 
     def go_back_to_homepage(self) -> None:
         """ Get Back to the Homepage """
-        self.back_to_home_page(PageLocators.IT_HOME_BUTTON)
+        try:
+            self.back_to_home_page(PageLocators.IT_HOME_BUTTON)
+        except ElementClickInterceptedException:
+            # for click intercepted a Warning Box is available on page. Need to handle that.
+            self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
+            # after then go back to home page
+            self.back_to_home_page(PageLocators.IT_HOME_BUTTON)
+
+    def __get_title_of_view_attachment_btn(self) -> bool:
+
+        try:
+            if self.find_element(*PageLocators.VIEW_ATTACHMENT_BUTTON).get_attribute("title") == StaticData.VIEW_ATTACHMENT_DEFAULT_STATE:
+                return True
+            else:
+                return False
+        except NoSuchElementException as errno:
+            print(f"Attachment status unable to fetch. {errno}")
+            pass
 
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:
         """ Private function for repetitive task in Filling up tasks """
@@ -238,14 +256,15 @@ class CreateRequests(BasePage):
                                 while True:
                                     try:
                                         # After relationship add a frame is to be expected. handle the frame
-                                        self.check_for_expected_frame(PageLocators.FRAME_OK_BUTTON)
+                                        self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
                                         # break the parent to this block loop
                                         break
                                     except NoSuchFrameException:
                                         pass
                                 try:
                                     for third_window in self.driver.window_handles:
-                                        if third_window != parent_window and third_window != second_window and third_window != first_window and third_window != main_task_page:
+                                        if parent_window and first_window and second_window and main_task_page != third_window:
+                                            # if third_window != parent_window and third_window != second_window and third_window != first_window and third_window != main_task_page:
                                             self.driver.switch_to.window(third_window)
                                             self.click(PageLocators.RELATION_NEW_WINDOW_CLOSE_BTN)
                                             self.driver.switch_to.window(parent_window)
