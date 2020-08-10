@@ -1,8 +1,9 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+
 from utilities.static_data import StaticData
-from tests.testCreateRequest import CreateChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
+from tests.testCreateRequest import CreateChangeRequest
 from tests.testCancelRequest import CancelChangeRequest
 
 
@@ -31,6 +32,8 @@ class Handler(AutoBot):
 
 class CreateNewChangeRequest(Handler, CreateChangeRequest):
 
+    __createChangeRequest = None
+
     @classmethod
     def setUpDriver(cls):
         super().setUpDriver()
@@ -42,24 +45,28 @@ class CreateNewChangeRequest(Handler, CreateChangeRequest):
 
 class CloseChangeRequest(Handler, CloseChangeRequests):
 
+    __closeMyRequest = None
+
     @classmethod
     def setUpDriver(cls):
         super().setUpDriver()
 
     def closeRequest(self):
-        self.closeMyRequest = CloseChangeRequests(self.driver)
-        self.closeMyRequest.test_close_requests()
+        self.__closeMyRequest = CloseChangeRequests(self.driver)
+        self.__closeMyRequest.test_close_requests()
 
 
 class CancelChangeRequests(Handler, CancelChangeRequest):
+
+    __cancelMyRequest = None
 
     @classmethod
     def setUpDriver(cls):
         super().setUpDriver()
 
     def cancelRequests(self):
-        self.cancelMyRequest = CancelChangeRequest(self.driver)
-        self.cancelMyRequest.test_cancel_change()
+        self.__cancelMyRequest = CancelChangeRequest(self.driver)
+        self.__cancelMyRequest.test_cancel_change()
 
 
 def main():

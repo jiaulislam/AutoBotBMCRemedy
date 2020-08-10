@@ -8,7 +8,7 @@ from utilities.static_data import StaticData
 
 class CloseChangeRequests(BasePage):
 
-    def __init__(self, driver):
+    def __init__(self, driver) -> object:
         super().__init__(driver)
         self.login_page = LoginPage(self.driver)
         self.home_page = HomePage(self.driver)
