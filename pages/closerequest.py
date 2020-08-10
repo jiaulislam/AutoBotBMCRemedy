@@ -34,16 +34,16 @@ class CloseRequests(BasePage):
         """ Get the Change Request type """
         return self.__change_type
 
-    def get_actual_start_date(self) -> str:
+    def get_actual_start_date(self) -> (str, None):
         """ Get the Closing Change Request Date & Time """
         self.click(PageLocators.DATE_PAGE)
-        if self.get_value_of_element(CloseChangeLocators.ACTUAL_START_DATE_VALUE) != "":
-            return self.get_value_of_element(CloseChangeLocators.ACTUAL_START_DATE_VALUE)
+        if self.get_value_of_element(CloseChangeLocators.CHANGE_REQUEST_OPEN) != "":
+            return self.get_value_of_element(CloseChangeLocators.CHANGE_REQUEST_OPEN)
         else:
             return None
 
     @staticmethod
-    def get_index_for_change_number(change_number: str, list_of_change_number: list) -> int:
+    def get_index_for_change_number(change_number: str, list_of_change_number: list) -> (int, None):
         """ returns the correct position of the change number from the list """
         try:
             return list_of_change_number.index(change_number) + 2
@@ -100,9 +100,9 @@ class CloseRequests(BasePage):
             :rtype: bool
         """
         try:
-            if self.is_visible(PageLocators.START_TIME_IN_TASK):
-                if self.get_value_of_element(PageLocators.START_TIME_IN_TASK) != self.get_value_of_element(
-                        PageLocators.END_TIME_IN_TASK):
+            if self.is_visible(CloseChangeLocators.START_TIME_IN_TASK):
+                if self.get_value_of_element(CloseChangeLocators.START_TIME_IN_TASK) != self.get_value_of_element(
+                        CloseChangeLocators.END_TIME_IN_TASK):
                     return True
                 else:
                     return False
@@ -126,8 +126,11 @@ class CloseRequests(BasePage):
         if not self.__is_task_closed_already():
             self.click(PageLocators.DATE_SECTOR_IN_TASK)
             self.__set_change_type()
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+            self.write(CloseChangeLocators.CLOSE_START_DATE, actual_start_time)
+            if self.get_change_type():
+                self.write(CloseChangeLocators.CLOSE_END_DATE, actual_end_time)
+            else:
+                self.write(CloseChangeLocators.CLOSE_END_DATE, actual_start_time)
             self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
             self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
@@ -147,8 +150,8 @@ class CloseRequests(BasePage):
 
         if not self.__is_task_closed_already():
             self.click(PageLocators.DATE_SECTOR_IN_TASK)
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, current_time_of_user)
+            self.write(CloseChangeLocators.CLOSE_START_DATE, actual_start_time)
+            self.write(CloseChangeLocators.CLOSE_END_DATE, current_time_of_user)
             self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
             self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
@@ -168,8 +171,11 @@ class CloseRequests(BasePage):
 
         if not self.__is_task_closed_already():
             self.click(PageLocators.DATE_SECTOR_IN_TASK)
-            self.write(CloseChangeLocators.ACTUAL_START_DATE_VALUE, actual_start_time)
-            self.write(CloseChangeLocators.ACTUAL_END_DATE_VALUE, actual_end_time)
+            self.write(CloseChangeLocators.CLOSE_START_DATE, actual_start_time)
+            if self.get_change_type():
+                self.write(CloseChangeLocators.CLOSE_END_DATE, actual_end_time)
+            else:
+                self.write(CloseChangeLocators.CLOSE_END_DATE, actual_start_time)
             self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
             self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)

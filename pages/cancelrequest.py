@@ -17,7 +17,7 @@ class CancelRequests(BasePage):
             status = self.is_visible(PageLocators.START_DATE_INPUT)
 
             if status:
-                value = self.find_element(*CloseChangeLocators.ACTUAL_START_DATE_VALUE).get_attribute("value")
+                value = self.find_element(*CloseChangeLocators.CHANGE_REQUEST_OPEN).get_attribute("value")
                 if value == "":
                     return False
                 else:

@@ -1,6 +1,7 @@
 from typing import Iterable, NoReturn
 
-from selenium.common.exceptions import NoSuchFrameException, NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchFrameException, NoSuchElementException, TimeoutException, \
+    ElementClickInterceptedException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
@@ -36,6 +37,8 @@ class BasePage(object):
         """ Click a web element by a locator shared by the user """
         try:
             WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
+        except ElementClickInterceptedException:
+            WebDriverWait(self.driver, self.timeout).until(ec.element_to_be_clickable(by_locator)).click()
         except NoSuchElementException as errno:
             print(errno)
 

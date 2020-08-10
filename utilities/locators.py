@@ -101,7 +101,7 @@ class PageLocators(object):
     REVIEW_CLOSURE_TASK_SPAN = (By.XPATH, "//span[contains(text(), 'Review and Closure Task (SOC)')]")
 
     # FOR ALL THE 5 TASK COMMON PATH
-    DATE_SECTOR_IN_TASK = (By.XPATH, "//a[contains(text(), 'Date')]")
+    DATE_SECTOR_IN_TASK = (By.XPATH, "//a[contains(text(), 'Dates')]")
     START_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000350']")
     END_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000362']")
     SAVE_TASK_BTN = (By.XPATH, "//div[@class='f7'][contains(text(), 'Save')]")
@@ -149,13 +149,17 @@ class PageLocators(object):
 class CloseChangeLocators(object):
     """ This Class is going to store all the required new Locators for Closing a Change Request """
 
-    ACTUAL_START_DATE_VALUE = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
-    ACTUAL_END_DATE_VALUE = (By.XPATH, "//input[@id= 'arid_WIN_4_1000000364']")
+    CHANGE_REQUEST_OPEN = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
     CLOSE_MENU_SELECT = (By.XPATH, "//input[@id= 'arid_WIN_4_7']")
     SELECT_CLOSE_FROM_LST = (By.XPATH, "//tr[@class='MenuTableRow']//td[contains(text(), 'Closed')]")
     TASK_INIT_STATUS = (By.XPATH, "//input[@id='arid_WIN_4_7']")
     NEXT_STAGE_BUTTON = (By.XPATH, "//div[@class='f7'][contains(text(), 'Next Stage')]")
     CHANGE_STATUS_INPUT = (By.XPATH, "//input[@id='arid_WIN_4_7']")
+
+    START_TIME_IN_TASK = (By.XPATH, "//input[@id='arid_WIN_4_1000000350']")
+    END_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_4_1000000362']")
+    CLOSE_START_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000348']")
+    CLOSE_END_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000364']")
 
     # Below is a special requirement where i need a changeable XPATH
     @staticmethod
