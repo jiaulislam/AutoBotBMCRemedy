@@ -1,12 +1,15 @@
+from typing import NoReturn
+
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base import BasePage
 from utilities.locators import PageLocators, CancelRequestLocators, CloseChangeLocators
 
 
 class CancelRequests(BasePage):
+    """ A class for mimicking the user interactions to cancel a Change Request """
     def __init__(self, driver):
         super().__init__(driver)
 
@@ -25,7 +28,7 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def is_cancelled(self):
+    def is_cancelled(self) -> bool:
         """ Checks if the Cancellation is successful or not """
         try:
             status_Value = WebDriverWait(self.driver, self.timeout).until(
@@ -37,7 +40,7 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def select_cancel(self):
+    def select_cancel(self) -> NoReturn:
         """ select the Cancel Option from Status Menu """
         try:
             self.click(CancelRequestLocators.MENU_FOR_STATUS)
@@ -46,8 +49,8 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def save_status(self):
-        """ Save the status to cancel """
+    def save_status(self) -> NoReturn:
+        """ Save the change status to cancelled """
         try:
             self.click(CancelRequestLocators.SAVE)
         except TimeoutException as error:

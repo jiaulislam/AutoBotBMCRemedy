@@ -96,10 +96,12 @@ class CreateRequests(BasePage):
             raise ValueError("Manager Not Found !")
 
     def change_location(self, change_location_details: tuple) -> None:
+        """ Change the location details of the change request """
 
         # Need to store Parent windows ID cause after click new Window will pop-up
         parent_window = self.driver.current_window_handle
         self.click(PageLocators.LOCATION_MENU_BTN)
+        # Handle the new window of Location
         for child_window in self.driver.window_handles:
             if child_window != parent_window:
                 self.driver.switch_to.window(child_window)

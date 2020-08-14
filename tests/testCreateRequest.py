@@ -60,6 +60,7 @@ class CreateChangeRequest(BasePage):
             # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
             self.homePage.click_application_btn()
             self.homePage.click_new_change()
+            # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
             time.sleep(2)
             self.createChangeRequest.insert_text_summary(summary)
             self.createChangeRequest.insert_text_notes(notes)

@@ -16,7 +16,7 @@ all over the project/pages to work with.
 
 class BasePage(object):
 
-    def __init__(self, driver) -> None:
+    def __init__(self, driver) -> NoReturn:
         self.driver = driver
         self.timeout = 30
 
@@ -42,14 +42,14 @@ class BasePage(object):
         except NoSuchElementException as errno:
             print(errno)
 
-    def write(self, by_locator, text) -> None:
+    def write(self, by_locator, text) -> NoReturn:
         """ Write the text in web element by a locator shared by the user """
         try:
             WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).send_keys(text)
         except NoSuchElementException as errno:
             print(errno)
 
-    def hover_over(self, by_locator) -> None:
+    def hover_over(self, by_locator) -> NoReturn:
         """ Hover over the element shared by the user locator """
         try:
             element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
@@ -57,24 +57,22 @@ class BasePage(object):
         except NoSuchElementException as errno:
             print(errno)
 
-    def switch_to_frame(self, by_locator) -> None:
+    def switch_to_frame(self, by_locator) -> NoReturn:
         """ Switch to a frame by a frame locator """
         user_frame = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
         self.driver.switch_to.frame(user_frame)
 
-    def double_click(self, by_locator) -> None:
+    def double_click(self, by_locator) -> NoReturn:
         """ Double click on a element by a locator """
         element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
         ActionChains(self.driver).double_click(element).perform()
 
-    def send_ctrl_plus_a(self, by_locator) -> None:
+    def send_ctrl_plus_a(self, by_locator) -> NoReturn:
         """ Sends CTRL + A action to a page """
         try:
             WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
             ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
-        except TimeoutException:
-            pass
-        except NoSuchElementException:
+        except (TimeoutException, NoSuchElementException):
             pass
 
     def get_value_of_element(self, by_locator) -> str:
@@ -83,18 +81,16 @@ class BasePage(object):
             ec.visibility_of_element_located(by_locator)).get_attribute("value")
         return val_of_elem
 
-    def check_for_expected_frame(self, frame_locator, ok_btn_locator) -> None:
+    def check_for_expected_frame(self, frame_locator, ok_btn_locator) -> NoReturn:
         """ Checks for expected frames and press OK button in the frame """
         try:
             self.switch_to_frame(frame_locator)
             self.click(ok_btn_locator)
             self.driver.switch_to.default_content()
-        except NoSuchFrameException:
+        except (NoSuchFrameException, TimeoutException):
             pass
-        except TimeoutException as errno:
-            print(errno)
 
-    def back_to_home_page(self, by_locator) -> None:
+    def back_to_home_page(self, by_locator) -> NoReturn:
         """ Return to the homepage """
         try:
             self.click(by_locator)
