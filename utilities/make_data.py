@@ -62,7 +62,8 @@ def make_impact_list(site_list, site_group):
     """ Export a file with site list & return the string of site list with formatted impact list """
     ctr = 0
     file_name = site_group + '.txt'
-    sites = site_list.split(',')
+    site_str = site_list.strip()
+    sites = site_str.split(',')
     impact_list = "Impact List: "
 
     with open(file_name, 'w+') as notepad_file:

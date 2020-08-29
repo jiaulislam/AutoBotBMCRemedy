@@ -1,6 +1,6 @@
+import time
 from typing import NoReturn
-
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
 from pages.base import BasePage
 from utilities.locators import PageLocators, CloseChangeLocators, CancelRequestLocators
@@ -139,7 +139,12 @@ class CloseRequests(BasePage):
         If CR Task Status is already closed then will go back to
         the task page.
         """
-        self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+        try:
+            self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+        except StaleElementReferenceException:
+            time.sleep(2)
+            element = self.find_element(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+            self.double_click(element)
 
         if not self.__is_task_closed_already():
             self.click(PageLocators.DATE_SECTOR_IN_TASK)
@@ -160,7 +165,13 @@ class CloseRequests(BasePage):
             If CR Task Status is already closed then will go back to
             the task page.
         """
-        self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
+        try:
+            self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
+
+        except StaleElementReferenceException:
+            time.sleep(2)
+            element = self.find_element(PageLocators.SYSTEM_DOWNTIME_TASK)
+            self.double_click(element)
 
         if not self.__is_task_closed_already():
             self.click(PageLocators.DATE_SECTOR_IN_TASK)

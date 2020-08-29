@@ -24,7 +24,6 @@ class Driver:
     @classmethod
     def setUpDriver(cls):
         cls.browser = webdriver.Chrome(ChromeDriverManager().install())
-        cls.browser.get(StaticData.BASE_URL)
 
     @classmethod
     def tearDownDriver(cls):
@@ -37,10 +36,12 @@ class Driver:
 
 class Handler(Driver):
     """ A Sub-Class of Driver for additional functionalities.
-        Example: Headless Mode, Logging, Session Handle, Cookies Handle
+        Example: Headless Mode, Session Handle, Cookies Handle, Open Links
     """
     def __init__(self):
         super().setUpDriver()
+        # Open the Link
+        self.browser.get(StaticData.BASE_URL)
         # Maximize the Window
         self.browser.maximize_window()
 
@@ -56,8 +57,8 @@ class CreateNewChangeRequest(Handler, CreateChangeRequest):
 
     def createRequest(self):
         """ Call all the functions from CreateChangeRequest to create change requests """
-        self.createChangeRequest = CreateChangeRequest(self.browser)
-        self.createChangeRequest.test_create_change()
+        self.__createChangeRequest = CreateChangeRequest(self.browser)
+        self.__createChangeRequest.test_create_change()
 
 
 class CloseChangeRequest(Handler, CloseChangeRequests):
