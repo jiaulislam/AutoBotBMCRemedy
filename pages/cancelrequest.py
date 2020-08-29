@@ -7,6 +7,11 @@ from selenium.webdriver.support import expected_conditions as ec
 from pages.base import BasePage
 from utilities.locators import PageLocators, CancelRequestLocators, CloseChangeLocators
 
+"""
+A class for Cancel the unused Change Requests. For cancelling a 
+Request all the functions should be declared here
+"""
+
 
 class CancelRequests(BasePage):
     """ A class for mimicking the user interactions to cancel a Change Request """
@@ -48,6 +53,10 @@ class CancelRequests(BasePage):
             self.click(CancelRequestLocators.CANCEL_OPTION_SELECT)
         except TimeoutException as error:
             print(error)
+
+    def is_scheduled_for_approval(self) -> bool:
+        """ Check if the given CR status is schedule for approval """
+        pass
 
     def save_status(self) -> NoReturn:
         """ Save the change status to cancelled """
