@@ -1,7 +1,7 @@
-import time
 from typing import NoReturn
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from pages.base import BasePage
 from utilities.locators import PageLocators, CloseChangeLocators, CancelRequestLocators
 
@@ -141,9 +141,9 @@ class CloseRequests(BasePage):
         """
         try:
             self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
-        except StaleElementReferenceException:
-            time.sleep(2)
-            element = self.find_element(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+        except (StaleElementReferenceException, NoSuchElementException):
+            element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN))
             self.double_click(element)
 
         if not self.__is_task_closed_already():
@@ -167,10 +167,9 @@ class CloseRequests(BasePage):
         """
         try:
             self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
-
-        except StaleElementReferenceException:
-            time.sleep(2)
-            element = self.find_element(PageLocators.SYSTEM_DOWNTIME_TASK)
+        except (StaleElementReferenceException, NoSuchElementException):
+            element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(PageLocators.SYSTEM_DOWNTIME_TASK))
             self.double_click(element)
 
         if not self.__is_task_closed_already():
