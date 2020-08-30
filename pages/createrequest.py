@@ -5,7 +5,7 @@ from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterc
 from utilities.static_data import StaticData
 
 from pages.base import BasePage
-from utilities.locators import PageLocators
+from utilities.locators import PageLocators, RelationshipQueryLocators
 
 """
 This Class will help to create a full new Change Request as per shared 
@@ -18,7 +18,7 @@ class CreateRequests(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar']
-        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman']
+        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman', 'Md. Rakibuzzaman']
         self.__change_number = ""
 
     def __set_change_number(self):
@@ -92,6 +92,8 @@ class CreateRequests(BasePage):
             self.click(PageLocators.CHANGE_MANAGER_SHAHRIAR)
         elif change_manager == self.ANR_GROUP[3]:
             self.click(PageLocators.CHANGE_MANAGER_MUSFIQ)
+        elif change_manager == self.ANR_GROUP[4]:
+            self.click(PageLocators.CHANGE_MANAGER_RAKIB)
         else:
             raise ValueError("Manager Not Found !")
 
@@ -230,53 +232,43 @@ class CreateRequests(BasePage):
                 break
         self.driver.switch_to.window(parent_window)
 
-    def __add_relationship_to_change(self, main_task_page: object, relationship_query_formula: str) -> None:
+    def add_relationship_to_change(self, relationship_query_formula: str) -> None:
         """ Add the relationship to the Change request if the Change is a Service Effective Change """
         # WARNING: EXPERIMENTAL OPTION
+        self.click(RelationshipQueryLocators.RELATIONSHIP_TAB_BTN)
         parent_window = self.driver.current_window_handle
+        self.click(RelationshipQueryLocators.RECORD_TYPE_TEXTAREA)
+        self.hover_over(RelationshipQueryLocators.CONFIGURATION_ITEM_LIST)
+        self.click(RelationshipQueryLocators.CONFIGURATION_ITEM_LIST)
+        self.click(RelationshipQueryLocators.SEARCH_BTN)
 
         for first_window in self.driver.window_handles:
             if first_window != parent_window:
                 self.driver.switch_to.window(first_window)
-                self.click(PageLocators.RELATIONSHIP_TAB)
-                self.click(PageLocators.RELATIONSHIP_TYPE_LIST)
-                self.hover_over(PageLocators.CONFIGURATION_ITEM)
-                self.click(PageLocators.RELATIONSHIP_TYPE_SELECT)
-                self.click(PageLocators.RELATIONSHIP_WINDOW_SEARCH_BTN)
-                for second_window in self.driver.window_handles:
-                    if second_window != parent_window and second_window != first_window:
-                        self.driver.switch_to.window(second_window)
-                        self.click(PageLocators.RELATIONSHIP_ADVANCE_SEARCH_LINK)
-                        self.write(PageLocators.RELATIONSHIP_QUERY_TEXTBOX, relationship_query_formula)
-                        self.click(PageLocators.RELATIONSHIP_ADVANCE_SEARCH_BTN)
-                        # Wait until the search is complete !  INFINITE LOOP
+                self.click(RelationshipQueryLocators.RELATIONSHIP_ADVANCE_SEARCH_LINK)
+                self.write(RelationshipQueryLocators.RELATIONSHIP_QUERY_TEXTBOX, relationship_query_formula)
+                self.click(RelationshipQueryLocators.RELATIONSHIP_ADVANCE_SEARCH_BTN)
+                # Wait until the search is complete !  INFINITE LOOP
+                while True:
+                    try:
+                        self.send_ctrl_plus_a(RelationshipQueryLocators.RELATIONSHIP_ROBI_AXIATA)
                         while True:
                             try:
-                                self.send_ctrl_plus_a(PageLocators.RELATIONSHIP_ROBI_AXIATA)
-                                self.click(PageLocators.RELATE_THE_RELATIONSHIP_BTN)
-                                # Wait Until the Relate button doesn't finished with the add of the relationship
-                                while True:
-                                    try:
-                                        # After relationship add a frame is to be expected. handle the frame
-                                        self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
-                                        # break the parent to this block loop
-                                        break
-                                    except NoSuchFrameException:
-                                        pass
-                                try:
-                                    for third_window in self.driver.window_handles:
-                                        if parent_window and first_window and second_window and main_task_page != third_window:
-                                            # if third_window != parent_window and third_window != second_window and third_window != first_window and third_window != main_task_page:
-                                            self.driver.switch_to.window(third_window)
-                                            self.click(PageLocators.RELATION_NEW_WINDOW_CLOSE_BTN)
-                                            self.driver.switch_to.window(parent_window)
-                                            self.click(PageLocators.SAVE_TASK_BTN)
-                                            # break the parent to this block loop
-                                            break
-                                    # Break the Whole while loop
-                                    break
-                                except NoSuchWindowException:
-                                    pass
-                            except (NoSuchElementException, ElementClickInterceptedException):
+                                self.click(RelationshipQueryLocators.RELATE_THE_RELATIONSHIP_BTN)
+                                break
+                            except ElementClickInterceptedException:
                                 pass
-        self.driver.switch_to.window(main_task_page)
+                        # Wait Until the Relate button doesn't finished with the add of the relationship
+                        while True:
+                            try:
+                                # After relationship add a frame is to be expected. handle the frame
+                                self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
+                                # break the parent to this block loop
+                                break
+                            except NoSuchFrameException:
+                                pass
+                    except NoSuchElementException:
+                        pass
+                    except NoSuchWindowException:
+                        break
+        self.driver.switch_to.window(parent_window)

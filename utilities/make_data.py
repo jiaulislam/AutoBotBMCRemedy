@@ -2,7 +2,8 @@ import datetime
 
 """
 Format the Date with standard requirement. All five task
-data is formatted through this python file.
+data is formatted through this python file & the relationship
+query string generator also.
 """
 
 
@@ -107,3 +108,20 @@ def make_downtime_from_open_time(open_time: str):
     original_date += datetime.timedelta(minutes=30)
 
     return str(original_date.strftime("%m/%d/%Y %I:%M:%S %p"))
+
+
+def make_query_string(site_string: str) -> str:
+    """ Generate the query_list string for relationship addition """
+    sites: list = site_string.strip().split(",")
+    query_list: list = []
+    invalid_list: list = []
+    for site in sites:
+        if len(site.strip()) == 7:
+            query_list.append(f"'Name'LIKE\"%{site.strip()}\"")
+        else:
+            invalid_list.append(site.strip())
+
+    if len(invalid_list):
+        print(f"Invalid Site Codes: {invalid_list}\n")
+
+    return "OR".join(query_list)

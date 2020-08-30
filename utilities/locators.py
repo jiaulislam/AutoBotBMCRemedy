@@ -41,9 +41,10 @@ class PageLocators(object):
     CHANGE_MANAGER_SHAHED = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Muhammad Shahed']")
     CHANGE_MANAGER_RIPAN = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Ripan Kumar']")
     CHANGE_MANAGER_FUAD = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Faisal Mahmud Fuad']")
-    CHANGE_MANAGER_MUSFIQ = (By.XPATH, "//div[@class='MenuOuter']//*[text()= 'Md. Musfiqur  Rahman'']")
+    CHANGE_MANAGER_MUSFIQ = (By.XPATH, "//div[@class='MenuOuter']//*[text()= 'Md. Musfiqur  Rahman']")
     CHANGE_MANAGER_SHAHRIAR = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Shahriar Mahbub']")
     CHANGE_MANAGER_SUMON = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Sumon Kumar Biswas']")
+    CHANGE_MANAGER_RAKIB = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Md. Rakibuzzaman']")
 
     # ==> LOCATION SUB-PAGE LOCATORS <== #
     LOCATION_MENU_BTN = (By.XPATH, "//img[@id='reg_img_303935000']")
@@ -123,25 +124,7 @@ class PageLocators(object):
     # ==> LOGOUT PAGE LOCATORS <== #
     LOGOUT_BUTTON = (By.XPATH, "//div[@class='f9'][contains(text(),'Logout')]")
 
-    # ==> RELATIONSHIP PAGE LOCATORS <== #
-    RELATIONSHIP_TAB = (By.XPATH, "//a[contains(text(), 'Relationships')]")
-    RELATIONSHIP_TYPE_LIST = (By.XPATH, "//textarea[@id='arid_WIN_0_301541300']")
-    CONFIGURATION_ITEM = (
-        By.XPATH, "//tr[@class = 'MenuTableRow']//td[@class='MenuEntryName'][contains(text(), 'Configuration Item')]")
-    RELATIONSHIP_TYPE_SELECT = (By.XPATH, "//td[@class='MenuEntryNameHover']")
-    RELATIONSHIP_WINDOW_SEARCH_BTN = (
-        By.XPATH, "//a[@id='WIN_0_10003600']//div[@class='f1'][contains(text(),'Search')]")
-    RELATIONSHIP_ADVANCE_SEARCH_LINK = (By.XPATH, "//div[contains(text(),'Use Advanced Search')]")
-    RELATIONSHIP_QUERY_TEXTBOX = (By.XPATH, "//textarea[@id='arid_WIN_0_304328790']")
-
-    RELATIONSHIP_ADVANCE_SEARCH_BTN = (
-        By.XPATH, "//a[@id='WIN_0_301867800']//div[@class='f1'][contains(text(),'Search')]")
-
-    RELATIONSHIP_ROBI_AXIATA = (By.XPATH, "//*[contains(text(), 'Robi-Axiata')]")
-
-    RELATE_THE_RELATIONSHIP_BTN = (By.XPATH, "//a[@id='WIN_0_301867500']//div[@class='f1']")
-
-    RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")
+  
 
     ALL_CHANGE_TABLE = (By.XPATH, "//table[@id='T301444200']//td[1]//nobr[1]//span")
 
@@ -176,3 +159,25 @@ class CancelRequestLocators(object):
     CANCEL_OPTION_SELECT = (By.XPATH, "//td[contains(text(),'Cancel')]")
     SAVE = (By.XPATH, "//a[@id='WIN_3_1003']//div[@class='f1'][contains(text(),'Save')]")
     STATUS_AREA = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
+
+
+class RelationshipQueryLocators(object):
+    """ A class for all the variable to relate the relationship query """
+    RELATIONSHIP_TAB_BTN = (
+        By.XPATH, "//a[@class='btn f1'][contains(text(), 'Relationships')]")
+    RECORD_TYPE_TEXTAREA = (By.XPATH, "//textarea[@id='arid_WIN_3_301541300']")
+    CONFIGURATION_ITEM_LIST = (By.XPATH, "//tr[@class='MenuTableRow']//td[contains(text(), 'Configuration Item')]")
+
+    SEARCH_BTN = (By.XPATH, "//img[@id='reg_img_301905800']")
+    # ==> RELATIONSHIP PAGE LOCATORS <== #
+    RELATIONSHIP_ADVANCE_SEARCH_LINK = (By.XPATH, "//div[contains(text(),'Use Advanced Search')]")
+    RELATIONSHIP_QUERY_TEXTBOX = (By.XPATH, "//textarea[@id='arid_WIN_0_304328790']")
+
+    RELATIONSHIP_ADVANCE_SEARCH_BTN = (
+        By.XPATH, "//a[@id='WIN_0_301867800']//div[@class='f1'][contains(text(),'Search')]")
+
+    RELATIONSHIP_ROBI_AXIATA = (By.XPATH, "//*[contains(text(), 'Robi-Axiata')]")
+
+    RELATE_THE_RELATIONSHIP_BTN = (By.XPATH, "//a[@id='WIN_0_301867500']//div[@class='f1']")
+
+    # RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")
