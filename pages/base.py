@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium import webdriver
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -20,7 +21,7 @@ class BasePage(object):
         self.driver = driver
         self.timeout = 30
 
-    def find_element(self, *locator) -> object:
+    def find_element(self, *locator) -> webdriver:
         """ Find the element by the help of the locator that user shared """
         return self.driver.find_element(*locator)
 
