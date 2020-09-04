@@ -1,7 +1,7 @@
 __pycache__/
 debug.log
 *.txt
-# *.xlsx
+*.xlsx
 .vscode/
 .idea/
 Lib/
