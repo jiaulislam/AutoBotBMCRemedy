@@ -22,27 +22,27 @@ class Test_Base_Case(unittest.TestCase):
         cls.driver.close()
         cls.driver.quit()
 
-#
-# class Test_CancelChangeRequest(Test_Base_Case):
-#
-#     @classmethod
-#     def setUpClass(cls) -> None:
-#         super().setUpClass()
-#
-#     def test_cancel_change(self):
-#         self.cancel_change = CancelChangeRequest(self.driver)
-#         self.cancel_change.test_cancel_change()
-#
-#
-# class Test_CloseChangeRequests(Test_Base_Case):
-#
-#     @classmethod
-#     def setUpClass(cls) -> None:
-#         super().setUpClass()
-#
-#     def test_close_request(self):
-#         self.closeRequest = CloseChangeRequests(self.driver)
-#         self.closeRequest.test_close_requests()
+
+class Test_CancelChangeRequest(Test_Base_Case):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+
+    def test_cancel_change(self):
+        self.cancel_change = CancelChangeRequest(self.driver)
+        self.cancel_change.test_cancel_change()
+
+
+class Test_CloseChangeRequests(Test_Base_Case):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+
+    def test_close_request(self):
+        self.closeRequest = CloseChangeRequests(self.driver)
+        self.closeRequest.test_close_requests()
 
 
 class Test_CreateChangeRequest(Test_Base_Case):
