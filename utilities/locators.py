@@ -45,6 +45,7 @@ class PageLocators(object):
     CHANGE_MANAGER_SHAHRIAR = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Shahriar Mahbub']")
     CHANGE_MANAGER_SUMON = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Sumon Kumar Biswas']")
     CHANGE_MANAGER_RAKIB = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Md. Rakibuzzaman']")
+    CHANGE_MANAGER_KHAIRUL = (By.XPATH, "//div[@class='MenuOuter']//*[text()='K.M Khairul Bashar']")
 
     # ==> LOCATION SUB-PAGE LOCATORS <== #
     LOCATION_MENU_BTN = (By.XPATH, "//img[@id='reg_img_303935000']")

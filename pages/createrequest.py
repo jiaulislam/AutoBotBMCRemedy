@@ -18,7 +18,7 @@ class CreateRequests(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar']
-        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman', 'Md. Rakibuzzaman']
+        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman', 'Md. Rakibuzzaman', 'K.M Khairul Bashar']
         self.__change_number = ""
 
     def __set_change_number(self):
@@ -94,6 +94,8 @@ class CreateRequests(BasePage):
             self.click(PageLocators.CHANGE_MANAGER_MUSFIQ)
         elif change_manager == self.ANR_GROUP[4]:
             self.click(PageLocators.CHANGE_MANAGER_RAKIB)
+        elif change_manager == self.ANR_GROUP[5]:
+            self.click(PageLocators.CHANGE_MANAGER_KHAIRUL)
         else:
             raise ValueError("Manager Not Found !")
 
