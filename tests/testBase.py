@@ -21,6 +21,7 @@ class Test_Base_Case(unittest.TestCase):
     def tearDownClass(cls) -> None:
         cls.driver.close()
         cls.driver.quit()
+        del cls
 
 
 class Test_CancelChangeRequest(Test_Base_Case):

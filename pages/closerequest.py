@@ -3,7 +3,9 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from pages.base import BasePage
-from utilities.locators import PageLocators, CloseChangeLocators, CancelRequestLocators
+from utilities.locators import (CloseChangeLocators, CancelRequestLocators,
+                                TaskSectionLocators, DateSectionSelector,
+                                CommonTaskDateLocators, FrameBoxLocators)
 
 """
 This class will help us to close the Change Request as per user requirement.
@@ -38,7 +40,7 @@ class CloseRequests(BasePage):
 
     def get_actual_start_date(self) -> (str, None):
         """ Get the Closing Change Request Date & Time """
-        self.click(PageLocators.DATE_PAGE)
+        self.click(DateSectionSelector.DATE_PAGE)
         if self.get_value_of_element(CloseChangeLocators.CHANGE_REQUEST_OPEN) != "":
             return self.get_value_of_element(CloseChangeLocators.CHANGE_REQUEST_OPEN)
         else:
@@ -123,10 +125,10 @@ class CloseRequests(BasePage):
         If CR Task Status is already closed then will go back to
         the task page.
         """
-        self.double_click(PageLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
+        self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
 
         if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.__set_change_type()
             self.__common_closing_activity(actual_start_time, actual_end_time)
         else:
@@ -140,20 +142,20 @@ class CloseRequests(BasePage):
         the task page.
         """
         try:
-            self.double_click(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+            self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(PageLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN))
+                ec.visibility_of_element_located(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN))
             self.double_click(element)
 
         if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.write(CloseChangeLocators.CLOSE_START_DATE, actual_start_time)
             self.write(CloseChangeLocators.CLOSE_END_DATE, current_time_of_user)
             self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
             self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-            self.click(PageLocators.SAVE_TASK_BTN)
+            self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
             self.__back_to_change_task_page()
         else:
             print("WARN: Service Downtime Duration Task is closed already !")
@@ -166,14 +168,14 @@ class CloseRequests(BasePage):
             the task page.
         """
         try:
-            self.double_click(PageLocators.SYSTEM_DOWNTIME_TASK)
+            self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(PageLocators.SYSTEM_DOWNTIME_TASK))
+                ec.visibility_of_element_located(TaskSectionLocators.SYSTEM_DOWNTIME_TASK))
             self.double_click(element)
 
         if not self.__is_task_closed_already():
-            self.click(PageLocators.DATE_SECTOR_IN_TASK)
+            self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.__common_closing_activity(actual_start_time, actual_end_time)
         else:
             print("WARN: Service Downtime Duration Task is closed already !")
@@ -189,17 +191,17 @@ class CloseRequests(BasePage):
         self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
         self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
         self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-        self.click(PageLocators.SAVE_TASK_BTN)
+        self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
         self.__back_to_change_task_page()
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """
         if not self.is_change_status_closed():
             self.click(CloseChangeLocators.NEXT_STAGE_BUTTON)
-            self.check_for_expected_frame(PageLocators.FRAME_OF_CONFIRMATION, PageLocators.FRAME_OK_BUTTON)
+            self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
         else:
             print("WARN: Change Status  Was Closed already!")
 
     def goto_task_page(self) -> NoReturn:
         """ Goto the task section on the close change page """
-        self.click(PageLocators.TASK_PAGE)
+        self.click(TaskSectionLocators.TASK_PAGE)

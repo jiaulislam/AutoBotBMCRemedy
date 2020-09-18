@@ -104,11 +104,13 @@ class CreateChangeRequest(BasePage):
             if service_type == 'Service Effective':
                 query_formula = make_data.make_query_string(impact_sites)
                 self.createChangeRequest.add_relationship_to_change(query_formula)
-                self.createChangeRequest.save_change()
+                # self.createChangeRequest.save_change()
+                self.createChangeRequest.goto_next_stage()
                 self.createChangeRequest.go_back_to_homepage()
                 os.chdir(self.path)
             else:
-                self.createChangeRequest.save_change()
+                self.createChangeRequest.goto_next_stage()
+                # self.createChangeRequest.save_change()
                 self.createChangeRequest.go_back_to_homepage()
                 os.chdir(self.path)
         self.homePage.click_logout_button()

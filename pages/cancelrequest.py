@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base import BasePage
-from utilities.locators import PageLocators, CancelRequestLocators, CloseChangeLocators
+from utilities.locators import (CancelRequestLocators, CloseChangeLocators, DateSectionSelector)
 
 """
 A class for Cancel the unused Change Requests. For cancelling a 
@@ -21,8 +21,8 @@ class CancelRequests(BasePage):
     def is_change_request_opened(self) -> bool:
         """ Checks if the current working change request is opened or not """
         try:
-            self.click(PageLocators.DATE_PAGE)
-            status = self.is_visible(PageLocators.START_DATE_INPUT)
+            self.click(DateSectionSelector.DATE_PAGE)
+            status = self.is_visible(DateSectionSelector.START_DATE_INPUT)
 
             if status:
                 value = self.find_element(*CloseChangeLocators.CHANGE_REQUEST_OPEN).get_attribute("value")

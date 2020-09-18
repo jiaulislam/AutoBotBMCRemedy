@@ -1,7 +1,7 @@
 from typing import Iterable, NoReturn
 
-from selenium.common.exceptions import NoSuchFrameException, NoSuchElementException, TimeoutException, \
-    ElementClickInterceptedException
+from selenium.common.exceptions import (NoSuchFrameException, NoSuchElementException,
+                                        TimeoutException, ElementClickInterceptedException)
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
