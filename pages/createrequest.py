@@ -59,6 +59,7 @@ class CreateRequests(BasePage):
             self.switch_to_frame(WorkInfoAttachment.UPLOAD_ATTACHMENT_FRAME)
             self.write(WorkInfoAttachment.CHOOSE_ATTACHMENT_FRAME, location_of_file)
             self.click(WorkInfoAttachment.OK_ATTACHMENT_FRAME_BUTTON)
+            # TODO: Need to do something about this implicit wait
             time.sleep(1)
             self.driver.switch_to.default_content()
         self.click(WorkInfoAttachment.ADD_NOTE_ATTACHMENT_BUTTON)
@@ -245,7 +246,6 @@ class CreateRequests(BasePage):
 
     def add_relationship_to_change(self, relationship_query_formula: str) -> None:
         """ Add the relationship to the Change request if the Change is a Service Effective Change """
-        # WARNING: EXPERIMENTAL OPTION
         self.click(RelationshipQueryLocators.RELATIONSHIP_TAB_BTN)
         parent_window = self.driver.current_window_handle
         self.click(RelationshipQueryLocators.RECORD_TYPE_TEXTAREA)
