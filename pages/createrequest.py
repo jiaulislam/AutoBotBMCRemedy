@@ -23,7 +23,7 @@ class CreateRequests(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar']
-        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur Rahman', 'Md. Rakibuzzaman', 'K.M Khairul Bashar']
+        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur  Rahman', 'Md. Rakibuzzaman', 'K.M Khairul Bashar']
         self.__change_number = ""
 
     def __set_change_number(self):

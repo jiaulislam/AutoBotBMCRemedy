@@ -16,3 +16,9 @@ class StaticData(object):
     CANCEL_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/cancel.txt'
     CLOSE_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/change.txt'
     VIEW_ATTACHMENT_DEFAULT_STATE = 'View Attachment Disabled'
+
+
+class LDMAData(object):
+    LDMA_URL = 'http://ldma.robi.com.bd/view/common/login.php'
+    LDMA_USERNAME = os.environ.get("LDMA_USER")
+    LDMA_PASSWORD = os.environ.get("LDMA_PASS")

@@ -61,7 +61,7 @@ class CreateChangeRequest(BasePage):
             self.homePage.click_application_btn()
             self.homePage.click_new_change()
             # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
-            time.sleep(2)
+            time.sleep(3)
             self.createChangeRequest.insert_text_summary(summary)
             self.createChangeRequest.insert_text_notes(notes)
             self.createChangeRequest.insert_impact_list_in_notes(impact_list)
@@ -99,7 +99,10 @@ class CreateChangeRequest(BasePage):
             self.export_data.insert_change_manager(change, change_manager)
             self.export_data.save_workbook(self.createChangeRequest, StaticData.WRITE_EXCEL_FILE)
             # ---------------------------- END -------------------------------------------------- #
-
+            # self.createChangeRequest.goto_next_stage()
+            # # self.createChangeRequest.save_change()
+            # self.createChangeRequest.go_back_to_homepage()
+            # os.chdir(self.path)
             # Save and go back to home page, need to tag site if service effective cr
             if service_type == 'Service Effective':
                 query_formula = make_data.make_query_string(impact_sites)

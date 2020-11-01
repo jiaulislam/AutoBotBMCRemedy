@@ -1,10 +1,11 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-from utilities.static_data import StaticData
+from utilities.static_data import StaticData, LDMAData
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from tests.testCancelRequest import CancelChangeRequest
+from pages.ldma import ParseLinkBudget
 
 """
 Module Name: driver.py
@@ -126,12 +127,29 @@ def main():
                 cancel.cancelRequests()
                 cancel.tearDownDriver()
                 break
+            elif choice == 4:
+                # Parse LDMA LB
+                browser = webdriver.Chrome(ChromeDriverManager().install())
+                browser.maximize_window()
+                parse_info = ParseLinkBudget(browser)
+                browser.get(LDMAData.LDMA_URL)
+                parse_info.login_ldma()
+                link_id = ["DH23H02512", "DH23H03255"]
+                for id in link_id:
+                    parse_info.goto_links()
+                    parse_info.insert_link_code(id)
+                    parse_info.select_all_dropdown()
+                    parse_info.click_search()
+                    parse_info.select_found_link_code(str(id))
+                parse_info.logout_ldma()
+                browser.quit()
             elif choice == 0:
                 print("Exiting Program !")
                 break
             else:
                 print("Invalid choice ! Try Again.")
-        except ValueError:
+        except ValueError as e:
+            print(e)
             print("Invalid key pressed ! Please Try Again.")
 
 
