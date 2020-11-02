@@ -5,14 +5,18 @@ developer : jiaul_islam
 from utilities.static_data import LDMAData
 from utilities.ldmalocators import LDMALoginLocators, LDMALogoutLocators, LinkBudgetActivityLocator
 from pages.base import BasePage
+import os
+import shutil
+import pdfkit
 
 class ParseLinkBudget(BasePage):
     """ Login to the LDMA """
-
     def __init__(self, driver):
         super().__init__(driver)
         self.username = LDMAData.LDMA_USERNAME
         self.password = LDMAData.LDMA_PASSWORD
+        self.SITE_A = None
+        self.SITE_B = None
 
     def login_ldma(self):
         """ Log in to the LDMA """
@@ -25,25 +29,74 @@ class ParseLinkBudget(BasePage):
         self.click(LDMALogoutLocators.LOGOUT_BTN)
 
     def goto_links(self):
-
+        """ Goto action Link -> Links """
         self.click(LinkBudgetActivityLocator.GOTO_LINK_DROPDOWN)
         self.click(LinkBudgetActivityLocator.GOTO_LINKS_DROPDOWN)
         
-    def insert_link_code(self, link_code):
-
-        self.write(LinkBudgetActivityLocator.INSERT_LINKCODE_TEXTBOX, link_code)
+    def insert_link_code(self, LINK_ID):
+        """ Insert the Link Code in Text Box """
+        self.write(LinkBudgetActivityLocator.INSERT_LINKCODE_TEXTBOX, LINK_ID)
 
     def click_search(self):
-
+        """ Click The search button """
         self.click(LinkBudgetActivityLocator.SEARCH_BTN)
 
     def select_all_dropdown(self):
-
+        """ 'Select All' from dropdown """
         self.click(LinkBudgetActivityLocator.CLICK_ID_STATUSTYPE_DROPDOWN)
         self.click(LinkBudgetActivityLocator.SELECT_ALL_DROPDOWN)
 
-    def select_found_link_code(self, link_id):
-
-        element = LinkBudgetActivityLocator.select_found_linkid(link_id)
+    def select_found_link_code(self, LINK_ID):
+        """ Select the Found Link ID from table """
+        element = LinkBudgetActivityLocator.select_found_linkid(LINK_ID)
         self.click(element)
+
+
+    def __parse_element_innerHTML(self):
+        """ Select all the block of required HTML in LB information """
+        element = self.find_element(*LinkBudgetActivityLocator.BLOCK_INFORMATION)
+
+        return element.get_attribute("innerHTML")
+
+    def make_dir(self):
+        """ Make a dir for LB Output """
+        if os.path.exists(os.getcwd() + '/LinkBudget'):
+            shutil.rmtree('LinkBudget')
+            os.mkdir('LinkBudget')
+            os.chdir(os.getcwd()+"/LinkBudget")
+        else:
+            os.mkdir('LinkBudget')
+            os.chdir(os.getcwd()+"/LinkBudget")
+
+    def __set_site_A(self):
+        """ Set the Site-A Code """
+        SITE_A = self.find_element(*LinkBudgetActivityLocator.SITE_ID_1)
+        self.SITE_A = SITE_A.get_attribute("value")
+        
+    def __set_site_B(self):
+        """ Set the Site-B Code """
+        SITE_B = self.find_element(*LinkBudgetActivityLocator.SITE_ID_2)
+        self.SITE_B = SITE_B.get_attribute("value")
+
+    def set_filename(self, LINK_ID):
+        """ Set the File Name Formatting """
+        self.__set_site_A()
+        self.__set_site_B()
+
+        return f"{LINK_ID}__{self.SITE_A}-{self.SITE_B}"
+
+    def export_file(self, LINK_ID):
+        """ Export the File as .HTML file """
+        get_file = f"{self.set_filename(LINK_ID)}.html"
+        with open(get_file, 'w+') as writer:
+            writer.write(self.__parse_element_innerHTML())
+            print(f"File Exported Successful --> {get_file}")
+
+    def export_pdf_file(self, LINK_ID):
+        source_code = self.__parse_element_innerHTML()
+        PDF_FILE = f"{self.set_filename(LINK_ID)}.pdf"
+        print(f"Working --> {PDF_FILE}")
+        pdfkit.from_string(source_code, PDF_FILE)
+
+
 

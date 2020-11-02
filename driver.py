@@ -6,7 +6,7 @@ from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from tests.testCancelRequest import CancelChangeRequest
 from pages.ldma import ParseLinkBudget
-
+from selenium.common.exceptions import TimeoutException
 """
 Module Name: driver.py
 ----------------------
@@ -129,27 +129,35 @@ def main():
                 break
             elif choice == 4:
                 # Parse LDMA LB
-                browser = webdriver.Chrome(ChromeDriverManager().install())
+                options = webdriver.ChromeOptions()
+                options.add_experimental_option('excludeSwitches', ['enable-logging'])
+                browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
                 browser.maximize_window()
                 parse_info = ParseLinkBudget(browser)
                 browser.get(LDMAData.LDMA_URL)
                 parse_info.login_ldma()
-                link_id = ["DH23H02512", "DH23H03255"]
+                link_id = ["DH23H02512", "SY23N33013"]
+                parse_info.make_dir()
                 for id in link_id:
                     parse_info.goto_links()
                     parse_info.insert_link_code(id)
                     parse_info.select_all_dropdown()
                     parse_info.click_search()
-                    parse_info.select_found_link_code(str(id))
+                    try:
+                        parse_info.select_found_link_code(id)
+                    except TimeoutException:
+                        print(f"Invalid Link ID --> {id}")
+                        continue
+                    parse_info.export_pdf_file(id)
                 parse_info.logout_ldma()
                 browser.quit()
+                break
             elif choice == 0:
                 print("Exiting Program !")
                 break
             else:
                 print("Invalid choice ! Try Again.")
         except ValueError as e:
-            print(e)
             print("Invalid key pressed ! Please Try Again.")
 
 
