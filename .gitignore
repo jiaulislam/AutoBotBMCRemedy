@@ -7,3 +7,4 @@ debug.log
 Lib/
 Scripts/
 pyvenv.cfg
+LinkBudget/
