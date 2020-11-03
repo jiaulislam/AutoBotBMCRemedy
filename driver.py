@@ -136,7 +136,7 @@ def main():
                 parse_info = ParseLinkBudget(browser)
                 browser.get(LDMAData.LDMA_URL)
                 parse_info.login_ldma()
-                link_id = ["DH23H02512", "SY23N33013"]
+                link_id = ["BS11H32041"]
                 parse_info.make_dir()
                 for id in link_id:
                     parse_info.goto_links()
@@ -148,7 +148,10 @@ def main():
                     except TimeoutException:
                         print(f"Invalid Link ID --> {id}")
                         continue
-                    parse_info.export_pdf_file(id)
+                    # parse_info.export_pdf_file(id) # Export As PDF
+                    parse_info.export_file(id)  # Export As HTML
+                    parse_info.export_word_file(id) # Export As DOC
+                    parse_info.delete_html_file(id) # Delete the Exported HTML file
                 parse_info.logout_ldma()
                 browser.quit()
                 break

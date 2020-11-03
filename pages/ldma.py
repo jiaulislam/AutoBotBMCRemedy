@@ -8,6 +8,8 @@ from pages.base import BasePage
 import os
 import shutil
 import pdfkit
+import win32com.client
+
 
 class ParseLinkBudget(BasePage):
     """ Login to the LDMA """
@@ -88,15 +90,29 @@ class ParseLinkBudget(BasePage):
     def export_file(self, LINK_ID):
         """ Export the File as .HTML file """
         get_file = f"{self.set_filename(LINK_ID)}.html"
+
         with open(get_file, 'w+') as writer:
             writer.write(self.__parse_element_innerHTML())
-            print(f"File Exported Successful --> {get_file}")
 
     def export_pdf_file(self, LINK_ID):
+        """ Export the LB as PDF File """
         source_code = self.__parse_element_innerHTML()
         PDF_FILE = f"{self.set_filename(LINK_ID)}.pdf"
         print(f"Working --> {PDF_FILE}")
         pdfkit.from_string(source_code, PDF_FILE)
 
+    def export_word_file(self, LINK_ID):
+        """ Export the LB as Word File """
+        word = win32com.client.Dispatch('Word.Application')
+        file_path = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.html"
+        doc = word.Documents.Add(file_path)
+        output_fileName = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.doc"
+        doc.SaveAs(output_fileName, FileFormat=0)
+        doc.Close()
+        print(f"File Created: {self.set_filename(LINK_ID)}.doc")
+        word.Quit()
 
-
+    def delete_html_file(self, LINK_ID):
+        """ Delete the HTML file """
+        PATH_TO_DELETE = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.html"
+        os.remove(PATH_TO_DELETE)
