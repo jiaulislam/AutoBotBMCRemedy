@@ -10,7 +10,7 @@ query string generator also.
 def get_change_start_time(m_date) -> str:
     """ Get the Change Start Time """
     make_date_time = parse_datetime(m_date)
-    if make_date_time <= datetime.datetime.today():
+    if date_valid(make_date_time):
         make_date_time += datetime.timedelta(days=1)
     start_time = make_date_time.replace(hour=9, minute=0, second=0)
     return start_time.strftime('%m/%d/%Y %I:%M:%S %p')
@@ -19,6 +19,8 @@ def get_change_start_time(m_date) -> str:
 def get_service_start_downtime(m_date) -> str:
     """ Get the Change Start downtime """
     make_date_time = parse_datetime(m_date)
+    if date_valid(make_date_time):
+        make_date_time += datetime.timedelta(days=1)
     start_downtime = make_date_time.replace(hour=11, minute=0, second=0)
     return start_downtime.strftime('%m/%d/%Y %I:%M:%S %p')
 
@@ -26,6 +28,9 @@ def get_service_start_downtime(m_date) -> str:
 def get_service_end_downtime(start_downtime, duration) -> str:
     """ Get the Change End Time """
     make_date_time = datetime.datetime.strptime(str(start_downtime), '%m/%d/%Y %I:%M:%S %p')
+
+    if date_valid(make_date_time):
+        make_date_time += datetime.timedelta(days=1)
 
     parse_duration = duration[:5]
     hour = int(parse_duration[:2])
@@ -43,6 +48,10 @@ def get_service_end_downtime(start_downtime, duration) -> str:
 def get_change_close_start_time(m_date) -> str:
     """ Get the Change Close Start Time """
     make_date_time = parse_datetime(m_date)
+
+    if date_valid(make_date_time):
+        make_date_time += datetime.timedelta(days=1)
+
     close_start_time = make_date_time.replace(hour=17, minute=0, second=0)
     return close_start_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
@@ -50,6 +59,10 @@ def get_change_close_start_time(m_date) -> str:
 def get_change_close_end_time(m_date) -> str:
     """ Get the Change Close End Time """
     make_date_time = parse_datetime(m_date)
+
+    if date_valid(make_date_time):
+        make_date_time += datetime.timedelta(days=1)
+
     close_start_time = make_date_time.replace(hour=18, minute=0, second=0)
     return close_start_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
@@ -125,3 +138,11 @@ def make_query_string(site_string: str) -> str:
         print(f"Invalid Site Codes: {invalid_list}\n")
 
     return "OR".join(query_list)
+
+
+def date_valid(user_date, system_date=datetime.datetime.today()) -> datetime:
+    """ Check if the date is valid as per BMC Regulation """
+    if user_date <= system_date:
+        return True
+    else:
+        return False

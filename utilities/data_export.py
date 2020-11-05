@@ -19,6 +19,12 @@ class Data_Export:
             print(error)
             sys.exit()
 
+    def change_sheet(self, sheet_name):
+        try:
+            self._sheet = self._change_list_excel.get_sheet_by_name(sheet_name)
+        except Exception as error:
+            print(error)
+
     def insert_date(self, index: int, date: str):
         """ insert the date of the Change requesting """
         date_to_insert = datetime.datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S')

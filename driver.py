@@ -136,25 +136,35 @@ def main():
                 parse_info = ParseLinkBudget(browser)
                 browser.get(LDMAData.LDMA_URL)
                 parse_info.login_ldma()
-                link_id = ["BS11H32041"]
+                LinkID = input("Enter LinkID: ")
+                link_id = LinkID.split(",")
                 parse_info.make_dir()
-                for id in link_id:
-                    parse_info.goto_links()
-                    parse_info.insert_link_code(id)
-                    parse_info.select_all_dropdown()
-                    parse_info.click_search()
-                    try:
-                        parse_info.select_found_link_code(id)
-                    except TimeoutException:
-                        print(f"Invalid Link ID --> {id}")
-                        continue
-                    # parse_info.export_pdf_file(id) # Export As PDF
-                    parse_info.export_file(id)  # Export As HTML
-                    parse_info.export_word_file(id) # Export As DOC
-                    parse_info.delete_html_file(id) # Delete the Exported HTML file
-                parse_info.logout_ldma()
-                browser.quit()
-                break
+                try:
+                    for id in link_id:
+                        parse_info.goto_links()
+                        parse_info.insert_link_code(id)
+                        parse_info.select_all_dropdown()
+                        parse_info.click_search()
+                        try:
+                            parse_info.select_found_link_code(id)
+                        except TimeoutException:
+                            print(f"Invalid Link ID --> {id}")
+                            continue
+                        # parse_info.export_pdf_file(id) # Export As PDF
+                        parse_info.export_file(id)  # Export As HTML
+                        parse_info.export_word_file(id) # Export As DOC
+                        parse_info.delete_html_file(id) # Delete the Exported HTML file
+                    parse_info.logout_ldma()
+                    browser.quit()
+                    break
+                except exceptions as e:
+                    print(e)
+            elif choice == 5:
+                # Expedited CR
+                # TODO: EXPERIMENTAL 
+                create = CreateNewChangeRequest()
+                create.createRequest()
+                create.tearDownDriver()
             elif choice == 0:
                 print("Exiting Program !")
                 break

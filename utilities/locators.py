@@ -48,6 +48,7 @@ class ChangeManagerLocators(object):
     CHANGE_MANAGER_SUMON = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Sumon Kumar Biswas']")
     CHANGE_MANAGER_RAKIB = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Md. Rakibuzzaman']")
     CHANGE_MANAGER_KHAIRUL = (By.XPATH, "//div[@class='MenuOuter']//*[text()='K.M Khairul Bashar']")
+    CHANGE_MANAGER_SUDIPTA = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Sudipta Das']")
 
 
 class LocationServiceLocators(object):

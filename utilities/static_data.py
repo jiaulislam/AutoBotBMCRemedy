@@ -11,8 +11,8 @@ class StaticData(object):
     USERNAME = os.environ.get("BMC_USER")  # Get the username
     PASSWORD = os.environ.get("BMC_PASS")  # Get the password
     IT_HOME = 'IT Home'
-    READ_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Requirement.xlsx'
-    WRITE_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Change_Request_List.xlsx'
+    READ_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Request_CR.xlsx'
+    WRITE_EXCEL_FILE = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/Output_CR.xlsx'
     CANCEL_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/cancel.txt'
     CLOSE_CHANGE_TXT_FILE_PATH = 'E:/Python Projects/AutoBotBMCRemedy/data_driver/change.txt'
     VIEW_ATTACHMENT_DEFAULT_STATE = 'View Attachment Disabled'

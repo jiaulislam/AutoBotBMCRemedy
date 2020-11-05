@@ -30,28 +30,3 @@ class LinkBudgetActivityLocator(object):
     BLOCK_INFORMATION = (By.XPATH, "//*[@id='linkadd']")
     SITE_ID_1 = (By.XPATH, "//input[@id='siteID1']")
     SITE_ID_2 = (By.XPATH, "//input[@id='siteID2']")
-
-
-class LinkAttributesLocator(object):
-
-    # Site Name
-    SITE1_NAME = (By.XPATH, "//input[@id = 'site1Name']")
-    SITE2_NAME = (By.XPATH, "//input[@id='siteID2']")
-
-    # Site ID 
-    SITE1_NEID = (By.XPATH, "//input[@id='site1NeId']")
-    SITE2_NEID = (By.XPATH, "//input[@id='site2NeId']")
-
-    # Hop Nodal Base 
-    HOP_NODAL_BASE = (By.XPATH, "//input[@id='PDH_SDH_Nodal']")
-
-    # Extra Field Site // TDMA
-    TDMA_STATUS = (By.XPATH, "//input[@id='extrafieldSite2']")
-
-    # AMM Status 
-    AMM_SITE1 = (By.XPATH, "//input[@id='ammTypeSite1']")
-    AMM_SITE2 = (By.XPATH, "//input[@id='ammTypeSite2']")
-
-    # IDU/ Magazine
-    AMMTYPE_SITE1 = (By.XPATH, "//input[@id='nodalefield1']")
-    AMMTYPE_SITE2 = (By.XPATH, "//input[@id='nodalefield2']")

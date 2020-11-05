@@ -22,7 +22,7 @@ class CreateRequests(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar']
+        self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar', 'Sudipta Das']
         self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur  Rahman', 'Md. Rakibuzzaman', 'K.M Khairul Bashar']
         self.__change_number = ""
 
@@ -90,6 +90,8 @@ class CreateRequests(BasePage):
             self.click(ChangeManagerLocators.CHANGE_MANAGER_SHAHED)
         elif change_manager == self.TNR_GROUP[1]:
             self.click(ChangeManagerLocators.CHANGE_MANAGER_RIPAN)
+        elif change_manager == self.TNR_GROUP[2]:
+            self.click(ChangeManagerLocators.CHANGE_MANAGER_SUDIPTA)
         elif change_manager == self.ANR_GROUP[0]:
             self.click(ChangeManagerLocators.CHANGE_MANAGER_FUAD)
         elif change_manager == self.ANR_GROUP[1]:

@@ -26,8 +26,10 @@ class CreateChangeRequest(BasePage):
         self.login.enter_username_textbox()
         self.login.enter_password_textbox()
         self.login.click_login_button()
-        max_change = self.read_data.get_number_change() + 2
-        for change in range(2, max_change):
+        self.export_data.change_sheet("Change_List") # Change Sheet
+        EXCEL_ROW = 3   # Need to change if need to change the starting point in Excel
+        MAX_CHANGE = self.read_data.get_number_change() + EXCEL_ROW
+        for change in range(EXCEL_ROW, MAX_CHANGE):
             # ------- READ ALL THE DATA ------------ #
             m_date = self.read_data.parse_date(change)
             coordinator = self.read_data.parse_project_coordinator(change)
@@ -107,13 +109,21 @@ class CreateChangeRequest(BasePage):
             if service_type == 'Service Effective':
                 query_formula = make_data.make_query_string(impact_sites)
                 self.createChangeRequest.add_relationship_to_change(query_formula)
+                # while True:
+                #     val = input("Press q after finised")
+                #     if val == 'q':
+                #         break
                 # self.createChangeRequest.save_change()
                 self.createChangeRequest.goto_next_stage()
                 self.createChangeRequest.go_back_to_homepage()
                 os.chdir(self.path)
             else:
-                self.createChangeRequest.goto_next_stage()
+                # while True:
+                    # val = input("Press q after finised")
+                    # if val == 'q':
+                    #     break
                 # self.createChangeRequest.save_change()
+                self.createChangeRequest.goto_next_stage()
                 self.createChangeRequest.go_back_to_homepage()
                 os.chdir(self.path)
         self.homePage.click_logout_button()
