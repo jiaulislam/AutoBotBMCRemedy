@@ -26,8 +26,9 @@ class CreateChangeRequest(BasePage):
         self.login.enter_username_textbox()
         self.login.enter_password_textbox()
         self.login.click_login_button()
+        self.read_data.change_sheet()
         self.export_data.change_sheet("Change_List") # Change Sheet
-        EXCEL_ROW = 3   # Need to change if need to change the starting point in Excel
+        EXCEL_ROW = 2   # Need to change if need to change the starting point in Excel
         MAX_CHANGE = self.read_data.get_number_change() + EXCEL_ROW
         for change in range(EXCEL_ROW, MAX_CHANGE):
             # ------- READ ALL THE DATA ------------ #

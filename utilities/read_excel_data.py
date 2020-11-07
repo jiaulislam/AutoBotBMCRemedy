@@ -20,6 +20,14 @@ class Read_Data:
         except Exception as e:
             print(e)
 
+    def change_sheet(self):
+        """ Change the sheet """
+        try:
+            sheet_name = "Change_List"
+            self._sheet = self.__data_driver.get_sheet_by_name(sheet_name)
+        except Exception as error:
+            print(error)
+
     def get_number_change(self):
         """ get max SL no from the numbers """
         number_of_change = []

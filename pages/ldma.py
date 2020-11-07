@@ -61,7 +61,7 @@ class ParseLinkBudget(BasePage):
         return element.get_attribute("innerHTML")
 
     def make_dir(self):
-        """ Make a dir for LB Output """
+        """ Make a directory for LB Output """
         if os.path.exists(os.getcwd() + '/LinkBudget'):
             shutil.rmtree('LinkBudget')
             os.mkdir('LinkBudget')

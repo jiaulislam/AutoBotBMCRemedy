@@ -11,7 +11,7 @@ from utilities.locators import (RelationshipQueryLocators, CommonChangeCreateLoc
                                 SummaryAndNotesBox, DateSectionSelector,
                                 CommonTaskDateLocators, HomePageLocators,
                                 SaveChangeLocators, FrameBoxLocators)
-
+from utilities.terminal_colors import bcolors
 """
 This Class will help to create a full new Change Request as per shared 
 data in the excel by the user. It's derived from BasePage Class.
@@ -58,6 +58,7 @@ class CreateRequests(BasePage):
         if self.__get_title_of_view_attachment_btn():
             self.switch_to_frame(WorkInfoAttachment.UPLOAD_ATTACHMENT_FRAME)
             self.write(WorkInfoAttachment.CHOOSE_ATTACHMENT_FRAME, location_of_file)
+            time.sleep(1)
             self.click(WorkInfoAttachment.OK_ATTACHMENT_FRAME_BUTTON)
             # TODO: Need to do something about this implicit wait
             time.sleep(1)
@@ -230,8 +231,8 @@ class CreateRequests(BasePage):
                 return True
             else:
                 return False
-        except NoSuchElementException as errno:
-            print(f"Attachment status unable to fetch. {errno}")
+        except NoSuchElementException:
+            print(f"{bcolors.WARNING}Attachment status unable to fetch. {bcolors.ENDC}")
             pass
 
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:

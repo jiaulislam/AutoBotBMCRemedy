@@ -7,7 +7,7 @@ All the time this data should be static as-is like here
 
 
 class StaticData(object):
-    BASE_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
+    BMC_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
     USERNAME = os.environ.get("BMC_USER")  # Get the username
     PASSWORD = os.environ.get("BMC_PASS")  # Get the password
     IT_HOME = 'IT Home'

@@ -1,12 +1,14 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-
+from selenium.webdriver.chrome.options import Options
+import os
 from utilities.static_data import StaticData, LDMAData
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from tests.testCancelRequest import CancelChangeRequest
 from pages.ldma import ParseLinkBudget
 from selenium.common.exceptions import TimeoutException
+from utilities.terminal_colors import bcolors
 """
 Module Name: driver.py
 ----------------------
@@ -24,7 +26,14 @@ class Driver:
 
     @classmethod
     def setUpDriver(cls):
-        cls.browser = webdriver.Chrome(ChromeDriverManager().install())
+        options = Options()
+        options.headless = True # Run the Chrome driver in headless mode
+        options.add_argument("--disable-gpu") # It's recommended to trun of GPU while headless mode
+        options.add_argument("--log-level=3") # disable Info/Error/Warning in Chrome Driver
+        options.add_argument("--start-maximized") # start the chrome with maximized window
+        options.add_experimental_option('excludeSwitches', ['enable-logging']) # disable Dev Info info while running app
+        os.environ['WDM_LOG_LEVEL'] = '0' # Disable the logging of ChromeDriverManager()
+        cls.browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     @classmethod
     def tearDownDriver(cls):
@@ -41,11 +50,18 @@ class Handler(Driver):
     """
     def __init__(self):
         super().setUpDriver()
-        # Open the Link
-        self.browser.get(StaticData.BASE_URL)
-        # Maximize the Window
-        self.browser.maximize_window()
 
+    def get_bmc_website(self):
+        """ Get the BMC Remedy URL """
+        self.browser.get(StaticData.BMC_URL)
+
+    def get_ldma_website(self):
+        """ Get the LDMA URL """
+        self.browser.get(LDMAData.LDMA_URL)
+
+    def get_maximize_window(self):
+        """ Maximize the current window of driver """
+        self.browser.maximize_window()
 
 class CreateNewChangeRequest(Handler, CreateChangeRequest):
     """ A Sub-Class of Handler and CreateChangeRequest module to create new Change Requests """
@@ -58,6 +74,7 @@ class CreateNewChangeRequest(Handler, CreateChangeRequest):
 
     def createRequest(self):
         """ Call all the functions from CreateChangeRequest to create change requests """
+        self.get_bmc_website()
         self.__createChangeRequest = CreateChangeRequest(self.browser)
         self.__createChangeRequest.test_create_change()
 
@@ -91,6 +108,39 @@ class CancelChangeRequests(Handler, CancelChangeRequest):
         self.__cancelMyRequest = CancelChangeRequest(self.browser)
         self.__cancelMyRequest.test_cancel_change()
 
+
+class ParseLB(Handler):
+    """ LinkBudget Parser """
+    @classmethod
+    def setUpDriver(cls):
+        super().setUpDriver()
+
+    def parse_link_budget(self):
+        self.get_ldma_website()
+        parse_info = ParseLinkBudget(self.browser)
+        parse_info.login_ldma()
+        LinkID = input("Enter LinkID: ")
+        link_id = LinkID.split(",")
+        parse_info.make_dir()
+        try:
+            for id in link_id:
+                parse_info.goto_links()
+                parse_info.insert_link_code(id)
+                parse_info.select_all_dropdown()
+                parse_info.click_search()
+                try:
+                    parse_info.select_found_link_code(id)
+                except TimeoutException:
+                    print(f"Invalid Link ID --> {id}")
+                    continue
+                # parse_info.export_pdf_file(id) # Export As PDF
+                parse_info.export_file(id)  # Export As HTML
+                parse_info.export_word_file(id) # Export As DOC
+                parse_info.delete_html_file(id) # Delete the Exported HTML file
+            parse_info.logout_ldma()
+            self.browser.quit()
+        except Exception as e:
+            print(e)
 
 def main():
     """ The typical main function to start the program """
@@ -128,37 +178,10 @@ def main():
                 cancel.tearDownDriver()
                 break
             elif choice == 4:
-                # Parse LDMA LB
-                options = webdriver.ChromeOptions()
-                options.add_experimental_option('excludeSwitches', ['enable-logging'])
-                browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-                browser.maximize_window()
-                parse_info = ParseLinkBudget(browser)
-                browser.get(LDMAData.LDMA_URL)
-                parse_info.login_ldma()
-                LinkID = input("Enter LinkID: ")
-                link_id = LinkID.split(",")
-                parse_info.make_dir()
-                try:
-                    for id in link_id:
-                        parse_info.goto_links()
-                        parse_info.insert_link_code(id)
-                        parse_info.select_all_dropdown()
-                        parse_info.click_search()
-                        try:
-                            parse_info.select_found_link_code(id)
-                        except TimeoutException:
-                            print(f"Invalid Link ID --> {id}")
-                            continue
-                        # parse_info.export_pdf_file(id) # Export As PDF
-                        parse_info.export_file(id)  # Export As HTML
-                        parse_info.export_word_file(id) # Export As DOC
-                        parse_info.delete_html_file(id) # Delete the Exported HTML file
-                    parse_info.logout_ldma()
-                    browser.quit()
-                    break
-                except exceptions as e:
-                    print(e)
+                parse = ParseLB()
+                parse.parse_link_budget()
+                parse.tearDownDriver()
+                break
             elif choice == 5:
                 # Expedited CR
                 # TODO: EXPERIMENTAL 
@@ -171,7 +194,9 @@ def main():
             else:
                 print("Invalid choice ! Try Again.")
         except ValueError as e:
-            print("Invalid key pressed ! Please Try Again.")
+            print()
+            print(f"{bcolors.FAIL}{e}{bcolors.ENDC}")
+            print()
 
 
 if __name__ == "__main__":
