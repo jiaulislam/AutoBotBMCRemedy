@@ -27,11 +27,11 @@ class Driver:
     @classmethod
     def setUpDriver(cls):
         options = Options()
-        options.headless = True # Run the Chrome driver in headless mode
-        options.add_argument("--disable-gpu") # It's recommended to trun of GPU while headless mode
+        # options.headless = True # Run the Chrome driver in headless mode
+        # options.add_argument("--disable-gpu") # It's recommended to trun of GPU while headless mode
         options.add_argument("--log-level=3") # disable Info/Error/Warning in Chrome Driver
-        options.add_argument("--start-maximized") # start the chrome with maximized window
         options.add_experimental_option('excludeSwitches', ['enable-logging']) # disable Dev Info info while running app
+        options.add_argument("--start-maximized") # start the chrome with maximized window
         os.environ['WDM_LOG_LEVEL'] = '0' # Disable the logging of ChromeDriverManager()
         cls.browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
@@ -131,7 +131,7 @@ class ParseLB(Handler):
                 try:
                     parse_info.select_found_link_code(id)
                 except TimeoutException:
-                    print(f"Invalid Link ID --> {id}")
+                    print(f"{bcolors.WARNING}Invalid Link ID --> {id}{bcolors.WARNING}")
                     continue
                 # parse_info.export_pdf_file(id) # Export As PDF
                 parse_info.export_file(id)  # Export As HTML
@@ -153,7 +153,7 @@ def main():
               " 1. Create Change Request\n"
               " 2. Close Change Request\n"
               " 3. Cancel Change Request\n"
-              " 0. Quit Application"
+              " 0. Quit Application\n"
         )
 
         try:
@@ -189,14 +189,12 @@ def main():
                 create.createRequest()
                 create.tearDownDriver()
             elif choice == 0:
-                print("Exiting Program !")
+                print("\nExiting Program !\n")
                 break
             else:
-                print("Invalid choice ! Try Again.")
+                print("\nInvalid choice ! Try Again.\n")
         except ValueError as e:
-            print()
-            print(f"{bcolors.FAIL}{e}{bcolors.ENDC}")
-            print()
+            print(f"\n{bcolors.FAIL}{e}{bcolors.ENDC}\n")
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from utilities.static_data import LDMAData
 from utilities.ldmalocators import LDMALoginLocators, LDMALogoutLocators, LinkBudgetActivityLocator
 from pages.base import BasePage
 import os
+from utilities.terminal_colors import bcolors
 import shutil
 import pdfkit
 import win32com.client
@@ -90,15 +91,14 @@ class ParseLinkBudget(BasePage):
     def export_file(self, LINK_ID):
         """ Export the File as .HTML file """
         get_file = f"{self.set_filename(LINK_ID)}.html"
-
-        with open(get_file, 'w+') as writer:
+        with open(get_file, 'w+', encoding='utf-8') as writer:
             writer.write(self.__parse_element_innerHTML())
 
     def export_pdf_file(self, LINK_ID):
         """ Export the LB as PDF File """
         source_code = self.__parse_element_innerHTML()
         PDF_FILE = f"{self.set_filename(LINK_ID)}.pdf"
-        print(f"Working --> {PDF_FILE}")
+        print(f"{bcolors.OKCYAN}Working --> {PDF_FILE}.{bcolors.ENDC}")
         pdfkit.from_string(source_code, PDF_FILE)
 
     def export_word_file(self, LINK_ID):
@@ -109,7 +109,7 @@ class ParseLinkBudget(BasePage):
         output_fileName = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.doc"
         doc.SaveAs(output_fileName, FileFormat=0)
         doc.Close()
-        print(f"File Created: {self.set_filename(LINK_ID)}.doc")
+        print(f"{bcolors.OKGREEN}File Created: {self.set_filename(LINK_ID)}.doc{bcolors.ENDC}")
         word.Quit()
 
     def delete_html_file(self, LINK_ID):
