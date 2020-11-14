@@ -15,7 +15,6 @@ class Test_Base_Case(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Chrome(ChromeDriverManager().install())
-        cls.driver.get(StaticData.BASE_URL)
 
     @classmethod
     def tearDownClass(cls) -> None:

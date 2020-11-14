@@ -9,6 +9,7 @@ from tests.testCancelRequest import CancelChangeRequest
 from pages.ldma import ParseLinkBudget
 from selenium.common.exceptions import TimeoutException
 from utilities.terminal_colors import bcolors
+from alive_progress import alive_bar, config_handler 
 """
 Module Name: driver.py
 ----------------------
@@ -90,6 +91,7 @@ class CloseChangeRequest(Handler, CloseChangeRequests):
 
     def closeRequest(self):
         """ Call all the functions from CloseChangeRequests to close change requests """
+        self.get_bmc_website()
         self.__closeMyRequest = CloseChangeRequests(self.browser)
         self.__closeMyRequest.test_close_requests()
 
@@ -105,6 +107,7 @@ class CancelChangeRequests(Handler, CancelChangeRequest):
 
     def cancelRequests(self):
         """ Call all teh functions from CancelChangeRequests to cancel change requests """
+        self.get_bmc_website()
         self.__cancelMyRequest = CancelChangeRequest(self.browser)
         self.__cancelMyRequest.test_cancel_change()
 
@@ -116,31 +119,35 @@ class ParseLB(Handler):
         super().setUpDriver()
 
     def parse_link_budget(self):
+        LinkID = input("Enter LinkID: ")
+        print()
         self.get_ldma_website()
         parse_info = ParseLinkBudget(self.browser)
-        parse_info.login_ldma()
-        LinkID = input("Enter LinkID: ")
         link_id = LinkID.split(",")
+        parse_info.login_ldma()
         parse_info.make_dir()
-        try:
-            for id in link_id:
-                parse_info.goto_links()
-                parse_info.insert_link_code(id)
-                parse_info.select_all_dropdown()
-                parse_info.click_search()
-                try:
-                    parse_info.select_found_link_code(id)
-                except TimeoutException:
-                    print(f"{bcolors.WARNING}Invalid Link ID --> {id}{bcolors.WARNING}")
-                    continue
-                # parse_info.export_pdf_file(id) # Export As PDF
-                parse_info.export_file(id)  # Export As HTML
-                parse_info.export_word_file(id) # Export As DOC
-                parse_info.delete_html_file(id) # Delete the Exported HTML file
-            parse_info.logout_ldma()
-            self.browser.quit()
-        except Exception as e:
-            print(e)
+        with alive_bar(len(link_id)) as bar:
+            try:
+                for id in link_id:
+                    parse_info.goto_links()
+                    parse_info.insert_link_code(id)
+                    parse_info.select_all_dropdown()
+                    parse_info.click_search()
+                    try:
+                        parse_info.select_found_link_code(id)
+                        bar()
+                    except TimeoutException:
+                        print(f"{bcolors.WARNING}Invalid Link ID --> {id}{bcolors.WARNING}")
+                        bar()
+                        continue
+                    # parse_info.export_pdf_file(id) # Export As PDF
+                    parse_info.export_file(id)  # Export As HTML
+                    # parse_info.export_word_file(id) # Export As DOC
+                    # parse_info.delete_html_file(id) # Delete the Exported HTML file
+                parse_info.logout_ldma()
+                self.browser.quit()
+            except Exception as e:
+                print(e)
 
 def main():
     """ The typical main function to start the program """

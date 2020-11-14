@@ -285,4 +285,8 @@ class CreateRequests(BasePage):
                         pass
                     except NoSuchWindowException:
                         break
-        self.driver.switch_to.window(parent_window)
+        try:
+            self.driver.switch_to.window(parent_window)
+        except AttributeError:
+            print(f"{bcolors.UNDERLINE}{bcolors.WARNING}Hit on Attribute Error{bcolors.ENDC}")
+            pass
