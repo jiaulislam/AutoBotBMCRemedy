@@ -54,14 +54,14 @@ class ParseLinkBudget(BasePage):
         element = LinkBudgetActivityLocator.select_found_linkid(LINK_ID)
         self.click(element)
 
-
     def __parse_element_innerHTML(self):
         """ Select all the block of required HTML in LB information """
         element = self.find_element(*LinkBudgetActivityLocator.BLOCK_INFORMATION)
 
         return element.get_attribute("innerHTML")
 
-    def make_dir(self):
+    @staticmethod
+    def make_dir():
         """ Make a directory for LB Output """
         if os.path.exists(os.getcwd() + '/LinkBudget'):
             shutil.rmtree('LinkBudget')

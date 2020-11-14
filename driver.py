@@ -1,15 +1,18 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 import os
-from utilities.static_data import StaticData, LDMAData
+
+from alive_progress import alive_bar
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+
+from pages.ldma import ParseLinkBudget
+from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from tests.testCancelRequest import CancelChangeRequest
-from pages.ldma import ParseLinkBudget
-from selenium.common.exceptions import TimeoutException
+from utilities.static_data import StaticData, LDMAData
 from utilities.terminal_colors import bcolors
-from alive_progress import alive_bar, config_handler 
+
 """
 Module Name: driver.py
 ----------------------
@@ -29,11 +32,12 @@ class Driver:
     def setUpDriver(cls):
         options = Options()
         # options.headless = True # Run the Chrome driver in headless mode
-        # options.add_argument("--disable-gpu") # It's recommended to trun of GPU while headless mode
-        options.add_argument("--log-level=3") # disable Info/Error/Warning in Chrome Driver
-        options.add_experimental_option('excludeSwitches', ['enable-logging']) # disable Dev Info info while running app
-        options.add_argument("--start-maximized") # start the chrome with maximized window
-        os.environ['WDM_LOG_LEVEL'] = '0' # Disable the logging of ChromeDriverManager()
+        # options.add_argument("--disable-gpu") # It's recommended to turn of GPU while headless mode
+        options.add_argument("--log-level=3")  # disable Info/Error/Warning in Chrome Driver
+        options.add_experimental_option('excludeSwitches',
+                                        ['enable-logging'])  # disable Dev Info info while running app
+        options.add_argument("--start-maximized")  # start the chrome with maximized window
+        os.environ['WDM_LOG_LEVEL'] = '0'  # Disable the logging of ChromeDriverManager()
         cls.browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     @classmethod
@@ -49,6 +53,7 @@ class Handler(Driver):
     """ A Sub-Class of Driver for additional functionalities.
         Example: Headless Mode, Session Handle, Cookies Handle, Open Links
     """
+
     def __init__(self):
         super().setUpDriver()
 
@@ -63,6 +68,7 @@ class Handler(Driver):
     def get_maximize_window(self):
         """ Maximize the current window of driver """
         self.browser.maximize_window()
+
 
 class CreateNewChangeRequest(Handler, CreateChangeRequest):
     """ A Sub-Class of Handler and CreateChangeRequest module to create new Change Requests """
@@ -114,6 +120,7 @@ class CancelChangeRequests(Handler, CancelChangeRequest):
 
 class ParseLB(Handler):
     """ LinkBudget Parser """
+
     @classmethod
     def setUpDriver(cls):
         super().setUpDriver()
@@ -123,31 +130,32 @@ class ParseLB(Handler):
         print()
         self.get_ldma_website()
         parse_info = ParseLinkBudget(self.browser)
-        link_id = LinkID.split(",")
+        link_ids = LinkID.split(",")
         parse_info.login_ldma()
         parse_info.make_dir()
-        with alive_bar(len(link_id)) as bar:
+        with alive_bar(len(link_ids)) as bar:
             try:
-                for id in link_id:
+                for ID in link_ids:
                     parse_info.goto_links()
-                    parse_info.insert_link_code(id)
+                    parse_info.insert_link_code(ID)
                     parse_info.select_all_dropdown()
                     parse_info.click_search()
                     try:
-                        parse_info.select_found_link_code(id)
+                        parse_info.select_found_link_code(ID)
                         bar()
                     except TimeoutException:
-                        print(f"{bcolors.WARNING}Invalid Link ID --> {id}{bcolors.WARNING}")
+                        print(f"{bcolors.WARNING}Invalid Link ID --> {ID}{bcolors.WARNING}")
                         bar()
                         continue
                     # parse_info.export_pdf_file(id) # Export As PDF
-                    parse_info.export_file(id)  # Export As HTML
+                    parse_info.export_file(ID)  # Export As HTML
                     # parse_info.export_word_file(id) # Export As DOC
                     # parse_info.delete_html_file(id) # Delete the Exported HTML file
                 parse_info.logout_ldma()
                 self.browser.quit()
             except Exception as e:
                 print(e)
+
 
 def main():
     """ The typical main function to start the program """
@@ -157,10 +165,10 @@ def main():
     print("++++++++++++++++++++++++++++")
     while True:
         print(
-              " 1. Create Change Request\n"
-              " 2. Close Change Request\n"
-              " 3. Cancel Change Request\n"
-              " 0. Quit Application\n"
+            " 1. Create Change Request\n"
+            " 2. Close Change Request\n"
+            " 3. Cancel Change Request\n"
+            " 0. Quit Application\n"
         )
 
         try:
