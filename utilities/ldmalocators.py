@@ -4,13 +4,16 @@ developer : jiaul_islam
 """
 from selenium.webdriver.common.by import By
 
+
 class LDMALoginLocators(object):
     USERNAME_INPUT = (By.XPATH, "//input[@name='username']")
     PASSWORD_INPUT = (By.XPATH, "//input[@name='password']")
     SIGNIN_BTN = (By.XPATH, "//input[@name='submit']")
 
+
 class LDMALogoutLocators(object):
     LOGOUT_BTN = (By.XPATH, "//a[contains(text(), 'Logout')]")
+
 
 class LinkBudgetActivityLocator(object):
     GOTO_LINK_DROPDOWN = (By.XPATH, "//span[contains(text(), 'Link')]")

@@ -2,7 +2,6 @@ import time
 
 from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterceptedException,
                                         NoSuchElementException, NoSuchWindowException)
-from utilities.static_data import StaticData
 
 from pages.base import BasePage
 from utilities.locators import (RelationshipQueryLocators, CommonChangeCreateLocators,
@@ -11,7 +10,9 @@ from utilities.locators import (RelationshipQueryLocators, CommonChangeCreateLoc
                                 SummaryAndNotesBox, DateSectionSelector,
                                 CommonTaskDateLocators, HomePageLocators,
                                 SaveChangeLocators, FrameBoxLocators)
+from utilities.static_data import StaticData
 from utilities.terminal_colors import bcolors
+
 """
 This Class will help to create a full new Change Request as per shared 
 data in the excel by the user. It's derived from BasePage Class.
@@ -192,7 +193,6 @@ class CreateRequests(BasePage):
         task_page = self.driver.current_window_handle
         self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
         self.__set_date_time_in_task(task_page, work_window_begin, work_window_end)
-        # TODO: Now that the Relationship adding work is done, need a way to handle it
 
     def fill_system_downtime_duration_task(self, start_downtime: str, end_downtime: str) -> None:
         """ Fill up the date time in System Downtime duration Phase Task """
