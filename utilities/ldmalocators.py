@@ -22,7 +22,9 @@ class LinkBudgetActivityLocator(object):
     INSERT_LINKCODE_TEXTBOX = (By.XPATH, "//input[@id='search']")
     CLICK_ID_STATUSTYPE_DROPDOWN = (By.XPATH, "//select[@id='statusType']")
     SELECT_ALL_DROPDOWN = (By.XPATH, "//select[@id='statusType']//option[contains(text(),'Select All')]")
-    SEARCH_BTN = (By.XPATH, "//input[@name='submit']")
+    SEARCH_BTN = (By.XPATH, "//input[@name='submit']") 
+    INSERT_SITE_CODE_1 = (By.XPATH, "//input[@id='siteCode']")
+    INSERT_SITE_CODE_2 = (By.XPATH, "//input[@id='siteCode2']")
 
     @staticmethod
     def select_found_linkid(linkid: str) -> tuple:
@@ -30,6 +32,12 @@ class LinkBudgetActivityLocator(object):
         XPATH_FOR_LINKID = f"//div[@class='table-responsive']//td//a[contains(text(), '{linkid}')]"
         return By.XPATH, XPATH_FOR_LINKID
 
+    @staticmethod
+    def is_available_lb(site_code: str):
+        return By.XPATH, f"//a[contains(text(), '{site_code}')]"
+        
     BLOCK_INFORMATION = (By.XPATH, "//*[@id='linkadd']")
     SITE_ID_1 = (By.XPATH, "//input[@id='siteID1']")
     SITE_ID_2 = (By.XPATH, "//input[@id='siteID2']")
+
+    LINK_ID = (By.XPATH, "//tr[3]/td[1]//a")

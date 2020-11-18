@@ -28,10 +28,10 @@ class CreateChangeRequest(BasePage):
         self.login.enter_password_textbox()
         self.login.click_login_button()
         self.read_data.change_sheet()
-        self.export_data.change_sheet("Change_List") # Change Sheet
-        EXCEL_ROW = 2   # Need to change if need to change the starting point in Excel
+        self.export_data.change_sheet("Change_List")  # Change Sheet
+        EXCEL_ROW = 2  # Need to change if need to change the starting point in Excel
         MAX_CHANGE = self.read_data.get_number_change() + EXCEL_ROW
-        with alive_bar((MAX_CHANGE-2)) as bar:
+        with alive_bar((MAX_CHANGE - 2)) as bar:
             for change in range(EXCEL_ROW, MAX_CHANGE):
                 # ------- READ ALL THE DATA ------------ #
                 m_date = self.read_data.parse_date(change)
@@ -68,6 +68,7 @@ class CreateChangeRequest(BasePage):
                 # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                 time.sleep(3)
                 self.createChangeRequest.insert_text_summary(summary)
+                self.createChangeRequest.set_change_number()
                 self.createChangeRequest.insert_text_notes(notes)
                 self.createChangeRequest.insert_impact_list_in_notes(impact_list)
                 change_number = self.createChangeRequest.get_change_number()
@@ -123,6 +124,7 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.go_back_to_homepage()
                     os.chdir(self.path)
                     bar()
+                    self.createChangeRequest.reset_change_number()
                 else:
                     # ----------------------------------------------------------
                     # while True:
@@ -135,6 +137,7 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.go_back_to_homepage()
                     os.chdir(self.path)
                     bar()
+                    self.createChangeRequest.reset_change_number()
         self.homePage.click_logout_button()
         self.export_data.close_workbook()
         self.read_data.close_workbook()

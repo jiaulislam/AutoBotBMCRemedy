@@ -151,6 +151,7 @@ class FrameBoxLocators(object):
 class CloseChangeLocators(object):
     """ This Class is going to store all the required new Locators for Closing a Change Request """
 
+    CURRENT_CR_STATUS = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
     CHANGE_REQUEST_OPEN = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
     CLOSE_MENU_SELECT = (By.XPATH, "//input[@id= 'arid_WIN_4_7']")
     SELECT_CLOSE_FROM_LST = (By.XPATH, "//tr[@class='MenuTableRow']//td[contains(text(), 'Closed')]")

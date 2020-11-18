@@ -1,5 +1,7 @@
+import time
 from typing import NoReturn
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, \
+    ElementClickInterceptedException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from pages.base import BasePage
@@ -142,7 +144,14 @@ class CloseRequests(BasePage):
         the task page.
         """
         try:
-            self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+            if self.is_visible(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN):
+                self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+            else:
+                try:
+                    time.sleep(2)
+                    self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
+                except TimeoutException:
+                    self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN))
@@ -168,7 +177,14 @@ class CloseRequests(BasePage):
             the task page.
         """
         try:
-            self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
+            if self.is_visible(TaskSectionLocators.SYSTEM_DOWNTIME_TASK):
+                self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
+            else:
+                try:
+                    time.sleep(2)
+                    self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
+                except TimeoutException:
+                    raise TimeoutError
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(TaskSectionLocators.SYSTEM_DOWNTIME_TASK))
@@ -191,8 +207,13 @@ class CloseRequests(BasePage):
         self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
         self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
         self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+        time.sleep(1)
         self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
-        self.__back_to_change_task_page()
+        try:
+            self.__back_to_change_task_page()
+        except ElementClickInterceptedException:
+            self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
+            self.__back_to_change_task_page()
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """
@@ -205,3 +226,12 @@ class CloseRequests(BasePage):
     def goto_task_page(self) -> NoReturn:
         """ Goto the task section on the close change page """
         self.click(TaskSectionLocators.TASK_PAGE)
+
+    def is_status_scheduled_for_approval(self):
+        """ Check if the current status for CR is Scheduled for approval """
+        status = self.get_value_of_element(CloseChangeLocators.CURRENT_CR_STATUS)
+
+        if status == "Scheduled For Approval":
+            return True
+        else:
+            return False

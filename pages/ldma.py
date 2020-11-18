@@ -2,6 +2,8 @@
 This module is to help with parsing the required information for a Link Budget
 developer : jiaul_islam
 """
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, TimeoutException
+
 from utilities.static_data import LDMAData
 from utilities.ldmalocators import LDMALoginLocators, LDMALogoutLocators, LinkBudgetActivityLocator
 from pages.base import BasePage
@@ -35,7 +37,7 @@ class ParseLinkBudget(BasePage):
         """ Goto action Link -> Links """
         self.click(LinkBudgetActivityLocator.GOTO_LINK_DROPDOWN)
         self.click(LinkBudgetActivityLocator.GOTO_LINKS_DROPDOWN)
-        
+
     def insert_link_code(self, LINK_ID):
         """ Insert the Link Code in Text Box """
         self.write(LinkBudgetActivityLocator.INSERT_LINKCODE_TEXTBOX, LINK_ID)
@@ -75,7 +77,7 @@ class ParseLinkBudget(BasePage):
         """ Set the Site-A Code """
         SITE_A = self.find_element(*LinkBudgetActivityLocator.SITE_ID_1)
         self.SITE_A = SITE_A.get_attribute("value")
-        
+
     def __set_site_B(self):
         """ Set the Site-B Code """
         SITE_B = self.find_element(*LinkBudgetActivityLocator.SITE_ID_2)
@@ -116,3 +118,76 @@ class ParseLinkBudget(BasePage):
         """ Delete the HTML file """
         PATH_TO_DELETE = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.html"
         os.remove(PATH_TO_DELETE)
+
+    def search_lb_with_sitecode(self, SITE_ID):
+        """ Search LB With Site ID """
+
+        try:
+            self.click(LinkBudgetActivityLocator.is_available_lb(SITE_ID))
+        except NoSuchElementException as e:
+            print(f"Error Found ! Error details: {e}")
+            pass
+        except ElementClickInterceptedException as e:
+            print(f"Error Found ! Error details: {e}")
+            pass
+
+    def insert_site_code_1(self, SITE_ID):
+        try:
+            self.write(LinkBudgetActivityLocator.INSERT_SITE_CODE_1, SITE_ID)
+        except ElementClickInterceptedException as e:
+            print(f"Error Found ! Error details: {e}")
+        except NoSuchElementException as e:
+            print(f"Error Found ! Error details: {e}")
+        except Exception as e:
+            print(f"Error Found ! Error details: {e}")
+
+    def insert_site_code_2(self, SITE_ID):
+        try:
+            self.write(LinkBudgetActivityLocator.INSERT_SITE_CODE_2, SITE_ID)
+        except ElementClickInterceptedException as e:
+            print(f"Error Found ! Error details: {e}")
+        except NoSuchElementException as e:
+            print(f"Error Found ! Error details: {e}")
+        except Exception as e:
+            print(f"Error Found ! Error details: {e}")
+
+    def clear_site_code_1(self):
+
+        try:
+            element = self.find_element(*LinkBudgetActivityLocator.INSERT_SITE_CODE_1)
+            element.clear()
+        except NoSuchElementException as e:
+            print(f"Error Found ! Error details: {e}")
+        except ElementClickInterceptedException as e:
+            print(f"Error Found ! Error details: {e}")
+
+    def clear_site_code_2(self):
+
+        try:
+            element = self.find_element(*LinkBudgetActivityLocator.INSERT_SITE_CODE_2)
+            element.clear()
+        except NoSuchElementException as e:
+            print(f"Error Found ! Error details: {e}")
+        except ElementClickInterceptedException as e:
+            print(f"Error Found ! Error details: {e}")
+
+    def get_link_id(self):
+
+        try:
+            element = self.find_element(*LinkBudgetActivityLocator.LINK_ID)
+            value = element.get_attribute('value')
+            return value
+        except NoSuchElementException:
+            pass
+
+    def is_lb_found(self, site_id):
+
+        try:
+            return self.is_visible(LinkBudgetActivityLocator.LINK_ID)
+        except NoSuchElementException as e:
+            print(f"Not Found in Site 1:  {e}")
+        except TimeoutException as e:
+            print(f"Error Found in Site 1: {e}")
+            pass
+
+

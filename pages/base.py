@@ -19,7 +19,7 @@ class BasePage(object):
 
     def __init__(self, driver) -> NoReturn:
         self.driver = driver
-        self.timeout = 30
+        self.timeout = 10
 
     def find_element(self, *locator) -> webdriver:
         """ Find the element by the help of the locator that user shared """
@@ -70,11 +70,8 @@ class BasePage(object):
 
     def send_ctrl_plus_a(self, by_locator) -> NoReturn:
         """ Sends CTRL + A action to a page """
-        try:
-            WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
-            ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
-        except (TimeoutException, NoSuchElementException):
-            pass
+        WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
+        ActionChains(self.driver).key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
 
     def get_value_of_element(self, by_locator) -> str:
         """ Get the text value of a web element shared by a user """

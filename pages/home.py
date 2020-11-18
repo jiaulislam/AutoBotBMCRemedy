@@ -63,5 +63,5 @@ class HomePage(BasePage):
             home_icon = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
             self.click(home_icon)
-        except TimeoutException as error:
-            print(error)
+        except TimeoutException:
+            self.click(HomePageLocators.IT_HOME_BUTTON)

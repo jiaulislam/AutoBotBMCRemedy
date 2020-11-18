@@ -7,6 +7,7 @@ from utilities import make_data
 from utilities.static_data import StaticData
 from alive_progress import alive_bar
 
+
 class CancelChangeRequest(BasePage):
 
     def __init__(self, driver):
@@ -37,17 +38,18 @@ class CancelChangeRequest(BasePage):
                 if index is not None:
                     # select the change number after found
                     self.closeRequest.find_the_change_request(a_change, index)
-                    if not self.cancel_requests.is_change_request_opened():
-                        if not self.cancel_requests.is_cancelled():
-                            # Perform the user interactions to cancel
-                            self.cancel_requests.select_cancel()
-                            self.cancel_requests.save_status()
-                            bar()
-                            self.home_page.go_to_home()
+                    if not self.closeRequest.is_status_scheduled_for_approval():
+                        if not self.cancel_requests.is_change_request_opened():
+                            if not self.cancel_requests.is_cancelled():
+                                # Perform the user interactions to cancel
+                                self.cancel_requests.select_cancel()
+                                self.cancel_requests.save_status()
+                                bar()
+                                self.home_page.go_to_home()
+                            else:
+                                self.home_page.go_to_home()
+                                bar()
                         else:
                             self.home_page.go_to_home()
                             bar()
-                    else:
-                        self.home_page.go_to_home()
-                        bar()
         self.home_page.click_logout_button()

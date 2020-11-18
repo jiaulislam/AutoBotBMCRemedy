@@ -1,7 +1,7 @@
 import time
 
 from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterceptedException,
-                                        NoSuchElementException, NoSuchWindowException)
+                                        NoSuchElementException, NoSuchWindowException, TimeoutException)
 
 from pages.base import BasePage
 from utilities.locators import (RelationshipQueryLocators, CommonChangeCreateLocators,
@@ -23,13 +23,36 @@ class CreateRequests(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self.TNR_GROUP = ['Muhammad Shahed', 'Ripan Kumar', 'Sudipta Das']
-        self.ANR_GROUP = ['Faisal Mahmud Fuad', 'Sumon Kumar Biswas', 'Shahriar Mahbub', 'Md. Musfiqur  Rahman', 'Md. Rakibuzzaman', 'K.M Khairul Bashar']
+        self.TNR_GROUP = [
+            'Muhammad Shahed',
+            'Ripan Kumar',
+            'Sudipta Das'
+        ]
+        self.ANR_GROUP = [
+            'Faisal Mahmud Fuad',
+            'Sumon Kumar Biswas',
+            'Shahriar Mahbub',
+            'Md. Musfiqur  Rahman',
+            'Md. Rakibuzzaman',
+            'K.M Khairul Bashar'
+        ]
         self.__change_number = ""
 
-    def __set_change_number(self):
+    def set_change_number(self):
         """ Set the private variable of the class """
-        self.__change_number = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
+
+        while self.__change_number == "":
+            try:
+                self.__change_number = self.get_value_of_element(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
+            except NoSuchElementException:
+                raise
+
+    def reset_change_number(self):
+        """ Reset the Change Number Variable """
+        if self.__change_number == "":
+            pass
+        else:
+            self.__change_number = ""
 
     def __str__(self):
         """ Set the str of the object """
@@ -41,7 +64,7 @@ class CreateRequests(BasePage):
 
     def insert_text_summary(self, summary: str) -> None:
         """ Write the excel data into Summary section """
-        self.__set_change_number()
+        self.set_change_number()
         self.write(SummaryAndNotesBox.SUMMARY_TEXTBOX, summary)
 
     def insert_text_notes(self, notes: str) -> None:
@@ -84,7 +107,7 @@ class CreateRequests(BasePage):
             self.hover_over(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
             self.click(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
 
-    def select_change_manager(self, change_manager: str) -> None:
+    def select_change_manager(self, change_manager: str = self.TNR_GROUP[0]) -> None:
         """ Select the change manager shared by the user """
         self.click(ChangeManagerLocators.CHANGE_MANAGER_MENU_BTN)
 
@@ -227,7 +250,8 @@ class CreateRequests(BasePage):
     def __get_title_of_view_attachment_btn(self) -> bool:
 
         try:
-            if self.find_element(*WorkInfoAttachment.VIEW_ATTACHMENT_BUTTON).get_attribute("title") == StaticData.VIEW_ATTACHMENT_DEFAULT_STATE:
+            if self.find_element(*WorkInfoAttachment.VIEW_ATTACHMENT_BUTTON).get_attribute(
+                    "title") == StaticData.VIEW_ATTACHMENT_DEFAULT_STATE:
                 return True
             else:
                 return False
