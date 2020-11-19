@@ -68,4 +68,4 @@ class HomePage(BasePage):
                 ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
             self.click(home_icon)
         except TimeoutException:
-            self.click(HomePageLocators.IT_HOME_BUTTON)
+            pass

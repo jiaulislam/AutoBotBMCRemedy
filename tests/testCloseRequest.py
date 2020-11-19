@@ -35,36 +35,44 @@ class CloseChangeRequests(BasePage):
                     if index is not None:
                         # Select the change request shared by user
                         self.close_requests.find_the_change_request(a_change, index)
-                        if not self.close_requests.is_change_status_closed() and not self.close_requests.is_status_scheduled_for_approval():
+                        if not self.close_requests.is_change_status_closed():
                             # check if Change is opened
-                            actual_open_time = self.close_requests.get_actual_start_date()
-                            if actual_open_time is not None:
-                                # make closing time depending on Actual Open Time
-                                actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
-                                # Grab the current sys time
-                                current_sys_time = make_data.get_current_system_time()
-                                self.close_requests.goto_task_page()
-                                # Close the 2nd task
-                                self.close_requests.close_service_downtime_duration_task(actual_open_time,
-                                                                                        actual_closing_time)
-                                # Close the 3rd task
-                                self.close_requests.close_service_downtime_window_task(actual_open_time, current_sys_time)
-                                # Close the 4th task
-                                self.close_requests.close_system_downtime_duration_task(actual_open_time,
-                                                                                        actual_closing_time)
-                                # Go-to next stage of the change request
-                                # self.close_requests.goto_next_stage()
-                                # Go back to the home page
-                                print(f"Closed successfully --> {self.close_requests.get_change_number()}")
-                                self.home_page.go_to_home()
-                                bar()
+                            if not self.close_requests.is_status_scheduled_for_approval():
+                                # check if Change is Scheduled for approval
+                                actual_open_time = self.close_requests.get_actual_start_date()
+                                if actual_open_time is not None:
+                                    # make closing time depending on Actual Open Time
+                                    actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
+                                    # Grab the current sys time
+                                    current_sys_time = make_data.get_current_system_time()
+                                    self.close_requests.goto_task_page()
+                                    # Close the 2nd task
+                                    self.close_requests.close_service_downtime_duration_task(actual_open_time,
+                                                                                             actual_closing_time)
+                                    # Close the 3rd task
+                                    self.close_requests.close_service_downtime_window_task(actual_open_time,
+                                                                                           current_sys_time)
+                                    # Close the 4th task
+                                    self.close_requests.close_system_downtime_duration_task(actual_open_time,
+                                                                                            actual_closing_time)
+                                    # Go-to next stage of the change request
+                                    # self.close_requests.goto_next_stage()
+                                    # Go back to the home page
+                                    print(f"Closed successfully --> {self.close_requests.get_change_number()}")
+                                    self.home_page.go_to_home()
+                                    bar()
+                                else:
+                                    print(f"{self.close_requests.get_change_number()} is not Opened !")
+                                    self.close_requests.add_change_to_invalid_list(a_change)
+                                    self.home_page.go_to_home()
+                                    bar()
                             else:
-                                print(f"{self.close_requests.get_change_number()} is not Opened !")
+                                print(f"{self.close_requests.get_change_number()} is Scheduled for Approval")
                                 self.close_requests.add_change_to_invalid_list(a_change)
                                 self.home_page.go_to_home()
                                 bar()
                         else:
-                            print(f"{self.close_requests.get_change_number()} change already closed  or Not Scheduled!")
+                            print(f"{self.close_requests.get_change_number()} change already closed!")
                             self.home_page.go_to_home()
                             bar()
                     else:

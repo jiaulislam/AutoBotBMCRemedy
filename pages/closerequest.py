@@ -237,9 +237,7 @@ class CloseRequests(BasePage):
     def is_status_scheduled_for_approval(self):
         """ Check if the current status for CR is Scheduled for approval """
         status = self.get_value_of_element(CloseChangeLocators.CURRENT_CR_STATUS)
-
         if status == "Scheduled For Approval":
             return True
         else:
             return False
-

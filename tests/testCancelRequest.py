@@ -52,4 +52,7 @@ class CancelChangeRequest(BasePage):
                         else:
                             self.home_page.go_to_home()
                             bar()
+                    else:
+                        self.home_page.go_to_home()
+                        bar()
         self.home_page.click_logout_button()
