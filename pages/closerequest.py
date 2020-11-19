@@ -136,6 +136,7 @@ class CloseRequests(BasePage):
         else:
             print("WARN: Service Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
+            time.sleep(2)
 
     def close_service_downtime_window_task(self, actual_start_time: str, current_time_of_user: str) -> NoReturn:
         """
@@ -166,9 +167,11 @@ class CloseRequests(BasePage):
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
             self.__back_to_change_task_page()
+            time.sleep(2)
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
+            print("WARN: Service Downtime Window Task is closed already !")
             self.__back_to_change_task_page()
+            time.sleep(2)
 
     def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
         """
@@ -184,7 +187,8 @@ class CloseRequests(BasePage):
                     time.sleep(2)
                     self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
                 except TimeoutException:
-                    raise TimeoutError
+                    time.sleep(5)
+                    self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(TaskSectionLocators.SYSTEM_DOWNTIME_TASK))
@@ -194,8 +198,9 @@ class CloseRequests(BasePage):
             self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.__common_closing_activity(actual_start_time, actual_end_time)
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
+            print("WARN: System Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
+            time.sleep(2)
 
     def __common_closing_activity(self, start_time: str, end_time: str) -> NoReturn:
         """ Perform the common closing activity in the 3 task """
@@ -211,9 +216,11 @@ class CloseRequests(BasePage):
         self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
         try:
             self.__back_to_change_task_page()
+            time.sleep(2)
         except ElementClickInterceptedException:
             self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
             self.__back_to_change_task_page()
+            time.sleep(2)
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """
@@ -235,3 +242,4 @@ class CloseRequests(BasePage):
             return True
         else:
             return False
+

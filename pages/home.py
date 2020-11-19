@@ -33,7 +33,11 @@ class HomePage(BasePage):
 
     def click_logout_button(self) -> None:
         """ Click the Logout Button on home page """
-        self.click(HomePageLocators.LOGOUT_BUTTON)
+        try:
+            self.click(HomePageLocators.LOGOUT_BUTTON)
+        except ElementClickInterceptedException:
+            logout = WebDriverWait(self.driver, self.timeout).until(ec.presence_of_element_located(HomePageLocators.LOGOUT_BUTTON))
+            self.click(logout)
 
     def get_all_change_numbers(self) -> list:
         """ Get all the change number from the homepage table """

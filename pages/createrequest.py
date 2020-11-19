@@ -107,7 +107,7 @@ class CreateRequests(BasePage):
             self.hover_over(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
             self.click(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
 
-    def select_change_manager(self, change_manager: str = self.TNR_GROUP[0]) -> None:
+    def select_change_manager(self, change_manager: str) -> None:
         """ Select the change manager shared by the user """
         self.click(ChangeManagerLocators.CHANGE_MANAGER_MENU_BTN)
 

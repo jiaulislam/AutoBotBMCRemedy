@@ -1,3 +1,4 @@
+import time
 from typing import Iterable, NoReturn
 
 from selenium.common.exceptions import (NoSuchFrameException, NoSuchElementException,
@@ -19,7 +20,7 @@ class BasePage(object):
 
     def __init__(self, driver) -> NoReturn:
         self.driver = driver
-        self.timeout = 10
+        self.timeout = 30
 
     def find_element(self, *locator) -> webdriver:
         """ Find the element by the help of the locator that user shared """
@@ -94,3 +95,9 @@ class BasePage(object):
             self.click(by_locator)
         except NoSuchElementException as errno:
             print(errno)
+        except TimeoutException:
+            try:
+                time.sleep(1)
+                self.click(by_locator)
+            except TimeoutException as err:
+                print("Error Found ! Error --> {err}")
