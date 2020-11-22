@@ -1,9 +1,11 @@
-from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
+from selenium.common.exceptions import (
+    TimeoutException,
+    ElementClickInterceptedException
+)
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-
-from pages.base import BasePage
 from utilities.locators import HomePageLocators
+from pages.base import BasePage
 
 """
 This is the most important class file here. Home page will have the 

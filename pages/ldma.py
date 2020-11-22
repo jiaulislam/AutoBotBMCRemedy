@@ -2,16 +2,24 @@
 This module is to help with parsing the required information for a Link Budget
 developer : jiaul_islam
 """
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, TimeoutException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    ElementClickInterceptedException,
+    TimeoutException
+)
 
-from utilities.static_data import LDMAData
-from utilities.ldmalocators import LDMALoginLocators, LDMALogoutLocators, LinkBudgetActivityLocator
-from pages.base import BasePage
-import os
+from utilities.ldmalocators import (
+    LDMALoginLocators,
+    LDMALogoutLocators,
+    LinkBudgetActivityLocator
+)
 from utilities.terminal_colors import bcolors
+from utilities.static_data import LDMAData
+from pages.base import BasePage
+import win32com.client
 import shutil
 import pdfkit
-import win32com.client
+import os
 
 
 class ParseLinkBudget(BasePage):
@@ -174,20 +182,17 @@ class ParseLinkBudget(BasePage):
     def get_link_id(self):
 
         try:
-            element = self.find_element(*LinkBudgetActivityLocator.LINK_ID)
-            value = element.get_attribute('value')
-            return value
+            elements = self.find_elements(*LinkBudgetActivityLocator.SEARCH_RESULT)
+            return elements[-1].text
         except NoSuchElementException:
             pass
 
-    def is_lb_found(self, site_id):
+    def is_lb_found(self):
 
         try:
-            return self.is_visible(LinkBudgetActivityLocator.LINK_ID)
+            return self.is_visible(LinkBudgetActivityLocator.SEARCH_RESULT)
         except NoSuchElementException as e:
             print(f"Not Found in Site 1:  {e}")
         except TimeoutException as e:
             print(f"Error Found in Site 1: {e}")
             pass
-
-

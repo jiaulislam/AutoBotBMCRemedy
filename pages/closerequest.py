@@ -1,14 +1,23 @@
-import time
-from typing import NoReturn
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, \
-    ElementClickInterceptedException, TimeoutException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+    ElementClickInterceptedException,
+    TimeoutException
+)
+from utilities.locators import (
+    CloseChangeLocators,
+    CancelRequestLocators,
+    TaskSectionLocators,
+    DateSectionSelector,
+    CommonTaskDateLocators,
+    FrameBoxLocators
+)
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from pages.base import BasePage
-from utilities.locators import (CloseChangeLocators, CancelRequestLocators,
-                                TaskSectionLocators, DateSectionSelector,
-                                CommonTaskDateLocators, FrameBoxLocators)
-
+from typing import NoReturn
+import time
 """
 This class will help us to close the Change Request as per user requirement.
 it will inherit the base page class for the basic functionality.

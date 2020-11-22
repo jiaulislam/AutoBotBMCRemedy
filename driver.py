@@ -166,7 +166,6 @@ class ParseLB(Handler):
             site_ids = site_id.split(',')
             parse_info.login_ldma()
             parse_info.make_dir()
-            LINK_ID = ""
 
             with alive_bar(len(site_ids)) as bar:
                 for site in site_ids:
@@ -174,7 +173,7 @@ class ParseLB(Handler):
                     parse_info.select_all_dropdown()
                     parse_info.insert_site_code_1(site)
                     parse_info.click_search()
-                    if parse_info.is_lb_found(site):
+                    if parse_info.is_lb_found():
                         LINK_ID = parse_info.get_link_id()
                         parse_info.search_lb_with_sitecode(site)
                         parse_info.export_file(LINK_ID)
@@ -183,7 +182,7 @@ class ParseLB(Handler):
                     parse_info.clear_site_code_1()
                     parse_info.insert_site_code_2(site)
                     parse_info.click_search()
-                    if parse_info.is_lb_found(site):
+                    if parse_info.is_lb_found():
                         LINK_ID = parse_info.get_link_id()
                         parse_info.search_lb_with_sitecode(site)
                         parse_info.export_file(LINK_ID)

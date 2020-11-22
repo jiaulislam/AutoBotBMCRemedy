@@ -44,6 +44,7 @@ class CancelChangeRequest(BasePage):
                                 # Perform the user interactions to cancel
                                 self.cancel_requests.select_cancel()
                                 self.cancel_requests.save_status()
+                                print(f"{self.cancel_requests.get_cancelled_cr_number()} cancelled")
                                 bar()
                                 self.home_page.go_to_home()
                             else:

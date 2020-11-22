@@ -1,11 +1,18 @@
-from typing import NoReturn
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException
+)
+from utilities.locators import (
+    CancelRequestLocators,
+    CloseChangeLocators,
+    DateSectionSelector,
+    CommonChangeCreateLocators
+)
 
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-
+from selenium.webdriver.support.ui import WebDriverWait
 from pages.base import BasePage
-from utilities.locators import (CancelRequestLocators, CloseChangeLocators, DateSectionSelector)
+from typing import NoReturn
 
 """
 A class for Cancel the unused Change Requests. For cancelling a 
@@ -15,6 +22,7 @@ Request all the functions should be declared here
 
 class CancelRequests(BasePage):
     """ A class for mimicking the user interactions to cancel a Change Request """
+
     def __init__(self, driver):
         super().__init__(driver)
 
@@ -54,14 +62,18 @@ class CancelRequests(BasePage):
         except TimeoutException as error:
             print(error)
 
-    def is_scheduled_for_approval(self) -> bool:
-        """ Check if the given CR status is schedule for approval """
-        # TODO: Need to Implement
-        pass
-
     def save_status(self) -> NoReturn:
         """ Save the change status to cancelled """
         try:
             self.click(CancelRequestLocators.SAVE)
         except TimeoutException as error:
             print(error)
+
+    def get_cancelled_cr_number(self):
+        """ Get the Cancelled Changed Number """
+        change_number = ""
+        while change_number == "":
+            try:
+                return self.get_value_of_element(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
+            except NoSuchElementException:
+                raise Exception("Timed out.....")

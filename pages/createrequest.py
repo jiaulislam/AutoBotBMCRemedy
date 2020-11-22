@@ -1,17 +1,28 @@
-import time
+from selenium.common.exceptions import (
+    ElementClickInterceptedException,
+    NoSuchElementException,
+    NoSuchWindowException,
+    NoSuchFrameException
+)
 
-from selenium.common.exceptions import (NoSuchFrameException, ElementClickInterceptedException,
-                                        NoSuchElementException, NoSuchWindowException, TimeoutException)
-
-from pages.base import BasePage
-from utilities.locators import (RelationshipQueryLocators, CommonChangeCreateLocators,
-                                ChangeManagerLocators, LocationServiceLocators,
-                                TaskSectionLocators, WorkInfoAttachment,
-                                SummaryAndNotesBox, DateSectionSelector,
-                                CommonTaskDateLocators, HomePageLocators,
-                                SaveChangeLocators, FrameBoxLocators)
+from utilities.locators import (
+    CommonChangeCreateLocators,
+    RelationshipQueryLocators,
+    LocationServiceLocators,
+    CommonTaskDateLocators,
+    ChangeManagerLocators,
+    DateSectionSelector,
+    TaskSectionLocators,
+    SummaryAndNotesBox,
+    SaveChangeLocators,
+    WorkInfoAttachment,
+    HomePageLocators,
+    FrameBoxLocators
+)
 from utilities.static_data import StaticData
 from utilities.terminal_colors import bcolors
+from pages.base import BasePage
+import time
 
 """
 This Class will help to create a full new Change Request as per shared 
