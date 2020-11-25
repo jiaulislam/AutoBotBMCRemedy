@@ -242,11 +242,17 @@ class CreateRequests(BasePage):
 
     def save_change(self) -> None:
         """ Save the Change Request """
-        self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
+        try:
+            self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
+        except ElementClickInterceptedException:
+            self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
 
     def goto_next_stage(self) -> None:
         """ Take the Change request to the next stage """
-        self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
+        try:
+            self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
+        except ElementClickInterceptedException:
+            self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
 
     def go_back_to_homepage(self) -> None:
         """ Get Back to the Homepage """
@@ -320,8 +326,4 @@ class CreateRequests(BasePage):
                         pass
                     except NoSuchWindowException:
                         break
-        try:
-            self.driver.switch_to.window(parent_window)
-        except AttributeError:
-            print(f"{bcolors.UNDERLINE}{bcolors.WARNING}Hit on Attribute Error{bcolors.ENDC}")
-            pass
+        self.driver.switch_to.window(parent_window)

@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from utilities.static_data import StaticData
+from tests.testLDMA import import
 
 
 class Test_Base_Case(unittest.TestCase):
@@ -54,6 +54,16 @@ class Test_CreateChangeRequest(Test_Base_Case):
     def test_create_change(self):
         self.createChange = CreateChangeRequest(self.driver)
         self.createChange.test_create_change()
+
+
+class Test_LDMA_Parser(Test_Base_Case):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+
+    def test_ldma_parser(self):
+        pass
 
 
 if __name__ == "__main__":

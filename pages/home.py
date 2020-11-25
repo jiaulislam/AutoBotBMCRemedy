@@ -5,7 +5,9 @@ from selenium.common.exceptions import (
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from utilities.locators import HomePageLocators
+from utilities.terminal_colors import bcolors
 from pages.base import BasePage
+import traceback
 
 """
 This is the most important class file here. Home page will have the 
@@ -35,11 +37,8 @@ class HomePage(BasePage):
 
     def click_logout_button(self) -> None:
         """ Click the Logout Button on home page """
-        try:
-            self.click(HomePageLocators.LOGOUT_BUTTON)
-        except ElementClickInterceptedException:
-            logout = WebDriverWait(self.driver, self.timeout).until(ec.presence_of_element_located(HomePageLocators.LOGOUT_BUTTON))
-            self.click(logout)
+        self.click(HomePageLocators.LOGOUT_BUTTON)
+        print(f"{bcolors.OKGREEN}\nLogged out Successfully.\n{bcolors.ENDC}")
 
     def get_all_change_numbers(self) -> list:
         """ Get all the change number from the homepage table """

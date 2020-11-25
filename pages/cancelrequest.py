@@ -9,8 +9,8 @@ from utilities.locators import (
     CommonChangeCreateLocators
 )
 
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as ec
+# from selenium.webdriver.support.ui import WebDriverWait
 from pages.base import BasePage
 from typing import NoReturn
 
@@ -43,36 +43,29 @@ class CancelRequests(BasePage):
 
     def is_cancelled(self) -> bool:
         """ Checks if the Cancellation is successful or not """
-        try:
-            status_Value = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(CancelRequestLocators.STATUS_AREA)).get_attribute("value")
-            if status_Value == 'Cancelled':
-                return True
-            else:
-                return False
-        except TimeoutException as error:
-            print(error)
+
+        # status_Value = WebDriverWait(self.driver, self.timeout).until(
+        #     ec.visibility_of_element_located(CancelRequestLocators.STATUS_AREA)).get_attribute("value")
+        status_value = self.get_value_of_element(CancelRequestLocators.STATUS_AREA)
+        if status_value == 'Cancelled':
+            return True
+        else:
+            return False
 
     def select_cancel(self) -> NoReturn:
         """ select the Cancel Option from Status Menu """
-        try:
-            self.click(CancelRequestLocators.MENU_FOR_STATUS)
-            self.hover_over(CancelRequestLocators.CANCEL_OPTION_SELECT)
-            self.click(CancelRequestLocators.CANCEL_OPTION_SELECT)
-        except TimeoutException as error:
-            print(error)
+        self.click(CancelRequestLocators.MENU_FOR_STATUS)
+        self.hover_over(CancelRequestLocators.CANCEL_OPTION_SELECT)
+        self.click(CancelRequestLocators.CANCEL_OPTION_SELECT)
 
     def save_status(self) -> NoReturn:
         """ Save the change status to cancelled """
-        try:
-            self.click(CancelRequestLocators.SAVE)
-        except TimeoutException as error:
-            print(error)
+        self.click(CancelRequestLocators.SAVE)
 
     def get_cancelled_cr_number(self):
         """ Get the Cancelled Changed Number """
         change_number = ""
-        while change_number == "":
+        while change_number == "" or None:
             try:
                 return self.get_value_of_element(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:

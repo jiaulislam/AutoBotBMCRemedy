@@ -11,6 +11,7 @@ from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from utilities.static_data import StaticData, LDMAData
+from tests.testLDMA import LDMA_Parser
 from utilities.terminal_colors import bcolors
 
 """
@@ -118,6 +119,22 @@ class CancelChangeRequests(Handler, CancelChangeRequest):
         self.__cancelMyRequest.test_cancel_change()
 
 
+class ParserLDMA(Handler, LDMA_Parser):
+
+    __parser = None
+
+    @classmethod
+    def setUpDriver(cls):
+        super().setUpDriver()
+
+    def parse_ldma(self):
+        self.get_ldma_website()
+        self.__parser = LDMA_Parser(self.browser)
+        self.__parser.parse_link_budget()
+
+    pass
+
+
 class ParseLB(Handler):
     """ LinkBudget Parser """
 
@@ -125,15 +142,10 @@ class ParseLB(Handler):
     def setUpDriver(cls):
         super().setUpDriver()
 
-    def parse_link_budget(self):
-        print("Press 1 for parse with Link ID\nPress 2 for parse with Site ID\n")
-        choice = int(input())
-        if choice == 1:
-            LinkID = input("Enter LinkID: ")
-            print()
+    def parse_link_budget(self, link_ids: list = 0, site_ids: list = 0):
+        if len(link_ids) > 0:
             self.get_ldma_website()
             parse_info = ParseLinkBudget(self.browser)
-            link_ids = LinkID.split(",")
             parse_info.login_ldma()
             parse_info.make_dir()
             with alive_bar(len(link_ids)) as bar:
@@ -158,12 +170,9 @@ class ParseLB(Handler):
                     self.browser.quit()
                 except Exception as e:
                     print(e)
-        elif choice == 2:
-            # EXPERIMENTAL OPTION
-            site_id = input("Enter SiteID: ")
+        else:
             self.get_ldma_website()
             parse_info = ParseLinkBudget(self.browser)
-            site_ids = site_id.split(',')
             parse_info.login_ldma()
             parse_info.make_dir()
 
@@ -233,9 +242,22 @@ def main():
                 break
             elif choice == 4:
                 # Parse Link Budget from LDMA
-                parse = ParseLB()
-                parse.parse_link_budget()
-                parse.tearDownDriver()
+                print("==>Press 1 for parse with Link ID\n==>Press 2 for parse with Site ID\n")
+                choice = int(input("Press: "))
+                if choice == 1:
+                    LinkID = input("\nPlease Enter LinkID: ")
+                    link_ids = LinkID.split(",")
+                    parse = ParseLB()
+                    parse.parse_link_budget(link_ids=link_ids)
+                    parse.tearDownDriver()
+                elif choice == 2:
+                    site_id = input("\nPlease Enter SiteID: ")
+                    site_ids = site_id.split(',')
+                    parse = ParseLB()
+                    parse.parse_link_budget(site_ids=site_ids)
+                    parse.tearDownDriver()
+                else:
+                    print(f"Invalid input {choice}. Please use 1 or 2")
                 break
             elif choice == 5:
                 # Expedited CR
