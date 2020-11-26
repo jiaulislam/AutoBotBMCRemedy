@@ -67,7 +67,7 @@ class BasePage(object):
         try:
             element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
             element.click()
-            print('Clicked')
+
         except ElementClickInterceptedException:
             try:
                 WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
@@ -79,6 +79,7 @@ class BasePage(object):
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 71]"
                   f"\n{repr(error)}")
             pass
+
         except AttributeError as error:
             print(f"Unexpected Attribute Error [base.py || Line - 75]"
                   f"\n{repr(error)}")

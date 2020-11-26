@@ -1,3 +1,4 @@
+from alive_progress import alive_bar
 from selenium.common.exceptions import TimeoutException
 
 from pages.ldma import ParseLinkBudget
@@ -7,17 +8,16 @@ from utilities.terminal_colors import bcolors
 
 class LDMA_Parser(BasePage):
     """ LinkBudget Parser """
+
     def __init__(self, driver):
         super().__init__(driver)
 
-    def parse_link_budget(self, link_ids: list = 0, site_ids: list = 0):
-
-        if len(link_ids) > 0:
-            self.get_ldma_website()
-            parse_info = ParseLinkBudget(self.browser)
+    def parse_link_budget(self, link_ids: list = None, site_ids: list = None):
+        if link_ids is not None:
+            parse_info = ParseLinkBudget(self.driver)
             parse_info.login_ldma()
             parse_info.make_dir()
-            with alive_bar(len(link_ids)) as bar:
+            with alive_bar(len(list(link_ids))) as bar:
                 try:
                     for ID in link_ids:
                         parse_info.goto_links()
@@ -36,16 +36,15 @@ class LDMA_Parser(BasePage):
                         # parse_info.export_word_file(id) # Export As DOC
                         # parse_info.delete_html_file(id) # Delete the Exported HTML file
                     parse_info.logout_ldma()
-                    self.browser.quit()
+                    self.driver.quit()
                 except Exception as e:
                     print(e)
         else:
-            self.get_ldma_website()
-            parse_info = ParseLinkBudget(self.browser)
+            parse_info = ParseLinkBudget(self.driver)
             parse_info.login_ldma()
             parse_info.make_dir()
 
-            with alive_bar(len(site_ids)) as bar:
+            with alive_bar(len(list(site_ids))) as bar:
                 for site in site_ids:
                     parse_info.goto_links()
                     parse_info.select_all_dropdown()
@@ -70,4 +69,4 @@ class LDMA_Parser(BasePage):
                         print(f"{site} LB not closed.")
                         bar()
                 parse_info.logout_ldma()
-                self.browser.quit()
+                self.driver.quit()
