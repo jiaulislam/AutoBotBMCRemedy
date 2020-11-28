@@ -3,16 +3,16 @@ from selenium.common.exceptions import TimeoutException
 
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
-from utilities.terminal_colors import bcolors
+from Utilites.terminal_colors import bcolors
 
 
 class LDMA_Parser(BasePage):
     """ LinkBudget Parser """
-
     def __init__(self, driver):
         super().__init__(driver)
 
     def parse_link_budget(self, link_ids: list, site_ids: list):
+        """ Parse the Link Budget """
         if link_ids is not None:
             parse_info = ParseLinkBudget(self.driver)
             parse_info.login_ldma()

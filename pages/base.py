@@ -8,7 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
-from utilities.terminal_colors import bcolors
+from Utilites.terminal_colors import bcolors
 from typing import Iterable, NoReturn
 from selenium import webdriver
 import time
@@ -51,7 +51,8 @@ class BasePage(object):
     def is_visible(self, by_locator) -> bool:
         """ If the element is found in the Page then return True else False """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
+            element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(by_locator))
             return bool(element)
         except TimeoutException as error:
             print(f"Unexpected Timeout Error [base.py || Line - 56]"
@@ -65,14 +66,15 @@ class BasePage(object):
     def click(self, by_locator) -> NoReturn:
         """ Click a web element by a locator shared by the user """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
+            element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(by_locator))
             element.click()
 
         except ElementClickInterceptedException:
             try:
-                WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).click()
+                WebDriverWait(self.driver, self.timeout).until(
+                    ec.visibility_of_element_located(by_locator)).click()
             except ElementClickInterceptedException:
-                print(f"{bcolors.WARNING}ClickElementIntercepted ! [base.py || Line - 73]{bcolors.ENDC}")
                 pass
 
         except NoSuchElementException as error:
@@ -88,7 +90,8 @@ class BasePage(object):
     def write(self, by_locator, text) -> NoReturn:
         """ Write the text in web element by a locator shared by the user """
         try:
-            WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator)).send_keys(text)
+            WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(by_locator)).send_keys(text)
         except NoSuchElementException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 84]"
                   f"\nE{repr(error)}")
@@ -97,7 +100,8 @@ class BasePage(object):
     def hover_over(self, by_locator) -> NoReturn:
         """ Hover over the element shared by the user locator """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
+            element = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(by_locator))
             ActionChains(self.driver).move_to_element(element).perform()
         except NoSuchElementException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 94]"
@@ -111,7 +115,8 @@ class BasePage(object):
     def switch_to_frame(self, by_locator) -> NoReturn:
         """ Switch to a frame by a frame locator """
         try:
-            user_frame = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
+            user_frame = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(by_locator))
             self.driver.switch_to.frame(user_frame)
         except NoSuchFrameException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 109]"
@@ -123,7 +128,8 @@ class BasePage(object):
 
     def double_click(self, by_locator) -> NoReturn:
         """ Double click on a element by a locator """
-        element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(by_locator))
+        element = WebDriverWait(self.driver, self.timeout).until(
+            ec.visibility_of_element_located(by_locator))
         ActionChains(self.driver).double_click(element).perform()
 
     def send_ctrl_plus_a(self, by_locator) -> NoReturn:

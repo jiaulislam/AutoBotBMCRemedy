@@ -2,7 +2,7 @@ from selenium.common.exceptions import (
     TimeoutException,
     NoSuchElementException
 )
-from utilities.locators import (
+from Utilites.Locators import (
     CancelRequestLocators,
     CloseChangeLocators,
     DateSectionSelector,

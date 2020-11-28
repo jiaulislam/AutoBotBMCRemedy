@@ -5,7 +5,7 @@ from selenium.common.exceptions import (
     NoSuchFrameException
 )
 
-from utilities.locators import (
+from Utilites.Locators import (
     CommonChangeCreateLocators,
     RelationshipQueryLocators,
     LocationServiceLocators,
@@ -19,8 +19,8 @@ from utilities.locators import (
     HomePageLocators,
     FrameBoxLocators
 )
-from utilities.static_data import StaticData
-from utilities.terminal_colors import bcolors
+from Utilites.static_data import StaticData
+from Utilites.terminal_colors import bcolors
 from pages.base import BasePage
 import time
 
@@ -51,12 +51,12 @@ class CreateRequests(BasePage):
 
     def set_change_number(self):
         """ Set the private variable of the class """
-
         while self.__change_number == "":
             try:
-                self.__change_number = self.get_value_of_element(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
+                self.__change_number = self.get_value_of_element(
+                    CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:
-                raise
+                raise Exception("NoSuchElement Found in DOM.")
 
     def reset_change_number(self):
         """ Reset the Change Number Variable """
@@ -75,7 +75,6 @@ class CreateRequests(BasePage):
 
     def insert_text_summary(self, summary: str) -> None:
         """ Write the excel data into Summary section """
-        self.set_change_number()
         self.write(SummaryAndNotesBox.SUMMARY_TEXTBOX, summary)
 
     def insert_text_notes(self, notes: str) -> None:
@@ -141,7 +140,8 @@ class CreateRequests(BasePage):
         elif change_manager == self.ANR_GROUP[5]:
             self.click(ChangeManagerLocators.CHANGE_MANAGER_KHAIRUL)
         else:
-            raise ValueError("Manager Not Found !")
+            print(f"{bcolors.WARNING}Manager Not Found ! Using Default Manager: {self.TNR_GROUP[0]}{bcolors.ENDC}")
+            self.click(ChangeManagerLocators.CHANGE_MANAGER_SHAHED)
 
     def change_location(self, change_location_details: tuple) -> None:
         """ Change the location details of the change request """
@@ -161,9 +161,9 @@ class CreateRequests(BasePage):
                         # Switch to the new Child window
                         self.driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
-                        self.write(LocationServiceLocators.COMPANY_TEXTBOX, change_location_details[0])
-                        self.write(LocationServiceLocators.REGION_TEXTBOX, change_location_details[1])
-                        self.write(LocationServiceLocators.SITE_GROUP_TEXTBOX, change_location_details[2])
+                        # self.write(LocationServiceLocators.COMPANY_TEXTBOX, change_location_details[0])
+                        # self.write(LocationServiceLocators.REGION_TEXTBOX, change_location_details[1])
+                        # self.write(LocationServiceLocators.SITE_GROUP_TEXTBOX, change_location_details[2])
                         self.write(LocationServiceLocators.SITE_TEXTBOX, change_location_details[3])
                         self.click(LocationServiceLocators.SEARCH_LOCATION_BTN)
                         self.click(LocationServiceLocators.SELECT_LOCATION_BTN)
@@ -260,7 +260,8 @@ class CreateRequests(BasePage):
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
         except ElementClickInterceptedException:
             # for click intercepted a Warning Box is available on page. Need to handle that.
-            self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
+            self.check_for_expected_frame(
+                FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
             # after then go back to home page
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
 
@@ -317,7 +318,8 @@ class CreateRequests(BasePage):
                         while True:
                             try:
                                 # After relationship add a frame is to be expected. handle the frame
-                                self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
+                                self.check_for_expected_frame(
+                                    FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
                                 # break the parent to this block loop
                                 break
                             except NoSuchFrameException:

@@ -4,8 +4,8 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from utilities.locators import HomePageLocators
-from utilities.terminal_colors import bcolors
+from Utilites.Locators import HomePageLocators
+from Utilites.terminal_colors import bcolors
 from pages.base import BasePage
 import traceback
 

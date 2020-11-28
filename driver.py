@@ -7,9 +7,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from utilities.static_data import StaticData, LDMAData
+from Utilites.static_data import StaticData, LDMAData
 from tests.testLDMA import LDMA_Parser
-from utilities.terminal_colors import bcolors
+from Utilites.terminal_colors import bcolors
 
 """
 Module Name: driver.py

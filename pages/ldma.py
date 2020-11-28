@@ -8,13 +8,13 @@ from selenium.common.exceptions import (
     TimeoutException
 )
 
-from utilities.ldmalocators import (
+from Utilites.ldmalocators import (
     LDMALoginLocators,
     LDMALogoutLocators,
     LinkBudgetActivityLocator
 )
-from utilities.terminal_colors import bcolors
-from utilities.static_data import LDMAData
+from Utilites.terminal_colors import bcolors
+from Utilites.static_data import LDMAData
 from pages.base import BasePage
 import win32com.client
 import shutil

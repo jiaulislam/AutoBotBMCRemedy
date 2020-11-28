@@ -2,8 +2,8 @@ from pages.base import BasePage
 from pages.closerequest import CloseRequests
 from pages.home import HomePage
 from pages.login import LoginPage
-from utilities import make_data
-from utilities.static_data import StaticData
+from Utilites import make_data
+from Utilites.static_data import StaticData
 from alive_progress import alive_bar
 
 

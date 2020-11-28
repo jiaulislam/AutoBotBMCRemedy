@@ -5,10 +5,10 @@ from pages.base import BasePage
 from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
-from utilities import make_data
-from utilities.data_export import Data_Export
-from utilities.read_excel_data import Read_Data
-from utilities.static_data import StaticData
+from Utilites import make_data
+from Utilites.data_export import Data_Export
+from Utilites.read_excel_data import Read_Data
+from Utilites.static_data import StaticData
 from alive_progress import alive_bar
 
 
@@ -72,7 +72,6 @@ class CreateChangeRequest(BasePage):
                 self.createChangeRequest.insert_text_notes(notes)
                 self.createChangeRequest.insert_impact_list_in_notes(impact_list)
                 change_number = self.createChangeRequest.get_change_number()
-                print(f"Working On NCR: {change_number}")
                 self.createChangeRequest.select_manager_group(change_manager)
                 self.createChangeRequest.select_change_manager(change_manager)
                 self.createChangeRequest.insert_text_note_and_upload_files(notes, file_location)
@@ -124,6 +123,7 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.go_back_to_homepage()
                     os.chdir(self.path)
                     bar()
+                    print(f"NCR Created: {change_number}")
                     self.createChangeRequest.reset_change_number()
                 else:
                     # ----------------------------------------------------------
