@@ -28,7 +28,7 @@ class BasePage(object):
 
     def __init__(self, driver) -> NoReturn:
         self.driver = driver
-        self.timeout = 25
+        self.timeout = 30
 
     def find_element(self, *locator) -> webdriver:
         """ Find the element by the help of the locator that user shared """

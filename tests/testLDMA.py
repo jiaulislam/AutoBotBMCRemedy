@@ -12,7 +12,7 @@ class LDMA_Parser(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def parse_link_budget(self, link_ids: list = None, site_ids: list = None):
+    def parse_link_budget(self, link_ids: list, site_ids: list):
         if link_ids is not None:
             parse_info = ParseLinkBudget(self.driver)
             parse_info.login_ldma()

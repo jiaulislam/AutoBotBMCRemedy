@@ -1,12 +1,9 @@
 import os
 
-from alive_progress import alive_bar
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-from pages.ldma import ParseLinkBudget
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
@@ -127,7 +124,7 @@ class ParserLDMA(Handler, LDMA_Parser):
     def setUpDriver(cls):
         super().setUpDriver()
 
-    def test_parse_ldma(self, link_ids: list = 0, site_ids: list = 0):
+    def test_parse_ldma(self, link_ids: list = None, site_ids: list = None):
         self.get_ldma_website()
         self.__parser = LDMA_Parser(self.browser)
         self.__parser.parse_link_budget(link_ids, site_ids)
