@@ -17,7 +17,7 @@ class LDMA_Parser(BasePage):
             parse_info = ParseLinkBudget(self.driver)
             parse_info.login_ldma()
             parse_info.make_dir()
-            with alive_bar(len(list(link_ids))) as bar:
+            with alive_bar(len(link_ids)) as bar:
                 try:
                     for ID in link_ids:
                         parse_info.goto_links()
@@ -44,7 +44,7 @@ class LDMA_Parser(BasePage):
             parse_info.login_ldma()
             parse_info.make_dir()
 
-            with alive_bar(len(list(site_ids))) as bar:
+            with alive_bar(len(site_ids)) as bar:
                 for site in site_ids:
                     parse_info.goto_links()
                     parse_info.select_all_dropdown()
