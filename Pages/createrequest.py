@@ -21,7 +21,7 @@ from Utilites.Locators import (
 )
 from Utilites.static_data import StaticData
 from Utilites.terminal_colors import bcolors
-from pages.base import BasePage
+from Pages.base import BasePage
 import time
 
 """
@@ -56,7 +56,7 @@ class CreateRequests(BasePage):
                 self.__change_number = self.get_value_of_element(
                     CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:
-                raise Exception("NoSuchElement Found in DOM.")
+                raise Exception("NoSuchElement Found in the DOM.")
 
     def reset_change_number(self):
         """ Reset the Change Number Variable """
@@ -288,6 +288,15 @@ class CreateRequests(BasePage):
                 self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
                 break
         self.driver.switch_to.window(parent_window)
+
+    def verify_summary(self, summary: str):
+        """ Verify if the Summary Box is empty or not """
+        contents = self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).get_attribute('value').strip()
+
+        if contents == "" and len(contents):
+            self.insert_text_summary(summary)
+        else:
+            pass
 
     def add_relationship_to_change(self, relationship_query_formula: str) -> None:
         """ Add the relationship to the Change request if the Change is a Service Effective Change """

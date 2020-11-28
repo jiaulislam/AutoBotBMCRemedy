@@ -16,7 +16,7 @@ import time
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
 BasePage class. Some most common method is written here that we're gonna need 
-all over the project/pages to work with.
+all over the project/Pages to work with.
 '''
 
 
@@ -36,7 +36,10 @@ class BasePage(object):
             return self.driver.find_element(*locator)
         except TypeError as error:
             print(f"Unexpected Type Error [base.py || Line - 37]"
-                  f"\nError Code: {error}")
+                  f"\n{repr(error)}")
+            pass
+        except AttributeError as error:
+            print(f"Unexpected Attribute Error in find_element() ||\n{repr(error)}")
             pass
 
     def find_elements(self, *locator) -> Iterable:
@@ -46,6 +49,9 @@ class BasePage(object):
         except TypeError as error:
             print(f"Unexpected Value Error [base.py || Line - 47]"
                   f"\n{repr(error)}")
+            pass
+        except AttributeError as error:
+            print(f"Unexpected Attribute Error in find_element() ||\n{repr(error)}")
             pass
 
     def is_visible(self, by_locator) -> bool:
@@ -66,21 +72,28 @@ class BasePage(object):
     def click(self, by_locator) -> NoReturn:
         """ Click a web element by a locator shared by the user """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(by_locator))
+            element = WebDriverWait(driver=self.driver,
+                                    timeout=self.timeout,
+                                    poll_frequency=1,
+                                    ignored_exceptions=NoSuchElementException
+                                    ).until(ec.visibility_of_element_located(by_locator))
             element.click()
 
         except ElementClickInterceptedException:
             try:
-                WebDriverWait(self.driver, self.timeout).until(
-                    ec.visibility_of_element_located(by_locator)).click()
-            except ElementClickInterceptedException:
-                pass
+                WebDriverWait(self.driver,
+                              self.timeout,
+                              poll_frequency=3,
+                              ignored_exceptions=[ElementClickInterceptedException,
+                                                  NoSuchElementException]
+                              ).until(ec.visibility_of_element_located(by_locator)).click()
+            except Exception as error:
+                raise Exception(f"Unexpected exception | {repr(error)}")
 
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 71]"
-                  f"\n{repr(error)}")
-            pass
+        # except NoSuchElementException as error:
+        #     print(f"Unexpected NoSuchElementException Error [base.py || Line - 71]"
+        #           f"\n{repr(error)}")
+        #     pass
 
         except AttributeError as error:
             print(f"Unexpected Attribute Error [base.py || Line - 75]"
@@ -105,7 +118,7 @@ class BasePage(object):
             ActionChains(self.driver).move_to_element(element).perform()
         except NoSuchElementException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 94]"
-                  f"\nError Code: {error}")
+                  f"\n{repr(error)}")
             pass
         except TimeoutException as error:
             print(f"Unexpected Timeout Error [base.py || Line - 98]"
@@ -128,7 +141,7 @@ class BasePage(object):
 
     def double_click(self, by_locator) -> NoReturn:
         """ Double click on a element by a locator """
-        element = WebDriverWait(self.driver, self.timeout).until(
+        element = WebDriverWait(self.driver, self.timeout, 2).until(
             ec.visibility_of_element_located(by_locator))
         ActionChains(self.driver).double_click(element).perform()
 
@@ -147,7 +160,7 @@ class BasePage(object):
             pass
         except TimeoutException as error:
             print(f"Unexpected Timeout Error [base.py || Line - 135]"
-                  f"\nError Code: {error}")
+                  f"\n{repr(error)}")
             pass
 
     def get_value_of_element(self, by_locator) -> str:

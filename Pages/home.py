@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from Utilites.Locators import HomePageLocators
 from Utilites.terminal_colors import bcolors
-from pages.base import BasePage
+from Pages.base import BasePage
 import traceback
 
 """

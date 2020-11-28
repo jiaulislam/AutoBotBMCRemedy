@@ -15,7 +15,7 @@ from Utilites.Locators import (
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from pages.base import BasePage
+from Pages.base import BasePage
 from typing import NoReturn
 import time
 """

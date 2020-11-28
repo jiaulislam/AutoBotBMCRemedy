@@ -1,4 +1,4 @@
-from pages.base import BasePage
+from Pages.base import BasePage
 from Utilites.Locators import LoginPageLocators
 from Utilites.static_data import StaticData
 

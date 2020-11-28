@@ -1,15 +1,17 @@
 import os
 import time
 
-from pages.base import BasePage
-from pages.createrequest import CreateRequests
-from pages.home import HomePage
-from pages.login import LoginPage
+from Pages.base import BasePage
+from Pages.createrequest import CreateRequests
+from Pages.home import HomePage
+from Pages.login import LoginPage
 from Utilites import make_data
 from Utilites.data_export import Data_Export
 from Utilites.read_excel_data import Read_Data
 from Utilites.static_data import StaticData
 from alive_progress import alive_bar
+
+from Utilites.terminal_colors import bcolors
 
 
 class CreateChangeRequest(BasePage):
@@ -59,7 +61,6 @@ class CreateChangeRequest(BasePage):
                 end_downtime = make_data.get_service_end_downtime(start_downtime, duration)
                 activity_hour = make_data.get_change_close_start_time(m_date)
                 cr_end_time = make_data.get_change_close_end_time(m_date)
-                # relation_query = None
                 # ------------------------------END----------------------------- #
 
                 # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
@@ -88,6 +89,7 @@ class CreateChangeRequest(BasePage):
                 self.createChangeRequest.fill_system_downtime_duration_task(start_downtime, end_downtime)
                 self.createChangeRequest.fill_review_closure_task(
                     activity_hour, cr_end_time)
+                self.createChangeRequest.verify_summary(summary)
                 # ---------------------------------- END -------------------------------------------- #
 
                 # ---------------------------Data_Export: Export all the data ------------------ #
@@ -123,7 +125,7 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.go_back_to_homepage()
                     os.chdir(self.path)
                     bar()
-                    print(f"NCR Created: {change_number}")
+                    print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.reset_change_number()
                 else:
                     # ----------------------------------------------------------

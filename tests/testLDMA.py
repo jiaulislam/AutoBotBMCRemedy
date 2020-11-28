@@ -1,8 +1,8 @@
 from alive_progress import alive_bar
 from selenium.common.exceptions import TimeoutException
 
-from pages.ldma import ParseLinkBudget
-from pages.base import BasePage
+from Pages.ldma import ParseLinkBudget
+from Pages.base import BasePage
 from Utilites.terminal_colors import bcolors
 
 
