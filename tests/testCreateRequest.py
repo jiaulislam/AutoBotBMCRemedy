@@ -106,10 +106,7 @@ class CreateChangeRequest(BasePage):
                 self.export_data.insert_change_manager(change, change_manager)
                 self.export_data.save_workbook(StaticData.WRITE_EXCEL_FILE)
                 # ---------------------------- END -------------------------------------------------- #
-                # self.createChangeRequest.goto_next_stage()
-                # # self.createChangeRequest.save_change()
-                # self.createChangeRequest.go_back_to_homepage()
-                # os.chdir(self.path)
+
                 # Save and go back to home page, need to tag site if service effective cr
                 if service_type == 'Service Effective':
                     query_formula = make_data.make_query_string(impact_sites)
@@ -124,7 +121,6 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.goto_next_stage()
                     print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.go_back_to_homepage()
-                    # self.homePage.go_to_home()
                     os.chdir(self.path)
                     bar()
                     self.createChangeRequest.reset_change_number()
@@ -139,7 +135,6 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.goto_next_stage()
                     print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.go_back_to_homepage()
-                    # self.homePage.go_to_home()
                     os.chdir(self.path)
                     bar()
                     self.createChangeRequest.reset_change_number()

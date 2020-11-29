@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from Utilites.Locators import HomePageLocators
 from Utilites.terminal_colors import bcolors
 from Pages.base import BasePage
-import time
 
 """
 This is the most important class file here. Home page will have the 
@@ -59,29 +58,3 @@ class HomePage(BasePage):
                 table_of_change_numbers.append(change.text)
 
         return table_of_change_numbers
-
-    def go_to_home(self):
-        """ Return back to IT HOME """
-        try:
-            home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
-                ec.element_to_be_clickable(HomePageLocators.HOME_ICON_BTN))
-            self.click(home_icon)
-            # get_state = "document.readyState"
-            # status = self.driver.execute_script(get_state)
-            # print(status)
-            # while status != 'complete':
-            #     home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3.5).until(
-            #         ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
-            #     self.click(home_icon)
-            #     print("working")
-        # except ElementClickInterceptedException:
-        #     home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
-        #         ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
-        #     self.click(home_icon)
-        except TimeoutException:
-            pass
-        except ElementClickInterceptedException:
-            time.sleep(10)
-            home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
-                ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
-            self.click(home_icon)
