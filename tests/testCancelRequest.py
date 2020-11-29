@@ -1,6 +1,7 @@
 from Pages.base import BasePage
 from Pages.cancelrequest import CancelRequests
 from Pages.closerequest import CloseRequests
+from Pages.createrequest import CreateRequests
 from Pages.home import HomePage
 from Pages.login import LoginPage
 from Utilites import make_data
@@ -17,6 +18,7 @@ class CancelChangeRequest(BasePage):
         self.home_page = HomePage(self.login_page.driver)
         self.closeRequest = CloseRequests(self.home_page.driver)
         self.cancel_requests = CancelRequests(self.closeRequest.driver)
+        self.create_requests = CreateRequests(self.closeRequest.driver)
 
     def test_cancel_change(self):
         """ All the functionalities in one function to mimic a user interactions to cancel a Change Request"""
@@ -49,21 +51,21 @@ class CancelChangeRequest(BasePage):
                                     print(f"{bcolors.OKGREEN}===>STAT: CANCELLED ===> "
                                           f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
                                     bar()
-                                    self.home_page.go_to_home()
+                                    self.create_requests.go_back_to_homepage()
                                 else:
                                     print(f"{bcolors.OKGREEN}===>STAT: ALREADY CANCELLED ===> "
                                           f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
-                                    self.home_page.go_to_home()
+                                    self.create_requests.go_back_to_homepage()
                                     bar()
                             else:
                                 print(f"{bcolors.FAIL}===>STAT: ALREADY OPENED ===> "
                                       f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
-                                self.home_page.go_to_home()
+                                self.create_requests.go_back_to_homepage()
                                 bar()
                         else:
                             print(f"{bcolors.OKCYAN}===>STAT: SCHEDULED FOR APPROVAL ===> "
                                   f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
-                            self.home_page.go_to_home()
+                            self.create_requests.go_back_to_homepage()
                             bar()
                     else:
                         print(f"{bcolors.OKBLUE}===>STAT: CLOSED OR COMPLETED ===> "

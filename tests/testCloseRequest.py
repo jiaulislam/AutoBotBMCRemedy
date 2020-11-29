@@ -1,5 +1,6 @@
 from Pages.base import BasePage
 from Pages.closerequest import CloseRequests
+from Pages.createrequest import CreateRequests
 from Pages.home import HomePage
 from Pages.login import LoginPage
 from Utilites import make_data
@@ -14,6 +15,7 @@ class CloseChangeRequests(BasePage):
         self.login_page = LoginPage(self.driver)
         self.home_page = HomePage(self.driver)
         self.close_requests = CloseRequests(self.driver)
+        self.create_requests = CreateRequests(self.close_requests.driver)
 
     def test_close_requests(self):
         # Login to the Page
@@ -59,21 +61,21 @@ class CloseChangeRequests(BasePage):
                                     # self.close_requests.goto_next_stage()
                                     # Go back to the home page
                                     print(f"Closed successfully --> {self.close_requests.get_change_number()}")
-                                    self.home_page.go_to_home()
+                                    self.create_requests.go_back_to_homepage()
                                     bar()
                                 else:
                                     print(f"{self.close_requests.get_change_number()} is not Opened !")
                                     self.close_requests.add_change_to_invalid_list(a_change)
-                                    self.home_page.go_to_home()
+                                    self.create_requests.go_back_to_homepage()
                                     bar()
                             else:
                                 print(f"{self.close_requests.get_change_number()} is Scheduled for Approval")
                                 self.close_requests.add_change_to_invalid_list(a_change)
-                                self.home_page.go_to_home()
+                                self.create_requests.go_back_to_homepage()
                                 bar()
                         else:
                             print(f"{self.close_requests.get_change_number()} change already closed!")
-                            self.home_page.go_to_home()
+                            self.create_requests.go_back_to_homepage()
                             bar()
                     else:
                         print(f"{a_change} change not found !")

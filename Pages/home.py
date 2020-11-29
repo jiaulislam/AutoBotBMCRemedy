@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from Utilites.Locators import HomePageLocators
 from Utilites.terminal_colors import bcolors
 from Pages.base import BasePage
-import traceback
+import time
 
 """
 This is the most important class file here. Home page will have the 
@@ -27,7 +27,10 @@ class HomePage(BasePage):
 
     def click_application_btn(self) -> None:
         """ Click the Application Button on Home Page """
-        self.click(HomePageLocators.APPLICATION_BUTTON)
+        try:
+            self.click(HomePageLocators.APPLICATION_BUTTON)
+        except ElementClickInterceptedException:
+            self.click(HomePageLocators.APPLICATION_BUTTON)
 
     def click_new_change(self) -> None:
         """ Find and Click the New Change Menu Button """
@@ -60,13 +63,25 @@ class HomePage(BasePage):
     def go_to_home(self):
         """ Return back to IT HOME """
         try:
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
-            javascript = "document.getElementById('reg_img_304248660').click();"
-            self.driver.execute_script(javascript)
-        except ElementClickInterceptedException:
-            home_icon = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
+            home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
+                ec.element_to_be_clickable(HomePageLocators.HOME_ICON_BTN))
             self.click(home_icon)
+            # get_state = "document.readyState"
+            # status = self.driver.execute_script(get_state)
+            # print(status)
+            # while status != 'complete':
+            #     home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3.5).until(
+            #         ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
+            #     self.click(home_icon)
+            #     print("working")
+        # except ElementClickInterceptedException:
+        #     home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
+        #         ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
+        #     self.click(home_icon)
         except TimeoutException:
             pass
+        except ElementClickInterceptedException:
+            time.sleep(10)
+            home_icon = WebDriverWait(driver=self.driver, timeout=self.timeout, poll_frequency=3).until(
+                ec.visibility_of_element_located(HomePageLocators.HOME_ICON_BTN))
+            self.click(home_icon)

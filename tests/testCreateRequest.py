@@ -64,9 +64,9 @@ class CreateChangeRequest(BasePage):
                 # ------------------------------END----------------------------- #
 
                 # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
+                # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                 self.homePage.click_application_btn()
                 self.homePage.click_new_change()
-                # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                 time.sleep(3)
                 self.createChangeRequest.insert_text_summary(summary)
                 self.createChangeRequest.set_change_number()
@@ -104,7 +104,7 @@ class CreateChangeRequest(BasePage):
                 self.export_data.insert_commercial_zone(change, commercial_zone)
                 self.export_data.insert_change_number(change, change_number)
                 self.export_data.insert_change_manager(change, change_manager)
-                self.export_data.save_workbook(self.createChangeRequest, StaticData.WRITE_EXCEL_FILE)
+                self.export_data.save_workbook(StaticData.WRITE_EXCEL_FILE)
                 # ---------------------------- END -------------------------------------------------- #
                 # self.createChangeRequest.goto_next_stage()
                 # # self.createChangeRequest.save_change()
@@ -122,10 +122,11 @@ class CreateChangeRequest(BasePage):
                     # self.createChangeRequest.save_change()
                     # ---------------------------------------------------------
                     self.createChangeRequest.goto_next_stage()
+                    print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.go_back_to_homepage()
+                    # self.homePage.go_to_home()
                     os.chdir(self.path)
                     bar()
-                    print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.reset_change_number()
                 else:
                     # ----------------------------------------------------------
@@ -136,7 +137,9 @@ class CreateChangeRequest(BasePage):
                     # self.createChangeRequest.save_change()
                     # ----------------------------------------------------------
                     self.createChangeRequest.goto_next_stage()
+                    print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                     self.createChangeRequest.go_back_to_homepage()
+                    # self.homePage.go_to_home()
                     os.chdir(self.path)
                     bar()
                     self.createChangeRequest.reset_change_number()

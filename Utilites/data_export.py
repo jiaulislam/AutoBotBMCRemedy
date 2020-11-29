@@ -2,6 +2,7 @@ import datetime
 import sys
 
 import openpyxl
+from .terminal_colors import bcolors
 
 """
 This class is for exporting the all the important information
@@ -80,15 +81,15 @@ class Data_Export:
         """ insert the change manager in the excel file """
         self._sheet['L' + str(index)] = change_manager
 
-    def save_workbook(self, driver, file_path):
+    def save_workbook(self, file_path):
         """ Save the workbook """
         try:
             self._change_list_excel.save(file_path)
         except PermissionError:
-            print("WARN: File is in already use by user. Please close the file first ! Work won't be saved.")
-            driver.logout()
-            driver.quit()
-            sys.exit()
+            print(f"{bcolors.FAIL}WARN: File is in already use by user. "
+                  f"Please close the file first ! Work won't be saved.{bcolors.ENDC}")
+            input(f"{bcolors.UNDERLINE}Quit from the Excel, And Press Enter :{bcolors.ENDC}")
+            self._change_list_excel.save(file_path)
 
     def close_workbook(self):
         """ Close the workbook """

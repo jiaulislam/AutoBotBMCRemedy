@@ -28,7 +28,7 @@ class BasePage(object):
 
     def __init__(self, driver) -> NoReturn:
         self.driver = driver
-        self.timeout = 30
+        self.timeout = 60
 
     def find_element(self, *locator) -> webdriver:
         """ Find the element by the help of the locator that user shared """
@@ -72,27 +72,12 @@ class BasePage(object):
     def click(self, by_locator) -> NoReturn:
         """ Click a web element by a locator shared by the user """
         try:
-            element = WebDriverWait(driver=self.driver,
-                                    timeout=self.timeout,
-                                    poll_frequency=1,
-                                    ignored_exceptions=NoSuchElementException
-                                    ).until(ec.visibility_of_element_located(by_locator))
-            element.click()
-
-        except ElementClickInterceptedException:
-            try:
-                WebDriverWait(self.driver,
-                              self.timeout,
-                              poll_frequency=3,
-                              ignored_exceptions=[ElementClickInterceptedException,
-                                                  NoSuchElementException]
-                              ).until(ec.visibility_of_element_located(by_locator)).click()
-            except Exception as error:
-                raise Exception(f"Unexpected exception | {repr(error)}")
-
-        # except NoSuchElementException as error:
-        #     print(f"Unexpected NoSuchElementException Error [base.py || Line - 71]"
-        #           f"\n{repr(error)}")
+            WebDriverWait(driver=self.driver,
+                          timeout=self.timeout,
+                          poll_frequency=1,
+                          ignored_exceptions=[NoSuchElementException, ElementClickInterceptedException]
+                          ).until(ec.visibility_of_element_located(by_locator)).click()
+        # except ElementClickInterceptedException:
         #     pass
 
         except AttributeError as error:
