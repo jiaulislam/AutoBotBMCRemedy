@@ -163,9 +163,6 @@ class CreateRequests(BasePage):
                         # Switch to the new Child window
                         self.driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
-                        # self.write(LocationServiceLocators.COMPANY_TEXTBOX, change_location_details[0])
-                        # self.write(LocationServiceLocators.REGION_TEXTBOX, change_location_details[1])
-                        # self.write(LocationServiceLocators.SITE_GROUP_TEXTBOX, change_location_details[2])
                         self.write(LocationServiceLocators.SITE_TEXTBOX, change_location_details[3])
                         self.click(LocationServiceLocators.SEARCH_LOCATION_BTN)
                         self.click(LocationServiceLocators.SELECT_LOCATION_BTN)
@@ -342,7 +339,7 @@ class CreateRequests(BasePage):
         self.driver.switch_to.window(parent_window)
 
     def is_home_page(self, validating_text: str = "IT HOME"):
-
+        """ Verify if the current page is loaded and it's home page """
         self.__verify_change()
 
         page_txt = None
@@ -357,7 +354,7 @@ class CreateRequests(BasePage):
             return False
 
     def __verify_change(self):
-
+        """ Check the Change Number from current & previous. Need to meet the condition must """
         value = None
 
         try:

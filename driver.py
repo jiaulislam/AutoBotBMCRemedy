@@ -8,7 +8,7 @@ from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from Utilites.static_data import StaticData, LDMAData
-from tests.testLDMA import LDMA_Parser
+from tests.testLinkBudgetParser import LDMA_Parser
 from Utilites.terminal_colors import bcolors
 
 """
@@ -171,7 +171,9 @@ def main():
                 while True:
                     try:
                         print(
-                            "==>Press 1 for parse with Link ID\n==>Press 2 for parse with Site ID\n==>Press 3 for go-back\n")
+                            "==>Press 1 for parse with Link ID\n"
+                            "==>Press 2 for parse with Site ID\n"
+                            "\==>Press 3 for go-back\n")
                         choice = int(input("Press: "))
                         if choice == 1:
                             LinkID = input("\nPlease Enter LinkID: ")
