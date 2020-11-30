@@ -13,6 +13,7 @@ from Utilites.ldmalocators import (
     LDMALogoutLocators,
     LinkBudgetActivityLocator
 )
+from selenium import webdriver
 from Utilites.terminal_colors import bcolors
 from Utilites.static_data import LDMAData
 from Pages.base import BasePage
@@ -24,8 +25,9 @@ import os
 
 class ParseLinkBudget(BasePage):
     """ Login to the LDMA """
-    def __init__(self, driver):
-        super().__init__(driver)
+
+    def __init__(self, driver: webdriver, timeout: int):
+        super().__init__(driver=driver, timeout=timeout)
         self.username = LDMAData.LDMA_USERNAME
         self.password = LDMAData.LDMA_PASSWORD
         self.SITE_A = None
@@ -40,6 +42,7 @@ class ParseLinkBudget(BasePage):
     def logout_ldma(self):
         """ Logout from LDMA """
         self.click(LDMALogoutLocators.LOGOUT_BTN)
+        print(f"{bcolors.OKGREEN} Browser Closed & Logged Out Successfully.{bcolors.ENDC}")
 
     def goto_links(self):
         """ Goto action Link -> Links """
@@ -76,20 +79,26 @@ class ParseLinkBudget(BasePage):
         if os.path.exists(os.getcwd() + '/LinkBudget'):
             shutil.rmtree('LinkBudget')
             os.mkdir('LinkBudget')
-            os.chdir(os.getcwd()+"/LinkBudget")
+            os.chdir(os.getcwd() + "/LinkBudget")
         else:
             os.mkdir('LinkBudget')
-            os.chdir(os.getcwd()+"/LinkBudget")
+            os.chdir(os.getcwd() + "/LinkBudget")
 
     def __set_site_A(self):
         """ Set the Site-A Code """
-        SITE_A = self.find_element(*LinkBudgetActivityLocator.SITE_ID_1)
-        self.SITE_A = SITE_A.get_attribute("value")
+        try:
+            SITE_A = self.find_element(*LinkBudgetActivityLocator.SITE_ID_1)
+            self.SITE_A = SITE_A.get_attribute("value")
+        except AttributeError:
+            pass
 
     def __set_site_B(self):
         """ Set the Site-B Code """
-        SITE_B = self.find_element(*LinkBudgetActivityLocator.SITE_ID_2)
-        self.SITE_B = SITE_B.get_attribute("value")
+        try:
+            SITE_B = self.find_element(*LinkBudgetActivityLocator.SITE_ID_2)
+            self.SITE_B = SITE_B.get_attribute("value")
+        except AttributeError:
+            pass
 
     def set_filename(self, LINK_ID):
         """ Set the File Name Formatting """
@@ -137,6 +146,8 @@ class ParseLinkBudget(BasePage):
             pass
         except ElementClickInterceptedException as e:
             print(f"Error Found ! Error details: {e}")
+            pass
+        except TimeoutException:
             pass
 
     def insert_site_code_1(self, SITE_ID):
@@ -187,12 +198,22 @@ class ParseLinkBudget(BasePage):
         except NoSuchElementException:
             pass
 
-    def is_lb_found(self):
+    def is_available_site_1(self):
 
         try:
-            return self.is_visible(LinkBudgetActivityLocator.SEARCH_RESULT)
+            return self.is_visible(LinkBudgetActivityLocator.SEARCH_1)
         except NoSuchElementException as e:
             print(f"Not Found in Site 1:  {e}")
         except TimeoutException as e:
             print(f"Error Found in Site 1: {e}")
+            pass
+
+    def is_available_site_2(self):
+
+        try:
+            return self.is_visible(LinkBudgetActivityLocator.SEARCH_2)
+        except NoSuchElementException as e:
+            print(f"Not Found in Site 2:  {e}")
+        except TimeoutException as e:
+            print(f"Error Found in Site 2: {e}")
             pass

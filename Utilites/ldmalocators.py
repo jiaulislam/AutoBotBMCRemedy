@@ -41,3 +41,5 @@ class LinkBudgetActivityLocator(object):
     SITE_ID_2 = (By.XPATH, "//input[@id='siteID2']")
 
     SEARCH_RESULT = (By.XPATH, "//*[@id='search_result']/div/table/tbody/tr[3]/td[1]")
+    SEARCH_2 = (By.XPATH, "//*[@id='search_result']/div/table/tbody/tr[3]/td[8]")
+    SEARCH_1 = (By.XPATH, "//*[@id='search_result']/div/table/tbody/tr[3]/td[6]")

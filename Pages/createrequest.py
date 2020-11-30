@@ -4,6 +4,7 @@ from selenium.common.exceptions import (
     NoSuchWindowException,
     NoSuchFrameException
 )
+from selenium.webdriver.support.wait import WebDriverWait
 
 from Utilites.Locators import (
     CommonChangeCreateLocators,
@@ -20,6 +21,7 @@ from Utilites.Locators import (
     FrameBoxLocators
 )
 from Utilites.static_data import StaticData
+from selenium.webdriver.support import expected_conditions as ec
 from Utilites.terminal_colors import bcolors
 from Pages.base import BasePage
 import time
@@ -338,3 +340,36 @@ class CreateRequests(BasePage):
                     except NoSuchWindowException:
                         break
         self.driver.switch_to.window(parent_window)
+
+    def is_home_page(self, validating_text: str = "IT HOME"):
+
+        self.__verify_change()
+
+        page_txt = None
+        while self.is_visible(HomePageLocators.IT_HOME_TEXT):
+            page_txt = self.find_element(*HomePageLocators.IT_HOME_TEXT).text
+            break
+
+        isVisible = self.is_visible(HomePageLocators.IT_HOME_TEXT)
+        if validating_text == page_txt and isVisible:
+            return True
+        else:
+            return False
+
+    def __verify_change(self):
+
+        value = None
+
+        try:
+            value = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
+        except NoSuchElementException:
+            time.sleep(5)
+            value = WebDriverWait(self.driver, self.timeout).until(
+                ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
+        except AttributeError as error:
+            print(error)
+        while True:
+            if self.get_change_number() != value:
+                break
+            else:
+                pass

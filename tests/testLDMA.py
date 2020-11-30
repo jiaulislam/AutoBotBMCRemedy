@@ -14,7 +14,7 @@ class LDMA_Parser(BasePage):
     def parse_link_budget(self, link_ids: list, site_ids: list):
         """ Parse the Link Budget """
         if link_ids is not None:
-            parse_info = ParseLinkBudget(self.driver)
+            parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
             with alive_bar(len(link_ids)) as bar:
@@ -40,7 +40,7 @@ class LDMA_Parser(BasePage):
                 except Exception as e:
                     print(e)
         else:
-            parse_info = ParseLinkBudget(self.driver)
+            parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
 
@@ -50,7 +50,7 @@ class LDMA_Parser(BasePage):
                     parse_info.select_all_dropdown()
                     parse_info.insert_site_code_1(site)
                     parse_info.click_search()
-                    if parse_info.is_lb_found():
+                    if parse_info.is_available_site_1():
                         LINK_ID = parse_info.get_link_id()
                         parse_info.search_lb_with_sitecode(site)
                         parse_info.export_file(LINK_ID)
@@ -59,14 +59,14 @@ class LDMA_Parser(BasePage):
                     parse_info.clear_site_code_1()
                     parse_info.insert_site_code_2(site)
                     parse_info.click_search()
-                    if parse_info.is_lb_found():
+                    if parse_info.is_available_site_2():
                         LINK_ID = parse_info.get_link_id()
                         parse_info.search_lb_with_sitecode(site)
                         parse_info.export_file(LINK_ID)
                         bar()
                         continue
                     else:
-                        print(f"{site} LB not closed.")
+                        print(f"{bcolors.FAIL}{site} : Link Budget not closed.{bcolors.ENDC}")
                         bar()
                 parse_info.logout_ldma()
                 self.driver.quit()

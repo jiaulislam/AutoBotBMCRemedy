@@ -168,9 +168,10 @@ def main():
                 break
             elif choice == 4:
                 # Parse Link Budget from LDMA
-                print("==>Press 1 for parse with Link ID\n==>Press 2 for parse with Site ID\n==>Press 3 for go-back\n")
                 while True:
                     try:
+                        print(
+                            "==>Press 1 for parse with Link ID\n==>Press 2 for parse with Site ID\n==>Press 3 for go-back\n")
                         choice = int(input("Press: "))
                         if choice == 1:
                             LinkID = input("\nPlease Enter LinkID: ")
