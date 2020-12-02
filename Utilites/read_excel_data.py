@@ -87,19 +87,19 @@ class Read_Data:
         """ get the region from excel file """
         return "Asia"
 
-    def parse_site_group(self, index):
-        """ get the site group from excel file """
-        site_group = self._sheet['I' + str(index)]
-        return site_group.value
+    # def parse_site_group(self, index):
+    #     """ get the site group from excel file """
+    #     site_group = self._sheet['I' + str(index)]
+    #     return site_group.value
 
     def parse_commercial_zone(self, index):
         """ get the commercial zone from excel file """
-        commercial_zone = self._sheet['J' + str(index)]
+        commercial_zone = self._sheet['I' + str(index)]
         return commercial_zone.value
 
     def parse_change_manager(self, index):
         """ get the change manager from excel file """
-        change_manager = self._sheet['L' + str(index)]
+        change_manager = self._sheet['K' + str(index)]
         return change_manager.value
 
     def close_workbook(self):

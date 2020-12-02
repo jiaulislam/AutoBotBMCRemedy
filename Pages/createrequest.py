@@ -163,7 +163,7 @@ class CreateRequests(BasePage):
                         # Switch to the new Child window
                         self.driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
-                        self.write(LocationServiceLocators.SITE_TEXTBOX, change_location_details[3])
+                        self.write(LocationServiceLocators.SITE_TEXTBOX, change_location_details[1])
                         self.click(LocationServiceLocators.SEARCH_LOCATION_BTN)
                         self.click(LocationServiceLocators.SELECT_LOCATION_BTN)
                         break
