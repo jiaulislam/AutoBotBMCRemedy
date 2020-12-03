@@ -1,5 +1,5 @@
 ## AutoBot-BMCRemedy!
-<p>This project is an automation project to create/close ticket in BMC Remedy with selenium webdriver. It would require the Custom Data-Driver Excel file to work.
+<p>An automation project to create/close ticket in BMC Remedy with selenium webdriver. It would require the Custom Data-Driver Excel file to work.
 Details requirements has been discussed below.</p>
 
 ## Getting Started
