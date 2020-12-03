@@ -74,7 +74,7 @@ class BasePage(object):
         try:
             WebDriverWait(driver=self.driver,
                           timeout=self.timeout,
-                          poll_frequency=1,
+                          # poll_frequency=1,
                           ignored_exceptions=[NoSuchElementException,
                                               NoSuchFrameException]
                           ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
@@ -108,10 +108,10 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
-    def switch_to_frame(self, xpath_locator: str) -> NoReturn:
+    def switch_to_frame(self, xpath_locator: str, timeout: int = 2) -> NoReturn:
         """ Switch to a frame by a frame locator """
         try:
-            user_frame = WebDriverWait(self.driver, self.timeout).until(
+            user_frame = WebDriverWait(self.driver, timeout).until(
                 ec.visibility_of_element_located(xpath_locator))
             self.driver.switch_to.frame(user_frame)
         except NoSuchFrameException:

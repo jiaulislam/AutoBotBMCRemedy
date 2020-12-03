@@ -360,11 +360,12 @@ class CreateRequests(BasePage):
         try:
             value = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
         except NoSuchElementException:
-            time.sleep(5)
+            # time.sleep(5)
             value = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
-        except AttributeError as error:
-            print(error)
+        except AttributeError:
+            # Need to Find out why it's giving me None Type if value is changing
+            pass
         while True:
             if self.get_change_number() != value:
                 break
