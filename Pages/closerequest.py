@@ -128,7 +128,12 @@ class CloseRequests(BasePage):
         """ Go back to the Change request control page """
         makeXPATH = f"//a[@class='btn'][contains(text(),'{self.__change_number}')]"
         dynamicXPATH = CloseChangeLocators.get_changeable_xpath(makeXPATH)
-        self.back_to_home_page(dynamicXPATH)
+        try:
+            self.back_to_home_page(dynamicXPATH)
+        except ElementClickInterceptedException:
+            time.sleep(2)
+            self.back_to_home_page(dynamicXPATH)
+        time.sleep(2)
 
     def close_service_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
         """
@@ -145,7 +150,6 @@ class CloseRequests(BasePage):
         else:
             print("WARN: Service Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
-            time.sleep(2)
 
     def close_service_downtime_window_task(self, actual_start_time: str, current_time_of_user: str) -> NoReturn:
         """
@@ -174,13 +178,12 @@ class CloseRequests(BasePage):
             self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
             self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
             self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+            time.sleep(1)
             self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
             self.__back_to_change_task_page()
-            time.sleep(2)
         else:
             print("WARN: Service Downtime Window Task is closed already !")
             self.__back_to_change_task_page()
-            time.sleep(2)
 
     def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
         """
@@ -196,7 +199,7 @@ class CloseRequests(BasePage):
                     time.sleep(2)
                     self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
                 except TimeoutException:
-                    time.sleep(5)
+                    time.sleep(2)
                     self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
         except (StaleElementReferenceException, NoSuchElementException):
             element = WebDriverWait(self.driver, self.timeout).until(
@@ -209,7 +212,6 @@ class CloseRequests(BasePage):
         else:
             print("WARN: System Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
-            time.sleep(2)
 
     def __common_closing_activity(self, start_time: str, end_time: str) -> NoReturn:
         """ Perform the common closing activity in the 3 task """
@@ -229,7 +231,6 @@ class CloseRequests(BasePage):
         except ElementClickInterceptedException:
             self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
             self.__back_to_change_task_page()
-            time.sleep(2)
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """

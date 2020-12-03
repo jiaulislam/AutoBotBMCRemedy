@@ -119,7 +119,7 @@ class BasePage(object):
         except TimeoutException:
             pass
 
-    def double_click(self, xpath_locator: str) -> NoReturn:
+    def double_click(self, xpath_locator: tuple) -> NoReturn:
         """ Double click on a element by a locator """
         element = WebDriverWait(self.driver, self.timeout, 2).until(
             ec.visibility_of_element_located(xpath_locator))
@@ -163,7 +163,7 @@ class BasePage(object):
         except (NoSuchFrameException, TimeoutException):
             pass
 
-    def back_to_home_page(self, xpath_locator: str) -> NoReturn:
+    def back_to_home_page(self, xpath_locator: tuple) -> NoReturn:
         """ Return to the homepage """
         try:
             self.click(xpath_locator)
