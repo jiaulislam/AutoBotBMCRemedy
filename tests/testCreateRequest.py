@@ -17,7 +17,9 @@ from Utilites.terminal_colors import bcolors
 class CreateChangeRequest(BasePage):
 
     def __init__(self, driver):
-        self.path = "E:\\Python Projects\\AutoBotBMCRemedy\\"
+        # self.path = "E:\\Python Projects\\AutoBotBMCRemedy\\"
+        self.path = os.getcwd()
+        print(os.getcwd())
         super().__init__(driver)
         self.login = LoginPage(self.driver)
         self.homePage = HomePage(self.login.driver)
