@@ -7,4 +7,4 @@ class Locator(object):
         return self.my_name
 
     def __str__(self):
-        return str(__class__)
+        return str(self.__module__)
