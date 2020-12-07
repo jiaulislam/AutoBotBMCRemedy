@@ -76,13 +76,13 @@ class ParseLinkBudget(BasePage):
     @staticmethod
     def make_dir():
         """ Make a directory for LB Output """
-        if os.path.exists(os.getcwd() + '/LinkBudget'):
-            shutil.rmtree('LinkBudget')
-            os.mkdir('LinkBudget')
-            os.chdir(os.getcwd() + "/LinkBudget")
+        if os.path.exists(os.getcwd() + '/LinkBudgetDumps'):
+            shutil.rmtree('LinkBudgetDumps')
+            os.mkdir('LinkBudgetDumps')
+            os.chdir(os.getcwd() + "/LinkBudgetDumps")
         else:
-            os.mkdir('LinkBudget')
-            os.chdir(os.getcwd() + "/LinkBudget")
+            os.mkdir('LinkBudgetDumps')
+            os.chdir(os.getcwd() + "/LinkBudgetDumps")
 
     def __set_site_A(self):
         """ Set the Site-A Code """
