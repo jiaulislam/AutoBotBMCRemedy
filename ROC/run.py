@@ -2,7 +2,7 @@
 from ROC.Locators.Locator import Locator
 
 # driver = HomePage("Jibon")
-driver = Locator("Jibon")
+driver = Locator("ROC Driver")
 
 print(driver.get_value())
 print(driver)
