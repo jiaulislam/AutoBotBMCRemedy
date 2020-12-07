@@ -94,6 +94,7 @@ class CloseRequests(BasePage):
 
     def __is_task_closed_already(self) -> bool:
         """ Check if the task is already closed or not """
+        time.sleep(1)
         if self.get_value_of_element(CloseChangeLocators.TASK_INIT_STATUS) == "Closed":
             return True
         else:
