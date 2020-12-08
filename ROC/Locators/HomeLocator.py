@@ -1,7 +1,7 @@
-from ROC.Locators.Locator import Locator
+from Pages.base import BasePage
 
 
-class Login(Locator):
+class HomePage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)

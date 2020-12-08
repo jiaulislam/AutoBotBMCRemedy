@@ -83,7 +83,7 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
-    def write(self, xpath_locator: str, text: str) -> NoReturn:
+    def write(self, xpath_locator: tuple, text: str) -> NoReturn:
         """ Write the text in web element by a locator shared by the user """
         try:
             WebDriverWait(self.driver, self.timeout).until(
