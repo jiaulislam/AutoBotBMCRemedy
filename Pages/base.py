@@ -24,7 +24,7 @@ class BasePage(object):
         functionality.
     """
 
-    def __init__(self, driver: webdriver, timeout: int = 10) -> NoReturn:
+    def __init__(self, driver: webdriver, timeout: int = 30) -> NoReturn:
         self.driver = driver
         self.timeout = timeout
 
