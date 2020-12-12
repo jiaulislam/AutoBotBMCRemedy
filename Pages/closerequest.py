@@ -28,7 +28,7 @@ class CloseRequests(BasePage):
     """ Close the Change Request in BMC Remedy """
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver, timeout=10)
         self.__change_type: bool = False
         self.__change_number: str = ""
         self.__invalid_change_numbers: list = []

@@ -1,8 +1,8 @@
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 
 from Pages.base import BasePage
-from ROC.Locators.HomeLocator import HomeLocator as HL
-from ROC.Locators.LoginLocator import LoginLocator as LL
+from roc.locators.homelocator import HomeLocator as HL
+from roc.locators.loginlocator import LoginLocator as LL
 
 
 class Logout(BasePage):

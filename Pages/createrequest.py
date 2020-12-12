@@ -35,7 +35,7 @@ data in the excel by the user. It's derived from BasePage Class.
 class CreateRequests(BasePage):
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver, timeout=30)
         self.TNR_GROUP = [
             'Muhammad Shahed',
             'Ripan Kumar',

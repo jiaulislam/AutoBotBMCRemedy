@@ -4,8 +4,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from ROC.Locators.HomeLocator import HomeLocator
-from ROC.Locators.LoginLocator import LoginLocator as LL
+from roc.locators.homelocator import HomeLocator
+from roc.locators.loginlocator import LoginLocator as LL
 from Pages.base import BasePage
 
 
@@ -29,7 +29,13 @@ class Login(BasePage):
         self.click(LL.get_by_Xpath(LL.SIGN_IN_BTN))
 
     def isUserLoggedIn(self) -> bool:
+        """
+        Check if there already a user is logged in to the account.
 
+        return:
+            True (if the no user logged in)
+            False : do the required actions
+        """
         try:
             WebDriverWait(self.driver, 3).until(EC.alert_is_present())
             alertBox = self.driver.switch_to.alert
@@ -57,8 +63,13 @@ class Login(BasePage):
             if self.isHomePage():
                 return True
 
-    def isRocControllerTextAvailable(self):
+    def isRocControllerTextAvailable(self) -> bool:
+        """
+        Checks if Home page contain ROC Controller text available in the DOM
 
+        return:
+            bool: True (if found) else bool: False
+        """
         element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(
             LL.get_by_Xpath(HomeLocator.ROC_CONTROLLER_TEXT))).text
 
@@ -68,7 +79,7 @@ class Login(BasePage):
             return False
 
     def isHomePage(self) -> bool:
-
+        """ Checks if page title is HOME: """
         try:
             return WebDriverWait(self.driver, 10).until(EC.title_is("HOME:"))
         except TimeoutException as e:

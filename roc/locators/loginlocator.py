@@ -1,4 +1,4 @@
-from ROC.Locators.Locator import Locator
+from roc.locators.locator import Locator
 
 
 class LoginLocator(Locator):
