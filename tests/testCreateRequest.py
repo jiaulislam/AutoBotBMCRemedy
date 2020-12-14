@@ -115,9 +115,9 @@ class CreateChangeRequest(BasePage):
                         #     val = input("Press q after finished")
                         #     if val == 'q':
                         #         break
-                        # self.createChangeRequest.save_change()
+                        self.createChangeRequest.save_change()
                         # ---------------------------------------------------------
-                        self.createChangeRequest.goto_next_stage()
+                        # self.createChangeRequest.goto_next_stage()
                         print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                         os.chdir(self.path)
                         bar()
@@ -129,9 +129,9 @@ class CreateChangeRequest(BasePage):
                         #     val = input("Press q after finished")
                         #     if val == 'q':
                         #         break
-                        # self.createChangeRequest.save_change()
+                        self.createChangeRequest.save_change()
                         # ----------------------------------------------------------
-                        self.createChangeRequest.goto_next_stage()
+                        # self.createChangeRequest.goto_next_stage()
                         print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
                         os.chdir(self.path)
                         bar()
