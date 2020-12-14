@@ -14,7 +14,7 @@ from utilites.ldmalocators import (
     LinkBudgetActivityLocator
 )
 from selenium import webdriver
-from utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 from utilites.static_data import LDMAData
 from pages.base import BasePage
 import win32com.client
@@ -42,7 +42,7 @@ class ParseLinkBudget(BasePage):
     def logout_ldma(self):
         """ Logout from LDMA """
         self.click(LDMALogoutLocators.LOGOUT_BTN)
-        print(f"{bcolors.OKGREEN} Browser Closed & Logged Out Successfully.{bcolors.ENDC}")
+        print(f"{Colors.OKGREEN} Browser Closed & Logged Out Successfully.{Colors.ENDC}")
 
     def goto_links(self):
         """ Goto action Link -> Links """
@@ -117,7 +117,7 @@ class ParseLinkBudget(BasePage):
         """ Export the LB as PDF File """
         source_code = self.__parse_element_innerHTML()
         PDF_FILE = f"{self.set_filename(LINK_ID)}.pdf"
-        print(f"{bcolors.OKCYAN}Working --> {PDF_FILE}.{bcolors.ENDC}")
+        print(f"{Colors.OKCYAN}Working --> {PDF_FILE}.{Colors.ENDC}")
         pdfkit.from_string(source_code, PDF_FILE)
 
     def export_word_file(self, LINK_ID):
@@ -128,7 +128,7 @@ class ParseLinkBudget(BasePage):
         output_fileName = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.doc"
         doc.SaveAs(output_fileName, FileFormat=0)
         doc.Close()
-        print(f"{bcolors.OKGREEN}File Created: {self.set_filename(LINK_ID)}.doc{bcolors.ENDC}")
+        print(f"{Colors.OKGREEN}File Created: {self.set_filename(LINK_ID)}.doc{Colors.ENDC}")
         word.Quit()
 
     def delete_html_file(self, LINK_ID):

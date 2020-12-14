@@ -7,7 +7,7 @@ from pages.login import LoginPage
 from utilites import make_data
 from utilites.static_data import StaticData
 from alive_progress import alive_bar
-from utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 
 
 class CancelChangeRequest(BasePage):
@@ -48,28 +48,28 @@ class CancelChangeRequest(BasePage):
                                     # Perform the user interactions to cancel
                                     self.cancel_requests.select_cancel()
                                     self.cancel_requests.save_status()
-                                    print(f"{bcolors.OKGREEN}===>STAT: CANCELLED ===> "
-                                          f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
+                                    print(f"{Colors.OKGREEN}===>STAT: CANCELLED ===> "
+                                          f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
                                     bar()
                                     self.create_requests.go_back_to_homepage()
                                 else:
-                                    print(f"{bcolors.OKGREEN}===>STAT: ALREADY CANCELLED ===> "
-                                          f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
+                                    print(f"{Colors.OKGREEN}===>STAT: ALREADY CANCELLED ===> "
+                                          f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
                                     self.create_requests.go_back_to_homepage()
                                     bar()
                             else:
-                                print(f"{bcolors.FAIL}===>STAT: ALREADY OPENED ===> "
-                                      f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
+                                print(f"{Colors.FAIL}===>STAT: ALREADY OPENED ===> "
+                                      f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
                                 self.create_requests.go_back_to_homepage()
                                 bar()
                         else:
-                            print(f"{bcolors.OKCYAN}===>STAT: SCHEDULED FOR APPROVAL ===> "
-                                  f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
+                            print(f"{Colors.OKCYAN}===>STAT: SCHEDULED FOR APPROVAL ===> "
+                                  f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
                             self.create_requests.go_back_to_homepage()
                             bar()
                     else:
-                        print(f"{bcolors.OKBLUE}===>STAT: CLOSED OR COMPLETED ===> "
-                              f"{self.cancel_requests.get_cancelled_cr_number()}{bcolors.ENDC}")
+                        print(f"{Colors.OKBLUE}===>STAT: CLOSED OR COMPLETED ===> "
+                              f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
                         bar()
 
         self.home_page.click_logout_button()

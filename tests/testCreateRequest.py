@@ -11,7 +11,7 @@ from utilites.read_excel_data import Read_Data
 from utilites.static_data import StaticData
 from alive_progress import alive_bar
 
-from utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 
 
 class CreateChangeRequest(BasePage):
@@ -118,7 +118,7 @@ class CreateChangeRequest(BasePage):
                         self.createChangeRequest.save_change()
                         # ---------------------------------------------------------
                         # self.createChangeRequest.goto_next_stage()
-                        print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
                         self.createChangeRequest.reset_change_number()
@@ -132,7 +132,7 @@ class CreateChangeRequest(BasePage):
                         self.createChangeRequest.save_change()
                         # ----------------------------------------------------------
                         # self.createChangeRequest.goto_next_stage()
-                        print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
                         self.createChangeRequest.reset_change_number()

@@ -2,7 +2,7 @@ import datetime
 import sys
 
 import openpyxl
-from .terminal_colors import bcolors
+from .terminal_colors import Colors
 
 """
 This class is for exporting the all the important information
@@ -97,5 +97,5 @@ class Data_Export:
                 my_file.close()
                 break
             except IOError:
-                input(f"{bcolors.FAIL}File Already in used ! "
-                      f"Please close the file. Press Enter to retry...{bcolors.ENDC}")
+                input(f"{Colors.FAIL}File Already in used ! "
+                      f"Please close the file. Press Enter to retry...{Colors.ENDC}")

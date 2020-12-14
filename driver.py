@@ -9,7 +9,7 @@ from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
 from utilites.static_data import StaticData, LDMAData
 from tests.testLinkBudgetParser import LDMA_Parser
-from utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 
 """
 Module Name: driver.py
@@ -192,7 +192,7 @@ def main():
                         else:
                             print(f"Invalid input {choice}. Please use 1 or 2")
                     except ValueError as error:
-                        print(f"\n{bcolors.FAIL}{error}{bcolors.ENDC}\n")
+                        print(f"\n{Colors.FAIL}{error}{Colors.ENDC}\n")
             elif choice == 5:
                 # Expedited CR
                 # TODO: EXPERIMENTAL 
@@ -205,7 +205,7 @@ def main():
             else:
                 print("\nInvalid choice ! Try Again.\n")
         except ValueError as e:
-            print(f"\n{bcolors.FAIL}{e}{bcolors.ENDC}\n")
+            print(f"\n{Colors.FAIL}{e}{Colors.ENDC}\n")
 
 
 if __name__ == "__main__":

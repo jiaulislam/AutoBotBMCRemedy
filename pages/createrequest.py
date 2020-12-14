@@ -22,7 +22,7 @@ from utilites.locators import (
 )
 from utilites.static_data import StaticData
 from selenium.webdriver.support import expected_conditions as ec
-from utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 from pages.base import BasePage
 import time
 
@@ -144,7 +144,7 @@ class CreateRequests(BasePage):
         elif change_manager == self.ANR_GROUP[5]:
             self.click(ChangeManagerLocators.CHANGE_MANAGER_KHAIRUL)
         else:
-            print(f"{bcolors.WARNING}Manager Not Found ! Using Default Manager: {self.TNR_GROUP[0]}{bcolors.ENDC}")
+            print(f"{Colors.WARNING}Manager Not Found ! Using Default Manager: {self.TNR_GROUP[0]}{Colors.ENDC}")
             self.click(ChangeManagerLocators.CHANGE_MANAGER_SHAHED)
 
     def change_location(self, change_location_details: tuple) -> None:
@@ -275,7 +275,7 @@ class CreateRequests(BasePage):
             else:
                 return False
         except NoSuchElementException:
-            print(f"{bcolors.WARNING}Attachment status unable to fetch. {bcolors.ENDC}")
+            print(f"{Colors.WARNING}Attachment status unable to fetch. {Colors.ENDC}")
             pass
 
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:
