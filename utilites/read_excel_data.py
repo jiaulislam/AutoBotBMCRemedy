@@ -12,7 +12,7 @@ written by: jiaul_islam
 
 #  Excel File Handler Class
 class Read_Data:
-    def __init__(self, file_path):
+    def __init__(self, file_path) -> None:
         """ Full path to the excel document """
         try:
             self.__data_driver = openpyxl.load_workbook(read_only=True, filename=file_path, data_only=True)
@@ -26,7 +26,7 @@ class Read_Data:
         except Exception as e:
             print(e)
 
-    def change_sheet(self):
+    def change_sheet(self) -> None:
         """ Change the sheet """
         try:
             sheet_name = "Change_List"
@@ -34,7 +34,7 @@ class Read_Data:
         except Exception as error:
             print(error)
 
-    def get_number_change(self):
+    def get_number_change(self) -> int:
         """ get max SL no from the numbers """
         number_of_change = []
         for no in self._sheet.values:
@@ -48,17 +48,17 @@ class Read_Data:
 
         return max(number_of_change)
 
-    def parse_date(self, index):
+    def parse_date(self, index) -> str:
         """ get the date from excel file """
         date = self._sheet['B' + str(index)]
         return date.value
 
-    def parse_project_coordinator(self, index):
+    def parse_project_coordinator(self, index) -> str:
         """ get the project coordinator name from the excel """
         coordinator = self._sheet['C' + str(index)]
         return coordinator.value
 
-    def parse_project_name(self, index):
+    def parse_project_name(self, index) -> str:
         """ get the project name from excel file """
         project_name = self._sheet['D' + str(index)]
         return project_name.value
@@ -68,41 +68,41 @@ class Read_Data:
         activity = self._sheet['E' + str(index)]
         return activity.value
 
-    def parse_impact_list(self, index):
+    def parse_impact_list(self, index) -> str:
         """ get the impact list from excel file """
         impact_list = self._sheet['F' + str(index)]
         return impact_list.value
 
-    def parse_service_type(self, index):
+    def parse_service_type(self, index) -> str:
         """ get the service type from excel file """
         type_of_service = self._sheet['G' + str(index)]
         return type_of_service.value
 
-    def parse_downtime_hour(self, index):
+    def parse_downtime_hour(self, index) -> str:
         """ get the downtime duration from excel file """
         hour_of_downtime = self._sheet['H' + str(index)]
         return hour_of_downtime.value
 
     @staticmethod
-    def get_company_group():
+    def get_company_group() -> str:
         """ get the company group """
         return "e.co"
 
     @staticmethod
-    def get_region():
+    def get_region() -> str:
         """ get the region from excel file """
         return "Asia"
 
-    def parse_commercial_zone(self, index):
+    def parse_commercial_zone(self, index: int) -> str:
         """ get the commercial zone from excel file """
         commercial_zone = self._sheet['I' + str(index)]
         return commercial_zone.value
 
-    def parse_change_manager(self, index):
+    def parse_change_manager(self, index: int) -> str:
         """ get the change manager from excel file """
         change_manager = self._sheet['K' + str(index)]
         return change_manager.value
 
-    def close_workbook(self):
+    def close_workbook(self) -> None:
         """ close the excel file """
         self.__data_driver.close()

@@ -142,7 +142,7 @@ def make_query_string(site_string: str) -> str:
     return "OR".join(query_list)
 
 
-def date_valid(user_date, system_date=datetime.datetime.today()) -> datetime:
+def date_valid(user_date, system_date=datetime.datetime.today()) -> bool:
     """ Check if the date is valid as per BMC Regulation """
     if user_date <= system_date:
         return True

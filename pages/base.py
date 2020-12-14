@@ -75,7 +75,6 @@ class BasePage(object):
         try:
             WebDriverWait(driver=self.driver,
                           timeout=self.timeout,
-                          # poll_frequency=1,
                           ignored_exceptions=[NoSuchElementException,
                                               NoSuchFrameException]
                           ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
@@ -111,17 +110,8 @@ class BasePage(object):
 
     def switch_to_frame(self, xpath_locator: str) -> NoReturn:
         """ Switch to a frame by a frame locator """
-        # try:
-        # user_frame = WebDriverWait(self.driver, timeout).until(
-        #     ec.visibility_of_element_located(xpath_locator))
         user_frame = self.driver.find_element(*xpath_locator)
         self.driver.switch_to.frame(user_frame)
-        # except NoSuchFrameException:
-        #     pass
-        # except TimeoutException:
-        #     pass
-        # except Exception as e:
-        #     print(e)
 
     def double_click(self, xpath_locator: tuple) -> NoReturn:
         """ Double click on a element by a locator """

@@ -3,6 +3,7 @@ All the locator's of the LDMA page
 developer : jiaul_islam
 """
 from selenium.webdriver.common.by import By
+from typing import Tuple
 
 
 class LDMALoginLocators(object):
@@ -33,7 +34,7 @@ class LinkBudgetActivityLocator(object):
         return By.XPATH, XPATH_FOR_LINKID
 
     @staticmethod
-    def is_available_lb(site_code: str):
+    def is_available_lb(site_code: str) -> Tuple[By, str]:
         return By.XPATH, f"//a[contains(text(), '{site_code}')]"
         
     BLOCK_INFORMATION = (By.XPATH, "//*[@id='linkadd']")

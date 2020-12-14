@@ -362,7 +362,6 @@ class CreateRequests(BasePage):
         try:
             value = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
         except NoSuchElementException:
-            # time.sleep(5)
             value = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
         except AttributeError:
