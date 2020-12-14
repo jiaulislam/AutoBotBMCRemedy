@@ -3,6 +3,12 @@ import sys
 
 import openpyxl
 
+"""
+All the functions that is required to read a Excel Data Format. 
+
+written by: jiaul_islam
+"""
+
 
 #  Excel File Handler Class
 class Read_Data:
@@ -86,11 +92,6 @@ class Read_Data:
     def get_region():
         """ get the region from excel file """
         return "Asia"
-
-    # def parse_site_group(self, index):
-    #     """ get the site group from excel file """
-    #     site_group = self._sheet['I' + str(index)]
-    #     return site_group.value
 
     def parse_commercial_zone(self, index):
         """ get the commercial zone from excel file """

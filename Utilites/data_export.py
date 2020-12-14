@@ -2,12 +2,14 @@ import datetime
 import sys
 
 import openpyxl
-from .terminal_colors import bcolors
+from terminal_colors import bcolors
 
 """
 This class is for exporting the all the important information
 that is required to keep track of the change request for who 
 the change request is belong to.
+
+written by: jiaul_islam
 """
 
 
@@ -64,10 +66,6 @@ class Data_Export:
     def insert_downtime_duration(self, index: int, duration: str):
         """ insert the downtime duration limit in the excel file """
         self._sheet['H' + str(index)] = duration
-
-    # def insert_site_group(self, index: int, site_group: str):
-    #     """ insert the site group in the excel file """
-    #     self._sheet['I' + str(index)] = site_group
 
     def insert_commercial_zone(self, index: int, commercial_zone: str):
         """ insert the commercial zone in the excel file """

@@ -1,9 +1,13 @@
+"""
+All the locators that is required to create/cancel/closing a CR.
+
+written by: jiaul_islam
+"""
 from selenium.webdriver.common.by import By
 
 
 class LoginPageLocators(object):
     """ Login Page related XPATH class Variable are declared here """
-    # ==> LOGIN PAGE LOCATORS <== #
     LOGO_IMG = (By.XPATH, "//img[@src='images/login_logo.gif']")
     USERNAME_TEXTBOX = (By.XPATH, "//*[@id='username-id']")
     PASSWORD_TEXTBOX = (By.XPATH, "//*[@id='pwd-id']")
@@ -200,4 +204,3 @@ class RelationshipQueryLocators(object):
 
     RELATE_THE_RELATIONSHIP_BTN = (By.XPATH, "//a[@id='WIN_0_301867500']//div[@class='f1']")
 
-    # RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")

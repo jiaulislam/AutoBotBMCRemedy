@@ -14,6 +14,8 @@ from selenium import webdriver
 The BasePage class is a base class that all the Pages that will inherit from this
 BasePage class. Some most common method is written here that we're gonna need 
 all over the project/Pages to work with.
+
+written_by: jiaul_islam
 '''
 
 

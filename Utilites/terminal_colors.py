@@ -1,3 +1,10 @@
+"""
+ASCII Color Codes for showing colored output in the Terminal
+
+written by: jiaul_islam
+
+"""
+
 
 class bcolors:
     HEADER = '\033[95m'

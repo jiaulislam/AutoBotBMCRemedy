@@ -13,6 +13,8 @@ This is the most important class file here. Home page will have the
 all the functions and classes or inside work in BMC Remedy. This class
 will be responsible for Creating NCR, Closing NCR, Parsing the NCR information
 also the logout from account will also be here.
+
+written_by: jiaul_islam
 """
 
 
