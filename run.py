@@ -8,6 +8,9 @@ driver.get("https://roc.robi.com.bd/ROC/ROCPages/Pages/ROBIROC_Login.aspx")
 driver.maximize_window()
 login = Login(driver)
 
+login.set_username()
+login.set_password()
+
 login.insertUsername()
 login.insertPassword()
 login.clickSignin()

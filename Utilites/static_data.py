@@ -28,5 +28,5 @@ class LDMAData(object):
 
 class ROCData(object):
     ROC_URL = 'https://roc.robi.com.bd/ROC/ROCPages/Pages/ROBIROC_Login.aspx'
-    ROC_USERNAME = os.environ.get("ROC_USER")
-    ROC_PASSWORD = os.environ.get("ROC_PASS")
+    ROC_USERNAME = os.environ.get("ROC_USERNAME")
+    ROC_PASSWORD = os.environ.get("ROC_PASSWORD")

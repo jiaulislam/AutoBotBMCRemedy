@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from roc.locators.homelocator import HomeLocator
 from roc.locators.loginlocator import LoginLocator as LL
 from Pages.base import BasePage
+from Utilites.static_data import ROCData as RC
 
 
 class Login(BasePage):
@@ -18,12 +19,14 @@ class Login(BasePage):
                                               "click on Cancel to continue the previous session."
         self.__INVALID_CREDENTIALS = "User name or password missmatch...."
         self.__ROC_CONTROLLER_JS_INJECTION = "document.getElementsByTagName(\"span\")[0]"
+        self.__userName = None
+        self.__password = None
 
     def insertUsername(self) -> None:
-        self.write(LL.get_by_Xpath(LL.USERNAME_INPUT), 'masud.utsp')
+        self.write(LL.get_by_Xpath(LL.USERNAME_INPUT), self.__userName)
 
     def insertPassword(self) -> None:
-        self.write(LL.get_by_Xpath(LL.PASSWORD_INPUT), 'Masud012345')
+        self.write(LL.get_by_Xpath(LL.PASSWORD_INPUT), self.__password)
 
     def clickSignin(self) -> None:
         self.click(LL.get_by_Xpath(LL.SIGN_IN_BTN))
@@ -84,3 +87,21 @@ class Login(BasePage):
             return WebDriverWait(self.driver, 10).until(EC.title_is("HOME:"))
         except TimeoutException as e:
             raise Exception(e)
+
+    def set_username(self):
+
+        username = RC.ROC_USERNAME
+        if username is None:
+            username = input("Username not found in the system, insert username: ")
+            self.__userName = username
+        else:
+            self.__userName = RC.ROC_USERNAME
+
+    def set_password(self):
+
+        password = RC.ROC_PASSWORD
+        if password is None:
+            password = input("Password not found in the system, insert password: ")
+            self.__password = password
+        else:
+            self.__password = RC.ROC_PASSWORD

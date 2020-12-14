@@ -94,6 +94,7 @@ class Data_Export:
         while True:
             try:
                 my_file = open(my_file, 'a+')
+                my_file.close()
                 break
             except IOError:
                 input(f"{bcolors.FAIL}File Already in used ! "
