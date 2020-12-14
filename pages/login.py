@@ -1,5 +1,5 @@
 from pages.base import BasePage
-from utilites.Locators import LoginPageLocators
+from utilites.locators import LoginPageLocators
 from utilites.static_data import StaticData
 
 """

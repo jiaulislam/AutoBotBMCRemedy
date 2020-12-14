@@ -4,7 +4,7 @@ from selenium.common.exceptions import (
     ElementClickInterceptedException,
     TimeoutException
 )
-from utilites.Locators import (
+from utilites.locators import (
     CloseChangeLocators,
     CancelRequestLocators,
     TaskSectionLocators,

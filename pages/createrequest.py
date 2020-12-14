@@ -6,7 +6,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support.wait import WebDriverWait
 
-from utilites.Locators import (
+from utilites.locators import (
     CommonChangeCreateLocators,
     RelationshipQueryLocators,
     LocationServiceLocators,
