@@ -63,9 +63,11 @@ class CreateRequests(BasePage):
     def reset_change_number(self):
         """ Reset the Change Number Variable """
         if self.__change_number == "":
+            print("Already Blank CR Number")
             pass
         else:
             self.__change_number = ""
+            print("Reset done change number")
 
     def __str__(self):
         """ Set the str of the object """
