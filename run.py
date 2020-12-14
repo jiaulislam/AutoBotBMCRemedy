@@ -1,7 +1,7 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from roc.roctasks.login import Login
-from roc.roctasks.Logout import Logout
+from roc.roctasks.logout import Logout
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 driver.get("https://roc.robi.com.bd/ROC/ROCPages/Pages/ROBIROC_Login.aspx")

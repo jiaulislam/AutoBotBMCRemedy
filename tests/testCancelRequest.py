@@ -1,13 +1,13 @@
-from Pages.base import BasePage
-from Pages.cancelrequest import CancelRequests
-from Pages.closerequest import CloseRequests
-from Pages.createrequest import CreateRequests
-from Pages.home import HomePage
-from Pages.login import LoginPage
-from Utilites import make_data
-from Utilites.static_data import StaticData
+from pages.base import BasePage
+from pages.cancelrequest import CancelRequests
+from pages.closerequest import CloseRequests
+from pages.createrequest import CreateRequests
+from pages.home import HomePage
+from pages.login import LoginPage
+from utilites import make_data
+from utilites.static_data import StaticData
 from alive_progress import alive_bar
-from Utilites.terminal_colors import bcolors
+from utilites.terminal_colors import bcolors
 
 
 class CancelChangeRequest(BasePage):

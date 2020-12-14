@@ -2,14 +2,14 @@ from selenium.common.exceptions import (
     TimeoutException,
     NoSuchElementException
 )
-from Utilites.Locators import (
+from utilites.Locators import (
     CancelRequestLocators,
     CloseChangeLocators,
     DateSectionSelector,
     CommonChangeCreateLocators
 )
 
-from Pages.base import BasePage
+from pages.base import BasePage
 from typing import NoReturn
 
 """

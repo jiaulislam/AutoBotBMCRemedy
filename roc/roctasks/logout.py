@@ -1,6 +1,6 @@
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 
-from Pages.base import BasePage
+from pages.base import BasePage
 from roc.locators.homelocator import HomeLocator as HL
 from roc.locators.loginlocator import LoginLocator as LL
 

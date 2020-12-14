@@ -4,7 +4,7 @@ from selenium.common.exceptions import (
     ElementClickInterceptedException,
     TimeoutException
 )
-from Utilites.Locators import (
+from utilites.Locators import (
     CloseChangeLocators,
     CancelRequestLocators,
     TaskSectionLocators,
@@ -15,7 +15,7 @@ from Utilites.Locators import (
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from Pages.base import BasePage
+from pages.base import BasePage
 from typing import NoReturn
 import time
 """

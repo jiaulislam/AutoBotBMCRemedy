@@ -1,4 +1,4 @@
-from Pages.base import BasePage
+from pages.base import BasePage
 
 
 class Navigation(BasePage):

@@ -6,7 +6,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support.wait import WebDriverWait
 
-from Utilites.Locators import (
+from utilites.Locators import (
     CommonChangeCreateLocators,
     RelationshipQueryLocators,
     LocationServiceLocators,
@@ -20,10 +20,10 @@ from Utilites.Locators import (
     HomePageLocators,
     FrameBoxLocators
 )
-from Utilites.static_data import StaticData
+from utilites.static_data import StaticData
 from selenium.webdriver.support import expected_conditions as ec
-from Utilites.terminal_colors import bcolors
-from Pages.base import BasePage
+from utilites.terminal_colors import bcolors
+from pages.base import BasePage
 import time
 
 """

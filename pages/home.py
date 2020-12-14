@@ -4,9 +4,9 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from Utilites.Locators import HomePageLocators
-from Utilites.terminal_colors import bcolors
-from Pages.base import BasePage
+from utilites.Locators import HomePageLocators
+from utilites.terminal_colors import bcolors
+from pages.base import BasePage
 
 """
 This is the most important class file here. Home page will have the 

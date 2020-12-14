@@ -6,8 +6,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from roc.locators.homelocator import HomeLocator
 from roc.locators.loginlocator import LoginLocator as LL
-from Pages.base import BasePage
-from Utilites.static_data import ROCData as RC
+from pages.base import BasePage
+from utilites.static_data import ROCData as RC
 
 
 class Login(BasePage):
@@ -88,18 +88,16 @@ class Login(BasePage):
         except TimeoutException as e:
             raise Exception(e)
 
-    def set_username(self):
+    def set_username(self) -> None:
         """ Set the username """
-        username = RC.ROC_USERNAME
-        if username is None:
+        if RC.ROC_USERNAME is None:
             self.__userName = input("Username not found in the system, insert username: ")
         else:
             self.__userName = RC.ROC_USERNAME
 
-    def set_password(self):
+    def set_password(self) -> None:
         """ Set the password """
-        password = RC.ROC_PASSWORD
-        if password is None:
+        if RC.ROC_PASSWORD is None:
             self.__password = input("Password not found in the system, insert password: ")
         else:
             self.__password = RC.ROC_PASSWORD

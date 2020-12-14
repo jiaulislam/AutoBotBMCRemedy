@@ -8,15 +8,15 @@ from selenium.common.exceptions import (
     TimeoutException
 )
 
-from Utilites.ldmalocators import (
+from utilites.ldmalocators import (
     LDMALoginLocators,
     LDMALogoutLocators,
     LinkBudgetActivityLocator
 )
 from selenium import webdriver
-from Utilites.terminal_colors import bcolors
-from Utilites.static_data import LDMAData
-from Pages.base import BasePage
+from utilites.terminal_colors import bcolors
+from utilites.static_data import LDMAData
+from pages.base import BasePage
 import win32com.client
 import shutil
 import pdfkit
