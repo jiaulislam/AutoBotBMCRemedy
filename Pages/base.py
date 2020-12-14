@@ -176,14 +176,17 @@ class BasePage(object):
         except TimeoutException:
             print("Back To Home Timeout Exception Hit")
             try:
-                element = WebDriverWait(self.driver, 20).until(ec.visibility_of_element_located(xpath_locator))
-                element.click()
+                WebDriverWait(self.driver, 20).until(
+                    ec.visibility_of_element_located(xpath_locator)).click()
             except TimeoutException as error:
                 raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
                                 f"\n{repr(error)}")
         except ElementClickInterceptedException:
             try:
-                element = WebDriverWait(self.driver, self.timeout).until(ec.visibility_of_element_located(xpath_locator))
-                element.click()
+                WebDriverWait(self.driver, self.timeout).until(
+                    ec.visibility_of_element_located(xpath_locator)).click()
+            except ElementClickInterceptedException:
+                WebDriverWait(self.driver, self.timeout).until(
+                    ec.element_to_be_clickable(xpath_locator)).click()
             except Exception as error:
                 print(f"Unexpected error found ! --> {error}")
