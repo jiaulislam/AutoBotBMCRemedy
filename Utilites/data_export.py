@@ -2,7 +2,7 @@ import datetime
 import sys
 
 import openpyxl
-from terminal_colors import bcolors
+from .terminal_colors import bcolors
 
 """
 This class is for exporting the all the important information
@@ -16,6 +16,7 @@ written by: jiaul_islam
 class Data_Export:
     def __init__(self, file_path):
         try:
+            self.is_used(file_path)
             self._change_list_excel = openpyxl.load_workbook(filename=file_path)
             self._sheet = self._change_list_excel.active
         except FileNotFoundError as error:
@@ -81,15 +82,19 @@ class Data_Export:
 
     def save_workbook(self, file_path):
         """ Save the workbook """
-        try:
-            self._change_list_excel.save(file_path)
-        except PermissionError:
-            print(f"{bcolors.FAIL}WARN: File is in already use by user. "
-                  f"Please close the file first ! Work won't be saved.{bcolors.ENDC}")
-            print(f"{bcolors.UNDERLINE}Quit from the Excel, And Press Enter :{bcolors.ENDC}")
-            input()
-            self._change_list_excel.save(file_path)
+        self._change_list_excel.save(file_path)
 
     def close_workbook(self):
         """ Close the workbook """
         self._change_list_excel.close()
+
+    @staticmethod
+    def is_used(my_file: str):
+        """ Checks if the user is already kept opened the excel file trying to write """
+        while True:
+            try:
+                my_file = open(my_file, 'a+')
+                break
+            except IOError:
+                input(f"{bcolors.FAIL}File Already in used ! "
+                      f"Please close the file. Press Enter to retry...{bcolors.ENDC}")

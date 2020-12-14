@@ -18,7 +18,7 @@ This is the main class for running the application. From here
 all the functions can be called. This will be the user interface
 from here. User's will choose the actions to do on BMC Remedy.
 
-@Author: w4nn4b3cod3r
+written by: jiaul_islam
 """
 
 
