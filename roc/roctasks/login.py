@@ -91,13 +91,11 @@ class Login(BasePage):
     def set_username(self) -> None:
         """ Set the username """
         if RC.ROC_USERNAME is None:
-            self.__userName = input("Username not found in the system, insert username: ")
-        else:
-            self.__userName = RC.ROC_USERNAME
+            self.__userName = input("Username not found, insert username: ")
+        self.__userName = RC.ROC_USERNAME
 
     def set_password(self) -> None:
         """ Set the password """
         if RC.ROC_PASSWORD is None:
-            self.__password = input("Password not found in the system, insert password: ")
-        else:
-            self.__password = RC.ROC_PASSWORD
+            self.__password = input("Password not found, insert password: ")
+        self.__password = RC.ROC_PASSWORD
