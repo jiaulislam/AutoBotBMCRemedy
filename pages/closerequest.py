@@ -4,7 +4,7 @@ from selenium.common.exceptions import (
     ElementClickInterceptedException,
     TimeoutException
 )
-from Utilites.Locators import (
+from utilites.locators import (
     CloseChangeLocators,
     CancelRequestLocators,
     TaskSectionLocators,
@@ -15,12 +15,14 @@ from Utilites.Locators import (
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from Pages.base import BasePage
+from pages.base import BasePage
 from typing import NoReturn
 import time
 """
 This class will help us to close the Change Request as per user requirement.
 it will inherit the base page class for the basic functionality.
+
+written by: jiaul_islam
 """
 
 
@@ -28,7 +30,7 @@ class CloseRequests(BasePage):
     """ Close the Change Request in BMC Remedy """
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver, timeout=10)
         self.__change_type: bool = False
         self.__change_number: str = ""
         self.__invalid_change_numbers: list = []

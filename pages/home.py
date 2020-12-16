@@ -4,15 +4,17 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from Utilites.Locators import HomePageLocators
-from Utilites.terminal_colors import bcolors
-from Pages.base import BasePage
+from utilites.locators import HomePageLocators
+from utilites.terminal_colors import Colors
+from pages.base import BasePage
 
 """
 This is the most important class file here. Home page will have the 
 all the functions and classes or inside work in BMC Remedy. This class
 will be responsible for Creating NCR, Closing NCR, Parsing the NCR information
 also the logout from account will also be here.
+
+written_by: jiaul_islam
 """
 
 
@@ -40,7 +42,7 @@ class HomePage(BasePage):
     def click_logout_button(self) -> None:
         """ Click the Logout Button on home page """
         self.click(HomePageLocators.LOGOUT_BUTTON)
-        print(f"{bcolors.OKGREEN}\nLogged out Successfully.\n{bcolors.ENDC}")
+        print(f"{Colors.OKGREEN}\nLogged out Successfully.\n{Colors.ENDC}")
 
     def get_all_change_numbers(self) -> list:
         """ Get all the change number from the homepage table """

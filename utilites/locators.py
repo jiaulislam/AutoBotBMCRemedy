@@ -1,9 +1,13 @@
+"""
+All the locators that is required to create/cancel/closing a CR.
+
+written by: jiaul_islam
+"""
 from selenium.webdriver.common.by import By
 
 
 class LoginPageLocators(object):
     """ Login Page related XPATH class Variable are declared here """
-    # ==> LOGIN PAGE LOCATORS <== #
     LOGO_IMG = (By.XPATH, "//img[@src='images/login_logo.gif']")
     USERNAME_TEXTBOX = (By.XPATH, "//*[@id='username-id']")
     PASSWORD_TEXTBOX = (By.XPATH, "//*[@id='pwd-id']")
@@ -118,7 +122,7 @@ class DateSectionSelector(object):
 
 
 class CommonTaskDateLocators(object):
-    """ Date Page Locators in the Task stage """
+    """ Date Page locators in the Task stage """
     DATE_SECTOR_IN_TASK = (By.XPATH, "//a[contains(text(), 'Dates')]")
     START_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000350']")
     END_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000362']")
@@ -126,7 +130,7 @@ class CommonTaskDateLocators(object):
 
 
 class CommonChangeCreateLocators(object):
-    """ Some Common Locators for Creating a new Change """
+    """ Some Common locators for Creating a new Change """
 
     # ==> GET CHANGE NUMBER <== #
     CHANGE_NUMBER_VALUE = (By.XPATH, "//div[@id='WIN_3_1000000182']//textarea[@id='arid_WIN_3_1000000182']")
@@ -136,7 +140,7 @@ class CommonChangeCreateLocators(object):
 
 
 class SaveChangeLocators(object):
-    """ Save & Send the Change to Request for Authorization Locators """
+    """ Save & Send the Change to Request for Authorization locators """
     SAVE_CHANGE_BTN = (By.XPATH, "//a[@id='WIN_3_1001']")
     GOTO_NEXT_STAGE_BTN = (By.XPATH, "//div[@class='f7'][contains(text(), 'Next Stage')]")
 
@@ -149,7 +153,7 @@ class FrameBoxLocators(object):
 
 
 class CloseChangeLocators(object):
-    """ This Class is going to store all the required new Locators for Closing a Change Request """
+    """ This Class is going to store all the required new locators for Closing a Change Request """
 
     CURRENT_CR_STATUS = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
     CHANGE_REQUEST_OPEN = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
@@ -200,4 +204,3 @@ class RelationshipQueryLocators(object):
 
     RELATE_THE_RELATIONSHIP_BTN = (By.XPATH, "//a[@id='WIN_0_301867500']//div[@class='f1']")
 
-    # RELATION_NEW_WINDOW_CLOSE_BTN = (By.XPATH, "//div[@class='f1'][contains(text(), 'Close')]")

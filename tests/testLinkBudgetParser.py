@@ -1,9 +1,9 @@
 from alive_progress import alive_bar
 from selenium.common.exceptions import TimeoutException
 
-from Pages.ldma import ParseLinkBudget
-from Pages.base import BasePage
-from Utilites.terminal_colors import bcolors
+from pages.ldma import ParseLinkBudget
+from pages.base import BasePage
+from utilites.terminal_colors import Colors
 
 
 class LDMA_Parser(BasePage):
@@ -28,7 +28,7 @@ class LDMA_Parser(BasePage):
                             parse_info.select_found_link_code(ID)
                             bar()
                         except TimeoutException:
-                            print(f"{bcolors.WARNING}Invalid Link ID --> {ID}{bcolors.WARNING}")
+                            print(f"{Colors.WARNING}Invalid Link ID --> {ID}{Colors.WARNING}")
                             bar()
                             continue
                         # parse_info.export_pdf_file(id) # Export As PDF
@@ -66,7 +66,7 @@ class LDMA_Parser(BasePage):
                         bar()
                         continue
                     else:
-                        print(f"{bcolors.FAIL}{site} : Link Budget not closed.{bcolors.ENDC}")
+                        print(f"{Colors.FAIL}{site} : Link Budget not closed.{Colors.ENDC}")
                         bar()
                 parse_info.logout_ldma()
                 self.driver.quit()

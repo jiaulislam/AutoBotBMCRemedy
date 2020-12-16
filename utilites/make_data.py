@@ -4,6 +4,8 @@ import datetime
 Format the Date with standard requirement. All five task
 data is formatted through this python file & the relationship
 query string generator also.
+
+written by: jiaul_islam
 """
 
 
@@ -140,7 +142,7 @@ def make_query_string(site_string: str) -> str:
     return "OR".join(query_list)
 
 
-def date_valid(user_date, system_date=datetime.datetime.today()) -> datetime:
+def date_valid(user_date, system_date=datetime.datetime.today()) -> bool:
     """ Check if the date is valid as per BMC Regulation """
     if user_date <= system_date:
         return True

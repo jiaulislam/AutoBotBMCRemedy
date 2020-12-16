@@ -1,17 +1,17 @@
 import os
 import time
 
-from Pages.base import BasePage
-from Pages.createrequest import CreateRequests
-from Pages.home import HomePage
-from Pages.login import LoginPage
-from Utilites import make_data
-from Utilites.data_export import Data_Export
-from Utilites.read_excel_data import Read_Data
-from Utilites.static_data import StaticData
+from pages.base import BasePage
+from pages.createrequest import CreateRequests
+from pages.home import HomePage
+from pages.login import LoginPage
+from utilites import make_data
+from utilites.data_export import Data_Export
+from utilites.read_excel_data import Read_Data
+from utilites.static_data import StaticData
 from alive_progress import alive_bar
 
-from Utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 
 
 class CreateChangeRequest(BasePage):
@@ -118,7 +118,7 @@ class CreateChangeRequest(BasePage):
                         # self.createChangeRequest.save_change()
                         # ---------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
-                        print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
                         self.createChangeRequest.reset_change_number()
@@ -132,7 +132,7 @@ class CreateChangeRequest(BasePage):
                         # self.createChangeRequest.save_change()
                         # ----------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
-                        print(f"{bcolors.OKGREEN}NCR Created: {change_number}{bcolors.ENDC}")
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
                         self.createChangeRequest.reset_change_number()

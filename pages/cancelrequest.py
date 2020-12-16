@@ -2,21 +2,21 @@ from selenium.common.exceptions import (
     TimeoutException,
     NoSuchElementException
 )
-from Utilites.Locators import (
+from utilites.locators import (
     CancelRequestLocators,
     CloseChangeLocators,
     DateSectionSelector,
     CommonChangeCreateLocators
 )
 
-# from selenium.webdriver.support import expected_conditions as ec
-# from selenium.webdriver.support.ui import WebDriverWait
-from Pages.base import BasePage
+from pages.base import BasePage
 from typing import NoReturn
 
 """
 A class for Cancel the unused Change Requests. For cancelling a 
 Request all the functions should be declared here
+
+written by: jiaul_islam
 """
 
 
@@ -43,9 +43,6 @@ class CancelRequests(BasePage):
 
     def is_cancelled(self) -> bool:
         """ Checks if the Cancellation is successful or not """
-
-        # status_Value = WebDriverWait(self.driver, self.timeout).until(
-        #     ec.visibility_of_element_located(CancelRequestLocators.STATUS_AREA)).get_attribute("value")
         status_value = self.get_value_of_element(CancelRequestLocators.STATUS_AREA)
         if status_value == 'Cancelled':
             return True

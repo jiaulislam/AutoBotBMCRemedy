@@ -6,7 +6,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support.wait import WebDriverWait
 
-from Utilites.Locators import (
+from utilites.locators import (
     CommonChangeCreateLocators,
     RelationshipQueryLocators,
     LocationServiceLocators,
@@ -20,22 +20,24 @@ from Utilites.Locators import (
     HomePageLocators,
     FrameBoxLocators
 )
-from Utilites.static_data import StaticData
+from utilites.static_data import StaticData
 from selenium.webdriver.support import expected_conditions as ec
-from Utilites.terminal_colors import bcolors
-from Pages.base import BasePage
+from utilites.terminal_colors import Colors
+from pages.base import BasePage
 import time
 
 """
 This Class will help to create a full new Change Request as per shared 
 data in the excel by the user. It's derived from BasePage Class.
+
+written by: jiaul_islam
 """
 
 
 class CreateRequests(BasePage):
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver, timeout=30)
         self.TNR_GROUP = [
             'Muhammad Shahed',
             'Ripan Kumar',
@@ -142,7 +144,7 @@ class CreateRequests(BasePage):
         elif change_manager == self.ANR_GROUP[5]:
             self.click(ChangeManagerLocators.CHANGE_MANAGER_KHAIRUL)
         else:
-            print(f"{bcolors.WARNING}Manager Not Found ! Using Default Manager: {self.TNR_GROUP[0]}{bcolors.ENDC}")
+            print(f"{Colors.WARNING}Manager Not Found ! Using Default Manager: {self.TNR_GROUP[0]}{Colors.ENDC}")
             self.click(ChangeManagerLocators.CHANGE_MANAGER_SHAHED)
 
     def change_location(self, change_location_details: tuple) -> None:
@@ -273,7 +275,7 @@ class CreateRequests(BasePage):
             else:
                 return False
         except NoSuchElementException:
-            print(f"{bcolors.WARNING}Attachment status unable to fetch. {bcolors.ENDC}")
+            print(f"{Colors.WARNING}Attachment status unable to fetch. {Colors.ENDC}")
             pass
 
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:
@@ -360,7 +362,6 @@ class CreateRequests(BasePage):
         try:
             value = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
         except NoSuchElementException:
-            # time.sleep(5)
             value = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
         except AttributeError:

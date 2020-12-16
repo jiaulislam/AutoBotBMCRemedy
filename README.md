@@ -3,7 +3,7 @@
 Details requirements has been discussed below.</p>
 
 ## Getting Started
-<p>To start working with this automation script, Please make sure you have installed described requirments & must have the Custom Excel Data Driver.</p>
+<p>To start working with self automation script, Please make sure you have installed described requirments & must have the Custom Excel Data Driver.</p>
 
 >Note: You can use pip from python after python installation done to install all the required modules.
 
@@ -15,7 +15,7 @@ Details requirements has been discussed below.</p>
 
 <p>1. Download the <a href ="https://sites.google.com/a/chromium.org/chromedriver/downloads"> Chromium Web-Driver</a> and place it in C:/Chromedriver32/ .</p>
 <p>2. Make Sure your computer $PATH have chromedriver, python, pip in the desktop environement settings.
-<p>3. After downloading this script, Run the script with python 
+<p>3. After downloading self script, Run the script with python 
 <p>4. Excel Data-Driver file have the instruction what to do next.
 
 ## TODO

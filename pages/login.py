@@ -1,10 +1,12 @@
-from Pages.base import BasePage
-from Utilites.Locators import LoginPageLocators
-from Utilites.static_data import StaticData
+from pages.base import BasePage
+from utilites.locators import LoginPageLocators
+from utilites.static_data import StaticData
 
 """
 This Login Page Class File in responsible for login into the home page.
 So this will require username & password from the PageLocators Class.
+
+written by: jiaul_islam
 """
 
 

@@ -7,9 +7,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from Utilites.static_data import StaticData, LDMAData
+from utilites.static_data import StaticData, LDMAData
 from tests.testLinkBudgetParser import LDMA_Parser
-from Utilites.terminal_colors import bcolors
+from utilites.terminal_colors import Colors
 
 """
 Module Name: driver.py
@@ -18,7 +18,7 @@ This is the main class for running the application. From here
 all the functions can be called. This will be the user interface
 from here. User's will choose the actions to do on BMC Remedy.
 
-@Author: w4nn4b3cod3r
+written by: jiaul_islam
 """
 
 
@@ -192,7 +192,7 @@ def main():
                         else:
                             print(f"Invalid input {choice}. Please use 1 or 2")
                     except ValueError as error:
-                        print(f"\n{bcolors.FAIL}{error}{bcolors.ENDC}\n")
+                        print(f"\n{Colors.FAIL}{error}{Colors.ENDC}\n")
             elif choice == 5:
                 # Expedited CR
                 # TODO: EXPERIMENTAL 
@@ -205,7 +205,7 @@ def main():
             else:
                 print("\nInvalid choice ! Try Again.\n")
         except ValueError as e:
-            print(f"\n{bcolors.FAIL}{e}{bcolors.ENDC}\n")
+            print(f"\n{Colors.FAIL}{e}{Colors.ENDC}\n")
 
 
 if __name__ == "__main__":

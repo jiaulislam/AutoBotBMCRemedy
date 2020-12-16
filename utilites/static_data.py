@@ -3,6 +3,8 @@ import os
 '''
 This page is all about static data that won't be changed through the Tests. 
 All the time this data should be static as-is like here
+
+written by: jiaul_islam
 '''
 
 
@@ -22,3 +24,9 @@ class LDMAData(object):
     LDMA_URL = 'http://ldma.robi.com.bd/view/common/login.php'
     LDMA_USERNAME = os.environ.get("LDMA_USER")
     LDMA_PASSWORD = os.environ.get("LDMA_PASS")
+
+
+class ROCData(object):
+    ROC_URL = 'https://roc.robi.com.bd/ROC/ROCPages/Pages/ROBIROC_Login.aspx'
+    ROC_USERNAME = os.environ.get("ROC_USERNAME")
+    ROC_PASSWORD = os.environ.get("ROC_PASSWORD")

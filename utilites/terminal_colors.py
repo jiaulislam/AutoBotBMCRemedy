@@ -1,5 +1,12 @@
+"""
+ASCII Color Codes for showing colored output in the Terminal
 
-class bcolors:
+written by: jiaul_islam
+
+"""
+
+
+class Colors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'

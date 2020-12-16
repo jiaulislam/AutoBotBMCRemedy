@@ -1,7 +1,7 @@
 from selenium.common.exceptions import (
     NoSuchFrameException,
     NoSuchElementException,
-    TimeoutException,
+    TimeoutException, ElementClickInterceptedException,
 )
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
@@ -9,12 +9,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from typing import Iterable, NoReturn
 from selenium import webdriver
-import time
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
 BasePage class. Some most common method is written here that we're gonna need 
 all over the project/Pages to work with.
+
+written_by: jiaul_islam
 '''
 
 
@@ -74,7 +75,6 @@ class BasePage(object):
         try:
             WebDriverWait(driver=self.driver,
                           timeout=self.timeout,
-                          # poll_frequency=1,
                           ignored_exceptions=[NoSuchElementException,
                                               NoSuchFrameException]
                           ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
@@ -83,7 +83,7 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
-    def write(self, xpath_locator: str, text: str) -> NoReturn:
+    def write(self, xpath_locator: tuple, text: str) -> NoReturn:
         """ Write the text in web element by a locator shared by the user """
         try:
             WebDriverWait(self.driver, self.timeout).until(
@@ -108,16 +108,10 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
-    def switch_to_frame(self, xpath_locator: str, timeout: int = 2) -> NoReturn:
+    def switch_to_frame(self, xpath_locator: str) -> NoReturn:
         """ Switch to a frame by a frame locator """
-        try:
-            user_frame = WebDriverWait(self.driver, timeout).until(
-                ec.visibility_of_element_located(xpath_locator))
-            self.driver.switch_to.frame(user_frame)
-        except NoSuchFrameException:
-            pass
-        except TimeoutException:
-            pass
+        user_frame = self.driver.find_element(*xpath_locator)
+        self.driver.switch_to.frame(user_frame)
 
     def double_click(self, xpath_locator: tuple) -> NoReturn:
         """ Double click on a element by a locator """
@@ -160,7 +154,7 @@ class BasePage(object):
             self.switch_to_frame(frame_locator)
             self.click(ok_btn_locator)
             self.driver.switch_to.default_content()
-        except (NoSuchFrameException, TimeoutException):
+        except (NoSuchFrameException, NoSuchElementException, TimeoutException):
             pass
 
     def back_to_home_page(self, xpath_locator: tuple) -> NoReturn:
@@ -172,9 +166,19 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
         except TimeoutException:
+            print("Back To Home Timeout Exception Hit")
             try:
-                time.sleep(1)
-                self.click(xpath_locator)
+                WebDriverWait(self.driver, 20).until(
+                    ec.visibility_of_element_located(xpath_locator)).click()
             except TimeoutException as error:
                 raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
                                 f"\n{repr(error)}")
+        except ElementClickInterceptedException:
+            try:
+                WebDriverWait(self.driver, self.timeout).until(
+                    ec.visibility_of_element_located(xpath_locator)).click()
+            except ElementClickInterceptedException:
+                WebDriverWait(self.driver, self.timeout).until(
+                    ec.element_to_be_clickable(xpath_locator)).click()
+            except Exception as error:
+                print(f"Unexpected error found ! --> {error}")
