@@ -8,3 +8,5 @@ Lib/
 Scripts/
 pyvenv.cfg
 LinkBudgetDumps/
+test.py
+
