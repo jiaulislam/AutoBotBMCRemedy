@@ -136,6 +136,9 @@ class BasePage(object):
             print(f"Unexpected Timeout Error [base.py || Line - 135]"
                   f"\n{repr(error)}")
             pass
+        except AttributeError as error:
+            print(f"Unexpected Attribute Error -> {error}")
+            pass
 
     def get_value_of_element(self, xpath_locator: str) -> str:
         """ Get the text value of a web element shared by a user """

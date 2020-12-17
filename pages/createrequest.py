@@ -1,11 +1,15 @@
+import time
+
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     NoSuchElementException,
     NoSuchWindowException,
     NoSuchFrameException
 )
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
+from pages.base import BasePage
 from utilites.locators import (
     CommonChangeCreateLocators,
     RelationshipQueryLocators,
@@ -21,10 +25,7 @@ from utilites.locators import (
     FrameBoxLocators
 )
 from utilites.static_data import StaticData
-from selenium.webdriver.support import expected_conditions as ec
 from utilites.terminal_colors import Colors
-from pages.base import BasePage
-import time
 
 """
 This Class will help to create a full new Change Request as per shared 
