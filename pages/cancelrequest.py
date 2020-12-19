@@ -24,7 +24,7 @@ class CancelRequests(BasePage):
     """ A class for mimicking the user interactions to cancel a Change Request """
 
     def __init__(self, driver):
-        super().__init__(driver=driver, timeout=10)
+        super().__init__(driver=driver)
 
     def is_change_request_opened(self) -> bool:
         """ Checks if the current working change request is opened or not """

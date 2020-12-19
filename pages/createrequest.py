@@ -294,9 +294,11 @@ class CreateRequests(BasePage):
     def verify_summary(self, summary: str):
         """ Verify if the Summary Box is empty or not """
         contents = self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).get_attribute('value').strip()
-
         if contents == "" and len(contents):
             self.insert_text_summary(summary)
+        elif contents is None:
+            print(repr(contents))
+            pass
         else:
             pass
 

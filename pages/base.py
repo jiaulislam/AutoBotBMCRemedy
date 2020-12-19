@@ -52,7 +52,7 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
         except AttributeError as error:
-            print(f"Unexpected Attribute Error in find_element() ||\n{repr(error)}")
+            print(f"Unexpected Attribute Error in find_elements() ||\n{repr(error)}")
             pass
         except NoSuchElementException:
             pass

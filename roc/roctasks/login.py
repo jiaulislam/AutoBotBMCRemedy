@@ -36,7 +36,7 @@ class Login(BasePage):
         Check if there already a user is logged in to the account.
 
         return:
-            True (if the no user logged in)
+            True : if the no user logged in
             False : do the required actions
         """
         try:
