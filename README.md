@@ -18,7 +18,7 @@ You can also:
 
 ### Tech
 
-Dillinger uses a number of open source projects to work properly:
+Autobot uses a number of open source projects to work properly:
 
 * [Selenium](https://www.selenium.dev/) - Web-browser Controller framework!
 * [OpenpyXL](https://pypi.org/project/openpyxl/) - Excel File handling framework! 
