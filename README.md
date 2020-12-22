@@ -16,8 +16,6 @@ Autobot is web automation framework for BMC Remedy, LDMA & ROC to complete borin
   - ROC is in the pipeline for automating the ROC Milestone clearence.
   - GUI Interface 
 
-You can also:
-  - Export documents as DOCX, HTML and PDF
 
 ### Tech
 
