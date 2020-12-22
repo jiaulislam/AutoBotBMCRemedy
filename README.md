@@ -1,28 +1,76 @@
-## AutoBot-BMCRemedy!
-<p>A automation project to create/close ticket in BMC Remedy with selenium webdriver. It would require the Custom Data-Driver Excel file to work.
-Details requirements has been discussed below.</p>
+# Autobot
 
-## Getting Started
-<p>To start working with self automation script, Please make sure you have installed described requirments & must have the Custom Excel Data Driver.</p>
+Autobot is web automation framework for BMC Remedy, LDMA & ROC to complete boring everyday task with just  excel data.
 
->Note: You can use pip from python after python installation done to install all the required modules.
+  - Create Change Request in BMC Remedy System
+  - Close Change Request in BMC Remedy System
+  - Cancel Change Request in BMC Remedy System
+  - Parse the Link Budget from LDMA Robi Axiata website 
+  - Parse the ROC info from ROC Robi Axiata website
 
-* <a href = "https://www.python.org/"> Python </a>
-* <a href = "https://www.selenium.dev/selenium/docs/api/py/"> Selenium </a>
-* <a href = "https://openpyxl.readthedocs.io/en/stable/"> Openpyxl </a>
+# Up Coming Features!
 
-## Procedure 
+  - ROC is in the pipeline for automating the ROC Milestone clearence.
+  - GUI Interface 
 
-<p>1. Download the <a href ="https://sites.google.com/a/chromium.org/chromedriver/downloads"> Chromium Web-Driver</a> and place it in C:/Chromedriver32/ .</p>
-<p>2. Make Sure your computer $PATH have chromedriver, python, pip in the desktop environement settings.
-<p>3. After downloading self script, Run the script with python 
-<p>4. Excel Data-Driver file have the instruction what to do next.
+You can also:
+  - Export documents as DOCX, HTML and PDF
 
-## TODO
+### Tech
 
-*   Need a way to parse the NCR Number, NCR Status, NCR date without using Visual Chrome-driver. Hoping to do with Requests Libray. 
+Dillinger uses a number of open source projects to work properly:
 
-*   NCR Group is hard-coded for now for my suitable needs, need to do that dynamic also.
+* [Selenium](https://www.selenium.dev/) - Web-browser Controller framework!
+* [OpenpyXL](https://pypi.org/project/openpyxl/) - Excel File handling framework! 
+* [pywin32](https://pypi.org/project/pywin32/) - Win32 api Controllers !
+* [pdfkit](https://pypi.org/project/pdfkit/) - To Export the data as PDF !
+* [alive_progress](https://pypi.org/project/alive-progress/) - For beautiful termial Progress Bar.
+
+### Installation
+
+Autobot required latest version of [Selenium](https://www.selenium.dev/) to run.
+
+Install the dependencies and devDependencies and start the app.
+
+```sh
+$ cd AutoBotBMCRemedy
+$ pip3 install -r requirements.txt
+$ python3 driver.py
+```
 
 
-> Caution: This automation script is still in under development, so there's a lot of bugs in the program and may have crush here and there.
+### Development
+
+Want to contribute? Great!
+
+Autobot uses Pure python + Selenium framework for fast developing.
+
+Open your favorite Terminal and run these commands.
+
+First Tab:
+```sh
+$ git clone git@github.com:jiaulislam/AutoBotBMCRemedy.git
+```
+
+Second Tab:
+```sh
+$ cd AutoBotBMCRemedy
+```
+
+(optional) Third:
+```sh
+$ code .
+```
+
+### Todos
+
+ - Write MORE Tests
+ - Make the code more DRY & Stable
+
+License
+----
+
+MIT
+
+
+**Automation, Hell Yeah!**
