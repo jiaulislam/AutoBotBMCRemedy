@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from typing import Iterable, NoReturn
 from selenium import webdriver
-
+import time
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
 BasePage class. Some most common method is written here that we're gonna need 
@@ -181,7 +181,18 @@ class BasePage(object):
                 WebDriverWait(self.driver, self.timeout).until(
                     ec.visibility_of_element_located(xpath_locator)).click()
             except ElementClickInterceptedException:
-                WebDriverWait(self.driver, self.timeout).until(
-                    ec.element_to_be_clickable(xpath_locator)).click()
+                try:
+                    WebDriverWait(self.driver, self.timeout).until(
+                        ec.element_to_be_clickable(xpath_locator)).click()
+                except ElementClickInterceptedException:
+                    print("Grace Period | Waiting 5s ", end="")
+                    for i in range(5):
+                        print(".", end="")
+                        time.sleep(1)
+                    print()
+                    WebDriverWait(self.driver, self.timeout).until(
+                        ec.element_to_be_clickable(xpath_locator)).click()
+                except Exception as error:
+                    print(f"Unexpected Error found ! --> {error}")
             except Exception as error:
                 print(f"Unexpected error found ! --> {error}")
