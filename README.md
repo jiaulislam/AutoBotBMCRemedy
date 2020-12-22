@@ -8,6 +8,9 @@ Autobot is web automation framework for BMC Remedy, LDMA & ROC to complete borin
   - Parse the Link Budget from LDMA Robi Axiata website 
   - Parse the ROC info from ROC Robi Axiata website
 
+  ### You can also:
+  - Export documents as DOCX, HTML and PDF
+
 # Up Coming Features!
 
   - ROC is in the pipeline for automating the ROC Milestone clearence.
@@ -24,7 +27,7 @@ Autobot uses a number of open source projects to work properly:
 * [OpenpyXL](https://pypi.org/project/openpyxl/) - Excel File handling framework! 
 * [pywin32](https://pypi.org/project/pywin32/) - Win32 api Controllers !
 * [pdfkit](https://pypi.org/project/pdfkit/) - To Export the data as PDF !
-* [alive_progress](https://pypi.org/project/alive-progress/) - For beautiful termial Progress Bar.
+* [alive_progress](https://pypi.org/project/alive-progress/) - For beautiful termial Progress Bar !
 
 ### Installation
 
