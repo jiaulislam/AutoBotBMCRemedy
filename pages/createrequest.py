@@ -294,10 +294,10 @@ class CreateRequests(BasePage):
     def verify_summary(self, summary: str):
         """ Verify if the Summary Box is empty or not """
         contents = self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).get_attribute('value').strip()
-        if contents == "" and len(contents):
+        if contents == "" or len(contents) == 0:
+            self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).clear()
             self.insert_text_summary(summary)
         elif contents is None:
-            print(repr(contents))
             pass
         else:
             pass
@@ -368,7 +368,7 @@ class CreateRequests(BasePage):
             value = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
         except AttributeError:
-            # Need to Find out why it's giving me None Type if value is changing
+            #TODO: Need to Find out why it's giving me None Type if value is changing
             pass
         while True:
             if self.get_change_number() != value:
