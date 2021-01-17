@@ -52,8 +52,8 @@ class CreateChangeRequest(BasePage):
                     change_manager = self.read_data.parse_change_manager(change)
                     location_service = (company, commercial_zone)
 
-                    summary = project_name + " || " + service_type + "\n"
-                    notes = project_name + " || " + service_type + "\n" + change_activity + "\n"
+                    summary = project_name + " // " + service_type + "\n\n"
+                    notes = summary + change_activity + "\n\n"
                     impact_list = make_data.make_impact_list(impact_sites, commercial_zone)
                     file_location = os.getcwd() + "/" + commercial_zone + '.txt'
 

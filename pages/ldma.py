@@ -17,6 +17,7 @@ from selenium import webdriver
 from utilites.terminal_colors import Colors
 from utilites.static_data import LDMAData
 from pages.base import BasePage
+from pathlib import Path
 import win32com.client
 import shutil
 import pdfkit
@@ -217,3 +218,7 @@ class ParseLinkBudget(BasePage):
         except TimeoutException as e:
             print(f"Error Found in Site 2: {e}")
             pass
+
+    def copy_exported_files(self):
+        pass
+
