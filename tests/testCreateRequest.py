@@ -55,7 +55,7 @@ class CreateChangeRequest(BasePage):
                     summary = project_name + " // " + service_type + "\n\n"
                     notes = summary + change_activity + "\n\n"
                     impact_list = make_data.make_impact_list(impact_sites, commercial_zone)
-                    file_location = os.getcwd() + "/" + commercial_zone + '.txt'
+                    # file_location = os.getcwd() + "/" + commercial_zone + '.txt'
 
                     # ---------------make_data: Task Time Calculation ---------------- #
                     cr_start_time = make_data.get_change_start_time(m_date)
@@ -75,9 +75,9 @@ class CreateChangeRequest(BasePage):
                     change_number = self.createChangeRequest.get_change_number()
                     self.createChangeRequest.select_manager_group(change_manager)
                     self.createChangeRequest.select_change_manager(change_manager)
-                    self.createChangeRequest.insert_text_note_and_upload_files(notes, file_location)
+                    self.createChangeRequest.insert_text_note_and_upload_files(notes)
                     self.createChangeRequest.change_location(location_service)
-                    os.remove(file_location)
+                    # os.remove(file_location)
                     self.createChangeRequest.verify_summary(summary)
                     self.createChangeRequest.insert_schedule_date_time(cr_start_time, cr_end_time)
                     self.createChangeRequest.create_task_template()

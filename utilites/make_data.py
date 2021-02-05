@@ -82,15 +82,11 @@ def make_impact_list(site_list, site_group):
     sites = site_str.split(',')
     impact_list = "Impact List: "
 
-    with open(file_name, 'w+') as notepad_file:
-        for site in sites:
-            impact_list += site
-            notepad_file.write(site.strip())
-            notepad_file.write("\n")
-            if ctr != len(sites) - 1:
-                impact_list += ','
-                ctr += 1
-        notepad_file.close()
+    for site in sites:
+        impact_list += site
+        if ctr != len(sites) - 1:
+            impact_list += ','
+            ctr += 1
     return "\n\n" + impact_list
 
 

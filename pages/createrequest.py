@@ -61,7 +61,7 @@ class CreateRequests(BasePage):
                 self.__change_number = self.get_value_of_element(
                     CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:
-                raise Exception("NoSuchElement Found in the DOM.")
+                raise NoSuchElementException("SET_CHANGE_NUMBER | NO SUCH ELEMENT EXCEPTION")
 
     def reset_change_number(self):
         """ Reset the Change Number Variable """
@@ -90,18 +90,18 @@ class CreateRequests(BasePage):
         """ Write the impact list into the Notes Section """
         self.write(SummaryAndNotesBox.NOTES_TEXTBOX, impact_list)
 
-    def insert_text_note_and_upload_files(self, notes: str, location_of_file: str) -> None:
+    def insert_text_note_and_upload_files(self, notes: str) -> None:
         """ Write the info and attach the file in work info section """
         self.write(WorkInfoAttachment.INFO_NOTES_TEXTBOX, notes)
-        self.click(WorkInfoAttachment.ATTACH_FILE_ICON_BUTTON)
-        if self.__get_title_of_view_attachment_btn():
-            self.switch_to_frame(WorkInfoAttachment.UPLOAD_ATTACHMENT_FRAME)
-            self.write(WorkInfoAttachment.CHOOSE_ATTACHMENT_FRAME, location_of_file)
-            time.sleep(1)
-            self.click(WorkInfoAttachment.OK_ATTACHMENT_FRAME_BUTTON)
-            # TODO: Need to do something about this implicit wait
-            time.sleep(1)
-            self.driver.switch_to.default_content()
+        # self.click(WorkInfoAttachment.ATTACH_FILE_ICON_BUTTON)
+        # if self.__get_title_of_view_attachment_btn():
+        #     self.switch_to_frame(WorkInfoAttachment.UPLOAD_ATTACHMENT_FRAME)
+        #     self.write(WorkInfoAttachment.CHOOSE_ATTACHMENT_FRAME)
+        #     time.sleep(1)
+        #     self.click(WorkInfoAttachment.OK_ATTACHMENT_FRAME_BUTTON)
+        #     # TODO: Need to do something about this implicit wait
+        #     time.sleep(1)
+        #     self.driver.switch_to.default_content()
         self.click(WorkInfoAttachment.ADD_NOTE_ATTACHMENT_BUTTON)
 
     def select_manager_group(self, change_manager: str) -> None:
