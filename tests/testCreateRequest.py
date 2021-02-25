@@ -54,7 +54,8 @@ class CreateChangeRequest(BasePage):
 
                     summary = project_name + " // " + service_type + "\n\n"
                     notes = summary + change_activity + "\n\n"
-                    impact_list = make_data.make_impact_list(impact_sites, commercial_zone)
+                    impact_list = make_data.make_impact_list(impact_sites)
+                    details = summary + change_activity + impact_list
                     # file_location = os.getcwd() + "/" + commercial_zone + '.txt'
 
                     # ---------------make_data: Task Time Calculation ---------------- #
@@ -70,8 +71,8 @@ class CreateChangeRequest(BasePage):
                     time.sleep(3)
                     self.createChangeRequest.insert_text_summary(summary)
                     self.createChangeRequest.set_change_number()
-                    self.createChangeRequest.insert_text_notes(notes)
-                    self.createChangeRequest.insert_impact_list_in_notes(impact_list)
+                    self.createChangeRequest.insert_text_notes(details)
+                    # self.createChangeRequest.insert_impact_list_in_notes(impact_list)
                     change_number = self.createChangeRequest.get_change_number()
                     self.createChangeRequest.select_manager_group(change_manager)
                     self.createChangeRequest.select_change_manager(change_manager)

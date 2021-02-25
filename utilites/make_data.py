@@ -74,10 +74,9 @@ def parse_datetime(m_date):
     return datetime.datetime.strptime(str(m_date), '%Y-%m-%d %H:%M:%S')
 
 
-def make_impact_list(site_list, site_group):
+def make_impact_list(site_list):
     """ Export a file with site list & return the string of site list with formatted impact list """
     ctr = 0
-    file_name = site_group + '.txt'
     site_str = site_list.strip()
     sites = site_str.split(',')
     impact_list = "Impact List: "
