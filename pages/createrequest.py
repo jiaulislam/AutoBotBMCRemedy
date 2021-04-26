@@ -108,19 +108,8 @@ class CreateRequests(BasePage):
         """ Select the manager domain depend on the shared change-manager name """
         self.click(ChangeManagerLocators.MANAGER_GROUP_BTN)
         self.hover_over(ChangeManagerLocators.IMPLEMENTATION_MENU)
-
-        if change_manager in self.TNR_GROUP:
-            self.hover_over(ChangeManagerLocators.TNR_GROUP_MENU)
-            self.hover_over(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
-            self.click(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
-        elif change_manager in self.ANR_GROUP:
-            self.hover_over(ChangeManagerLocators.ANR_GROUP_MENU)
-            self.hover_over(ChangeManagerLocators.RADIO_ROLLOUT_SELECT_BTN)
-            self.click(ChangeManagerLocators.RADIO_ROLLOUT_SELECT_BTN)
-        else:
-            self.hover_over(ChangeManagerLocators.TNR_GROUP_MENU)
-            self.hover_over(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
-            self.click(ChangeManagerLocators.TX_OPTIMIZATION_SELECT_BTN)
+        self.hover_over(ChangeManagerLocators.ANR_GROUP_MENU)
+        self.click(ChangeManagerLocators.RADIO_ROLLOUT_SELECT_BTN)
 
     def select_change_manager(self, change_manager: str) -> None:
         """ Select the change manager shared by the user """

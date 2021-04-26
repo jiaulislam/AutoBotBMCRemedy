@@ -38,8 +38,8 @@ class ChangeManagerLocators(object):
     ANR_GROUP_MENU = (By.XPATH, "//td[contains(text(),'Access Network Rollout')]")
 
     # ------------------ CHANGE_MANAGER_TECHNOLOGY DIVISION ----------------------- #
-    TX_OPTIMIZATION_SELECT_BTN = (By.XPATH, "//td[contains(text(),'Tx Optimization and Modernization')]")
-    RADIO_ROLLOUT_SELECT_BTN = (By.XPATH, "//td[contains(text(),'Radio Rollout')]")
+    TX_OPTIMIZATION_SELECT_BTN = (By.XPATH, "//td[contains(text(),'Access Network Rollout_2(3G)')]")
+    RADIO_ROLLOUT_SELECT_BTN = (By.XPATH, "//td[contains(text(),'Access Network Rollout_2(3G)')]")
 
     CHANGE_MANAGER_MENU_BTN = (By.XPATH, "//*[@id='WIN_3_1000000403']/a")
 
