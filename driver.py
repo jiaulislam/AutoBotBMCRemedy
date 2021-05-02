@@ -10,6 +10,7 @@ from tests.testCreateRequest import CreateChangeRequest
 from utilites.static_data import StaticData, LDMAData
 from tests.testLinkBudgetParser import LDMA_Parser
 from utilites.terminal_colors import Colors
+from prettify import ldma_cli
 
 """
 Module Name: driver.py
@@ -170,11 +171,7 @@ def main():
                 # Parse Link Budget from LDMA
                 while True:
                     try:
-                        print(
-                            "==>Press 1 for parse with Link ID\n"
-                            "==>Press 2 for parse with Site ID\n"
-                            "==>Press 3 for go-back\n")
-                        choice = int(input("Press: "))
+                        choice: int = ldma_cli.menu()
                         if choice == 1:
                             LinkID = input("\nPlease Enter LinkID: ")
                             link_ids = LinkID.split(",")

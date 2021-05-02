@@ -2,26 +2,26 @@
 This module is to help with parsing the required information for a Link Budget
 developer : jiaul_islam
 """
+import os
+import shutil
+
+import pdfkit
+import win32com.client
+from selenium import webdriver
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementClickInterceptedException,
     TimeoutException
 )
 
+from pages.base import BasePage
 from utilites.ldmalocators import (
     LDMALoginLocators,
     LDMALogoutLocators,
     LinkBudgetActivityLocator
 )
-from selenium import webdriver
-from utilites.terminal_colors import Colors
 from utilites.static_data import LDMAData
-from pages.base import BasePage
-from pathlib import Path
-import win32com.client
-import shutil
-import pdfkit
-import os
+from utilites.terminal_colors import Colors
 
 
 class ParseLinkBudget(BasePage):
@@ -221,4 +221,3 @@ class ParseLinkBudget(BasePage):
 
     def copy_exported_files(self):
         pass
-
