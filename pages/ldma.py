@@ -6,7 +6,6 @@ import os
 import shutil
 
 import pdfkit
-import win32com.client
 from selenium import webdriver
 from selenium.common.exceptions import (
     NoSuchElementException,

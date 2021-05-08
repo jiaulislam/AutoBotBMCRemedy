@@ -7,14 +7,13 @@ configparser==5.0.1
 crayons==0.4.0
 et-xmlfile==1.0.1
 idna==2.10
-ip==20.2.3
+pip==20.2.3
 jdcal==1.4.1
 mypy==0.812
 mypy-extensions==0.4.3
 openpyxl==3.0.5
 pdfkit==0.6.1
 Pygments==2.8.1
-pywin32==300
 requests==2.25.0
 rich==10.1.0
 selenium==3.141.0
