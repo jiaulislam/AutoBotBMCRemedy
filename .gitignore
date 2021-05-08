@@ -10,3 +10,7 @@ pyvenv.cfg
 LinkBudgetDumps/
 test.py
 run.py
+bin
+lib
+lib64
+share
