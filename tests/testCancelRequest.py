@@ -8,7 +8,7 @@ from utilites import make_data
 from utilites.static_data import StaticData
 from alive_progress import alive_bar
 from utilites.terminal_colors import Colors
-
+import os
 
 class CancelChangeRequest(BasePage):
 
@@ -32,6 +32,7 @@ class CancelChangeRequest(BasePage):
         all_changes_web = self.home_page.get_all_change_numbers()
 
         # Parse all the user requested change number from the source
+        print(os.getcwd())
         all_changes_file = make_data.list_of_change(StaticData.CANCEL_CHANGE_TXT_FILE_PATH)
         with alive_bar(len(all_changes_file)) as bar:
             for a_change in all_changes_file:
