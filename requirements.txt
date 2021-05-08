@@ -20,5 +20,5 @@ rich==10.1.0
 selenium==3.141.0
 typed-ast==1.4.3
 typing-extensions==3.7.4.3
-urllib3==1.26.2
+urllib3==1.26.4
 webdriver-manager==3.2.2
