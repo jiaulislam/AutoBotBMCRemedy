@@ -20,7 +20,7 @@ class Read_Data:
         except FileNotFoundError:
             print(
                 f"Error! File/Directory do not exist in {os.getcwd()}."
-                f"\nMake sure you have Data_driver folder or files in the folder.\n"
+                f"\nMake sure you have 'data_driver' folder or files in the folder.\n"
                 f"or for Draft NCR keep a draft.xlsx file in the data_driver folder.\n")
             sys.exit()
         except Exception as e:
