@@ -1,6 +1,6 @@
 from pages.base import BasePage
 from utilites.locators import LoginPageLocators
-from utilites.static_data import StaticData, BMCData
+from utilites.static_data import BMCData
 
 """
 This Login Page Class File in responsible for login into the home page.

@@ -103,6 +103,17 @@ class Read_Data:
         change_manager = self._sheet['K' + str(index)]
         return change_manager.value
 
+    def get_last_empty_cell(self) -> int:
+        """ Return the last empty row number """
+        _last_blank_row = 0
+
+        for row in range(1, self._sheet.max_row):
+            if self._sheet[f"A{row}"].value is None:
+                break
+            else:
+                _last_blank_row+=1
+        return _last_blank_row
+
     def close_workbook(self) -> None:
         """ close the excel file """
         self.__data_driver.close()
