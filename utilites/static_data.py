@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 '''
 This page is all about static data that won't be changed through the Tests. 
@@ -9,6 +8,8 @@ written by: jiaul_islam
 BASE_DIR = Path.cwd().joinpath("data_driver")
 READER_FILENAME = 'Request_CR.xlsx'
 WRITER_FILENAME = 'Output_CR.xlsx'
+CANCEL_CHANGE_FILENAME = "cancel.txt"
+CLOSE_CHANGE_FILENAME = "change.txt"
 
 class StaticData(object):
     BMC_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
@@ -19,9 +20,14 @@ class StaticData(object):
     READ_EXCEL_FILE = str(BASE_DIR.with_name(READER_FILENAME))
     WRITE_EXCEL_FILE = str(BASE_DIR.with_name(WRITER_FILENAME))
     # WRITE_EXCEL_FILE = os.getcwd() + "/data_driver/Output_CR.xlsx"
-    CANCEL_CHANGE_TXT_FILE_PATH = os.getcwd() + "/data_driver/cancel.txt"
-    CLOSE_CHANGE_TXT_FILE_PATH = os.getcwd() + "/data_driver/change.txt"
+    CANCEL_CHANGE_TXT_FILE_PATH = str(BASE_DIR.with_name(CANCEL_CHANGE_FILENAME))
+    CLOSE_CHANGE_TXT_FILE_PATH =str(BASE_DIR.with_name(CLOSE_CHANGE_FILENAME))
     VIEW_ATTACHMENT_DEFAULT_STATE = 'View Attachment Disabled'
+
+class BMCData(object):
+    BMC_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
+    USERNAME = os.environ.get("BMC_USER")  # Get the username
+    PASSWORD = os.environ.get("BMC_PASS")  # Get the password
 
 
 class LDMAData(object):

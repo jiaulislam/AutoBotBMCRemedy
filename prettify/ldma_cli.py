@@ -1,10 +1,12 @@
 from rich import box
 from rich.align import Align
+from typing import Tuple
 from rich.console import Console, RenderableType
 from rich.layout import Layout
 from rich.panel import Panel
 from rich.prompt import IntPrompt
 from rich.table import Table
+from rich.live import Live
 
 console: Console = Console()
 
@@ -73,3 +75,25 @@ def menu() -> int:
     console.print(layout)
 
     return take_choice_input()
+
+data = [("1", "Test", "Jibon", "SUCCESS"), ("2", "Test", "Jibon", "FAILED")]
+
+def table_header() -> Table:
+    table = Table(title="LDMA PARSING STATUS")
+
+    table.add_column("SL")
+    table.add_column("LINKCODE")
+    table.add_column("SITECODE")
+    table.add_column("STATUS")
+    # id, link_code, site_code, status = data # A scoped Data Need to provide
+    # table.add_row(id, link_code, site_code, "[red]FAILED" if status != "SUCCESS" else "[green]SUCCESS")
+
+    return table
+
+def add_data(table, *data):
+    table.add_row(f'{data[0]}', f'{data[1]}', f'{data[2]}', "[red]FAILED" if f'{data[3]}' != "SUCCESS" else "[green]SUCCESS")
+
+with Live(table_header(), refresh_per_second=4) as live:
+    for d in data:
+        table = table_header()
+        live.update(add_data(table,*d))
