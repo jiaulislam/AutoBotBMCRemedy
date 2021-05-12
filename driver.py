@@ -7,10 +7,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from utilites.static_data import StaticData, LDMAData, BMCData
+from utilites.static_data import LDMAData, BMCData
 from tests.testLinkBudgetParser import LDMA_Parser
 from utilites.terminal_colors import Colors
-from prettify import ldma_cli
+from prettify import prettify_ldma
+from rich import print
 
 """
 Module Name: driver.py
@@ -171,7 +172,8 @@ def main():
                 # Parse Link Budget from LDMA
                 while True:
                     try:
-                        choice: int = ldma_cli.menu()
+                        print(prettify_ldma.MainMenuLayout())
+                        choice: int = prettify_ldma.get_choice()
                         if choice == 1:
                             LinkID = input("\nPlease Enter LinkID: ")
                             link_ids = LinkID.split(",")
