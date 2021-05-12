@@ -1,7 +1,8 @@
-import datetime
 import sys
+from datetime import datetime
 
 import openpyxl
+
 from .terminal_colors import Colors
 
 """
@@ -31,7 +32,7 @@ class Data_Export:
 
     def insert_date(self, index: int, date: str) -> None:
         """ insert the date of the Change requesting """
-        date_to_insert = datetime.datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S')
+        date_to_insert = datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S')
         my_date = str(date_to_insert.strftime("%d-%b-%y"))
         self._sheet['B' + str(index)] = my_date
 

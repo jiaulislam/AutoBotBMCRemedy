@@ -13,7 +13,7 @@ written by: jiaul_islam
 #  Excel File Handler Class
 class Read_Data:
     def __init__(self, file_path) -> None:
-        """ Full path to the excel document """
+        """ Read the Excel Data as per Format """
         try:
             self.__data_driver = openpyxl.load_workbook(read_only=True, filename=file_path, data_only=True)
             self._sheet = self.__data_driver.active
@@ -111,7 +111,7 @@ class Read_Data:
             if self._sheet[f"A{row}"].value is None:
                 break
             else:
-                _last_blank_row+=1
+                _last_blank_row += 1
         return _last_blank_row
 
     def close_workbook(self) -> None:
