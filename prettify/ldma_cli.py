@@ -7,7 +7,9 @@ from rich.panel import Panel
 from rich.prompt import IntPrompt
 from rich.table import Table
 from rich.live import Live
-
+from rich.text import Text
+from time import sleep
+from datetime import datetime
 console: Console = Console()
 
 
@@ -21,7 +23,7 @@ def make_layout() -> Layout:
 
 
 def _menu_choice_table() -> Table:
-    table: Table = Table(padding=(0, 13), box=box.ASCII)
+    table: Table = Table(box=box.ASCII)
 
     table.add_column("PRESS KEY", justify="center",
                      header_style="#16C60C",
@@ -66,15 +68,15 @@ def take_choice_input() -> int:
     return choice
 
 
-def menu() -> int:
-    layout: Layout = make_layout()
-    layout["body"].size = 10
-    layout["body"].update(body_panel(_menu_choice_table()))
-    layout["footer"].update(footer_panel())
+# def menu() -> int:
+#     layout: Layout = make_layout()
+#     layout["body"].size = 10
+#     layout["body"].update(body_panel(_menu_choice_table()))
+#     layout["footer"].update(footer_panel())
 
-    console.print(layout)
+#     console.print(layout)
 
-    return take_choice_input()
+#     return take_choice_input()
 
 data = [("1", "Test", "Jibon", "SUCCESS"), ("2", "Test", "Jibon", "FAILED")]
 
@@ -97,3 +99,31 @@ with Live(table_header(), refresh_per_second=4) as live:
     for d in data:
         table = table_header()
         live.update(add_data(table,*d))
+
+class Clock:
+    def __rich__(self):
+        return Text(datetime.now().ctime(), style="bold", justify="center")
+
+
+def menu():
+    layout = Layout() # Main Layout
+
+    layout.split(
+        Layout(name="header", size=1),
+        Layout(ratio=1, name="body"),
+    ) # main split 3 section
+    layout["header"].update(Clock())
+    layout["body"].split(
+        Layout(name="table"),
+        Layout(name="input", visible=False)
+    )
+    layout["table"].update(_menu_choice_table())
+    return layout
+
+    # with Live(layout, redirect_stderr=False, refresh_per_second=10) as live:
+    #     try:
+    #         take_choice_input()
+    #     except KeyboardInterrupt:
+    #         pass
+
+# console.print(menu())

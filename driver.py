@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from tests.testCancelRequest import CancelChangeRequest
 from tests.testCloseRequest import CloseChangeRequests
 from tests.testCreateRequest import CreateChangeRequest
-from utilites.static_data import StaticData, LDMAData
+from utilites.static_data import StaticData, LDMAData, BMCData
 from tests.testLinkBudgetParser import LDMA_Parser
 from utilites.terminal_colors import Colors
 from prettify import ldma_cli
@@ -58,7 +58,7 @@ class Handler(Driver):
 
     def get_bmc_website(self):
         """ Get the BMC Remedy URL """
-        self.browser.get(StaticData.BMC_URL)
+        self.browser.get(BMCData.BMC_URL)
 
     def get_ldma_website(self):
         """ Get the LDMA URL """
