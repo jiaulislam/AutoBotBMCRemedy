@@ -1,4 +1,3 @@
-from alive_progress import alive_bar
 from selenium.common.exceptions import TimeoutException
 
 from pages.ldma import ParseLinkBudget
