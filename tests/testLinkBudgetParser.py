@@ -4,6 +4,22 @@ from selenium.common.exceptions import TimeoutException
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
 from utilites.terminal_colors import Colors
+from rich.traceback import install
+from rich.table import Table
+from rich.panel import Panel
+from rich.align import Align
+from rich.live import Live
+from rich import print
+
+
+# RICH Implementation for providing beautiful CLI visuals
+install() #  Traceback install
+table = Table(title="Parser Status", show_lines=True)
+table.add_column("ROW ID", style="cyan", no_wrap=True, justify="center")
+table.add_column("LINK ID/SIDE CODE", style="green", justify="center")
+table.add_column("STATUS", justify="center", style="green")
+
+panel = Panel(Align.center(table, vertical="middle"), border_style="none")
 
 
 class LDMA_Parser(BasePage):
@@ -17,24 +33,23 @@ class LDMA_Parser(BasePage):
             parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
-            with alive_bar(len(link_ids)) as bar:
+            with Live(panel, refresh_per_second=4):
                 try:
-                    for ID in link_ids:
+                    for index, _id in enumerate(link_ids):
                         parse_info.goto_links()
-                        parse_info.insert_link_code(ID)
+                        parse_info.insert_link_code(_id)
                         parse_info.select_all_dropdown()
                         parse_info.click_search()
                         try:
-                            parse_info.select_found_link_code(ID)
-                            bar()
+                            parse_info.select_found_link_code(_id)
+                            table.add_row(f"{index+1}", f"{_id}", "✅")
                         except TimeoutException:
-                            print(f"{Colors.WARNING}Invalid Link ID --> {ID}{Colors.WARNING}")
-                            bar()
+                            table.add_row(f"{index+1}", f"{_id}", "❌")
                             continue
-                        # parse_info.export_pdf_file(id) # Export As PDF
-                        parse_info.export_file(ID)  # Export As HTML
-                        # parse_info.export_word_file(id) # Export As DOC
-                        # parse_info.delete_html_file(id) # Delete the Exported HTML file
+                    # parse_info.export_pdf_file(id) # Export As PDF
+                    parse_info.export_file(_id)  # Export As HTML
+                    # parse_info.export_word_file(id) # Export As DOC
+                    # parse_info.delete_html_file(id) # Delete the Exported HTML file
                     parse_info.logout_ldma()
                     self.driver.quit()
                 except Exception as e:
@@ -44,29 +59,25 @@ class LDMA_Parser(BasePage):
             parse_info.login_ldma()
             parse_info.make_dir()
 
-            with alive_bar(len(site_ids)) as bar:
-                for site in site_ids:
-                    parse_info.goto_links()
-                    parse_info.select_all_dropdown()
-                    parse_info.insert_site_code_1(site)
-                    parse_info.click_search()
-                    if parse_info.is_available_site_1():
-                        LINK_ID = parse_info.get_link_id()
-                        parse_info.search_lb_with_sitecode(site)
-                        parse_info.export_file(LINK_ID)
-                        bar()
-                        continue
-                    parse_info.clear_site_code_1()
-                    parse_info.insert_site_code_2(site)
-                    parse_info.click_search()
-                    if parse_info.is_available_site_2():
-                        LINK_ID = parse_info.get_link_id()
-                        parse_info.search_lb_with_sitecode(site)
-                        parse_info.export_file(LINK_ID)
-                        bar()
-                        continue
-                    else:
-                        print(f"{Colors.FAIL}{site} : Link Budget not closed.{Colors.ENDC}")
-                        bar()
-                parse_info.logout_ldma()
-                self.driver.quit()
+            for site in site_ids:
+                parse_info.goto_links()
+                parse_info.select_all_dropdown()
+                parse_info.insert_site_code_1(site)
+                parse_info.click_search()
+                if parse_info.is_available_site_1():
+                    LINK_ID = parse_info.get_link_id()
+                    parse_info.search_lb_with_sitecode(site)
+                    parse_info.export_file(LINK_ID)
+                    continue
+                parse_info.clear_site_code_1()
+                parse_info.insert_site_code_2(site)
+                parse_info.click_search()
+                if parse_info.is_available_site_2():
+                    LINK_ID = parse_info.get_link_id()
+                    parse_info.search_lb_with_sitecode(site)
+                    parse_info.export_file(LINK_ID)
+                    continue
+                else:
+                    print(f"{Colors.FAIL}{site} : Link Budget not closed.{Colors.ENDC}")
+            parse_info.logout_ldma()
+            self.driver.quit()
