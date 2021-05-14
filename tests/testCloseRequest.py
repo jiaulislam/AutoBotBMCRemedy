@@ -1,3 +1,4 @@
+from selenium.webdriver.chrome.webdriver import WebDriver
 from pages.base import BasePage
 from pages.closerequest import CloseRequests
 from pages.createrequest import CreateRequests
@@ -10,7 +11,7 @@ from alive_progress import alive_bar
 
 class CloseChangeRequests(BasePage):
 
-    def __init__(self, driver):
+    def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.login_page = LoginPage(self.driver)
         self.home_page = HomePage(self.driver)

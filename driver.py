@@ -1,6 +1,7 @@
 import os
 
 from selenium import webdriver
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -26,7 +27,7 @@ written by: jiaul_islam
 
 class Driver:
     """ A independent class for calling the browser WebDriver """
-    browser = None
+    browser: WebDriver = None
 
     @classmethod
     def setUpDriver(cls):
@@ -38,7 +39,7 @@ class Driver:
                                         ['enable-logging'])  # disable Dev Info info while running app
         options.add_argument("--start-maximized")  # start the chrome with maximized window
         os.environ['WDM_LOG_LEVEL'] = '0'  # Disable the logging of ChromeDriverManager()
-        cls.browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        cls.browser: WebDriver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     @classmethod
     def tearDownDriver(cls):
@@ -126,7 +127,7 @@ class ParserLDMA(Handler, LDMA_Parser):
     def setUpDriver(cls):
         super().setUpDriver()
 
-    def test_parse_ldma(self, link_ids: list = None, site_ids: list = None):
+    def test_parse_ldma(self, link_ids: list[str] = None, site_ids: list[str] = None):
         self.get_ldma_website()
         self.__parser = LDMA_Parser(self.browser)
         self.__parser.parse_link_budget(link_ids, site_ids)
@@ -192,12 +193,6 @@ def main():
                             print(f"Invalid input {choice}. Please use 1 or 2")
                     except ValueError as error:
                         print(f"\n{Colors.FAIL}{error}{Colors.ENDC}\n")
-            elif choice == 5:
-                # Expedited CR
-                # TODO: EXPERIMENTAL 
-                create = CreateNewChangeRequest()
-                create.createRequest()
-                create.tearDownDriver()
             elif choice == 0:
                 print("\nExiting Program !\n")
                 break
