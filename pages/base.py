@@ -9,7 +9,8 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.webdriver import WebDriver
-from typing import Optional, Tuple, Union
+from selenium.webdriver.remote.webelement import WebElement
+from typing import List, Optional, Tuple, Union
 import time
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -44,7 +45,7 @@ class BasePage(object):
         except NoSuchElementException:
             pass
 
-    def find_elements(self, *locator) -> Union[list[str], Optional[None]]:
+    def find_elements(self, *locator) -> Union[List[WebElement], Optional[None]]:
         """ Find the elements by the help of the locator that user shared """
         try:
             return self.driver.find_elements(*locator)
@@ -144,7 +145,7 @@ class BasePage(object):
     def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """
         try:
-            val_of_elem = WebDriverWait(self.driver, self.timeout).until(
+            val_of_elem: str = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator)).get_attribute("value")
             return val_of_elem
         except TimeoutException as error:
