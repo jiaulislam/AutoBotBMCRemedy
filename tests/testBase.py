@@ -1,6 +1,8 @@
 import unittest
 
 from selenium import webdriver
+from selenium.webdriver.chrome.webdriver import WebDriver
+
 from webdriver_manager.chrome import ChromeDriverManager
 
 from tests.testCancelRequest import CancelChangeRequest
@@ -10,7 +12,7 @@ from tests.testLinkBudgetParser import LDMA_Parser
 
 
 class Test_Base_Case(unittest.TestCase):
-    driver = None
+    driver: WebDriver = None
 
     @classmethod
     def setUpClass(cls):

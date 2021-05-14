@@ -2,6 +2,7 @@ from selenium.common.exceptions import TimeoutException
 
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
+from selenium.webdriver.chrome.webdriver import WebDriver
 from utilites.terminal_colors import Colors
 from rich.traceback import install
 from rich.table import Table
@@ -23,18 +24,18 @@ panel = Panel(Align.center(table, vertical="middle"), border_style="none")
 
 class LDMA_Parser(BasePage):
     """ LinkBudget Parser """
-    def __init__(self, driver):
+    def __init__(self, driver) -> None:
         super().__init__(driver)
 
-    def parse_link_budget(self, _link_codes: list[str], _site_codes: list[str]):
+    def parse_link_budget(self, link_codes: list[str], site_codes: list[str]):
         """ Parse the Link Budget """
-        if _link_codes is not None:
+        if link_codes is not None:
             parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
             with Live(panel, refresh_per_second=4):
                 try:
-                    for _index, _link_code in enumerate(_link_codes):
+                    for _index, _link_code in enumerate(link_codes):
                         parse_info.goto_links()
                         parse_info.insert_link_code(_link_code)
                         parse_info.select_all_dropdown()
@@ -58,7 +59,7 @@ class LDMA_Parser(BasePage):
             parse_info.login_ldma()
             parse_info.make_dir()
 
-            for _site_code in _site_codes:
+            for _site_code in site_codes:
                 parse_info.goto_links()
                 parse_info.select_all_dropdown()
                 parse_info.insert_site_code_1(_site_code)
