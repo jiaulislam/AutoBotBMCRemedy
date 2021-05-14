@@ -13,14 +13,14 @@ console = Console()
 
 class Header:
     """Display header with clock."""
+    def __init__(self, header_text: str) -> None:
+        self.header_text = header_text
 
-    @staticmethod
-    def __rich__() -> Panel:
+    def __rich__(self) -> Panel:
         grid = Table.grid(expand=True)
         grid.add_column(justify="center", ratio=1)
         grid.add_column(justify="right")
-        grid.add_row(
-            "\t\t\tLDMA PARSER",
+        grid.add_row(f"\t\t\t{self.header_text}",
             datetime.now().ctime().replace(":", "[blink]:[/]"),
         )
         return Panel(grid, style="white")
@@ -88,7 +88,7 @@ class MainMenuLayout:
         self.table.add_row("2", "TO SEARCH WITH SITE ID")
         self.table.add_row("3", "EXIT MENU")
 
-        self.layout["head"].update(Header())
+        self.layout["head"].update(Header("LDMA-PARSER"))
         self.layout["action_table"].update(self.table)
         self.layout["table2"].update(make_sponsor_message())
 
