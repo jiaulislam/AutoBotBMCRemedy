@@ -28,7 +28,7 @@ class LinkBudgetActivityLocator(object):
     INSERT_SITE_CODE_2 = (By.XPATH, "//input[@id='siteCode2']")
 
     @staticmethod
-    def select_found_linkid(linkid: str) -> tuple:
+    def select_found_linkid(linkid: str) -> Tuple[By, str]:
         """ Return the Custom dynamic XPATH with Link ID """
         XPATH_FOR_LINKID = f"//div[@class='table-responsive']//td//a[contains(text(), '{linkid}')]"
         return By.XPATH, XPATH_FOR_LINKID

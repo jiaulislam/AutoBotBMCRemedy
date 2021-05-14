@@ -2,7 +2,6 @@ from selenium.common.exceptions import TimeoutException
 
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
-from selenium.webdriver.chrome.webdriver import WebDriver
 from utilites.terminal_colors import Colors
 from rich.traceback import install
 from rich.table import Table
