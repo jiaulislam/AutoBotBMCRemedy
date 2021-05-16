@@ -44,7 +44,6 @@ class ParseLinkBudget(BasePage):
     def logout_ldma(self) -> None:
         """ Logout from LDMA """
         self.click(LDMALogoutLocators.LOGOUT_BTN)
-        print(f"{Colors.OKGREEN} Browser Closed & Logged Out Successfully.{Colors.ENDC}")
 
     def goto_links(self) -> None:
         """ Goto action Link -> Links """
@@ -120,7 +119,6 @@ class ParseLinkBudget(BasePage):
         """ Export the LB as PDF File """
         source_code = self.__parse_element_innerHTML()
         PDF_FILE = f"{self.set_filename(LINK_ID)}.pdf"
-        print(f"{Colors.OKCYAN}Working --> {PDF_FILE}.{Colors.ENDC}")
         pdfkit.from_string(source_code, PDF_FILE)
 
     def export_word_file(self, LINK_ID: str) -> None:
@@ -131,7 +129,6 @@ class ParseLinkBudget(BasePage):
         output_fileName = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.doc"
         doc.SaveAs(output_fileName, FileFormat=0)
         doc.Close()
-        print(f"{Colors.OKGREEN}File Created: {self.set_filename(LINK_ID)}.doc{Colors.ENDC}")
         word.Quit()
 
     def delete_html_file(self, LINK_ID: str) -> None:

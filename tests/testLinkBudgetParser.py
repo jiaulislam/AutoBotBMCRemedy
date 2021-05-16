@@ -1,4 +1,5 @@
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.webdriver import WebDriver
 
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
@@ -18,12 +19,12 @@ table.add_column("ROW ID", style="cyan", no_wrap=True, justify="center")
 table.add_column("LINK ID/SIDE CODE", style="green", justify="center")
 table.add_column("STATUS", justify="center", style="green")
 
-panel = Panel(Align.center(table, vertical="middle"), border_style="none")
+panel = Panel(Align.center(table, vertical="middle"), border_style="cyan")
 
 
 class LDMA_Parser(BasePage):
     """ LinkBudget Parser """
-    def __init__(self, driver) -> None:
+    def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
 
     def parse_link_budget(self, link_codes: list[str], site_codes: list[str]):
@@ -32,7 +33,7 @@ class LDMA_Parser(BasePage):
             parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
-            with Live(panel, refresh_per_second=4):
+            with Live(panel, refresh_per_second=1):
                 try:
                     for _index, _link_code in enumerate(link_codes):
                         parse_info.goto_links()
@@ -58,25 +59,28 @@ class LDMA_Parser(BasePage):
             parse_info.login_ldma()
             parse_info.make_dir()
 
-            for _site_code in site_codes:
-                parse_info.goto_links()
-                parse_info.select_all_dropdown()
-                parse_info.insert_site_code_1(_site_code)
-                parse_info.click_search()
-                if parse_info.is_available_site_1():
-                    LINK_ID = parse_info.get_link_id()
-                    parse_info.search_lb_with_sitecode(_site_code)
-                    parse_info.export_file(LINK_ID)
-                    continue
-                parse_info.clear_site_code_1()
-                parse_info.insert_site_code_2(_site_code)
-                parse_info.click_search()
-                if parse_info.is_available_site_2():
-                    LINK_ID = parse_info.get_link_id()
-                    parse_info.search_lb_with_sitecode(_site_code)
-                    parse_info.export_file(LINK_ID)
-                    continue
-                else:
-                    print(f"{Colors.FAIL}{_site_code} : Link Budget not closed.{Colors.ENDC}")
+            with Live(panel, refresh_per_second=1):
+                for _index, _site_code in enumerate(site_codes):
+                    parse_info.goto_links()
+                    parse_info.select_all_dropdown()
+                    parse_info.insert_site_code_1(_site_code)
+                    parse_info.click_search()
+                    if parse_info.is_available_site_1():
+                        _link_id = parse_info.get_link_id()
+                        parse_info.search_lb_with_sitecode(_site_code)
+                        parse_info.export_file(_link_id)
+                        table.add_row(f"{(_index+1)}", f"{_site_code}", "✅")
+                        continue
+                    parse_info.clear_site_code_1()
+                    parse_info.insert_site_code_2(_site_code)
+                    parse_info.click_search()
+                    if parse_info.is_available_site_2():
+                        _link_id = parse_info.get_link_id()
+                        parse_info.search_lb_with_sitecode(_site_code)
+                        parse_info.export_file(_link_id)
+                        table.add_row(f"{(_index+1)}", f"{_site_code}", "✅")
+                        continue
+                    else:
+                        table.add_row(f"{(_index+1)}", f"{_site_code}", "❌")
             parse_info.logout_ldma()
             self.driver.quit()
