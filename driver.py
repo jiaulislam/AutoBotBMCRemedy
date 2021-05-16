@@ -12,6 +12,7 @@ from utilites.static_data import LDMAData, BMCData
 from tests.testLinkBudgetParser import LDMA_Parser
 from utilites.terminal_colors import Colors
 from prettify import prettify_ldma
+from prettify.driver_prettify import MenuLayout, get_menu_choice
 from rich import print
 
 """
@@ -136,21 +137,11 @@ class ParserLDMA(Handler, LDMA_Parser):
 def main():
     """ The typical main function to start the program """
 
-    # User Choice input
-    print("\tWelcome ")
-    print("++++++++++++++++++++++++++++")
     while True:
-        print(
-            " 1. Create Change Request\n"
-            " 2. Close Change Request\n"
-            " 3. Cancel Change Request\n"
-            " 4. Parse Link Budget\n"
-            " 0. Quit Application\n"
-        )
-
+        print(MenuLayout())
         try:
-            choice = int(input("\nEnter the Choice -> "))
-
+            # choice = int(input("\nEnter the Choice -> "))
+            choice: int = get_menu_choice()
             if choice == 1:
                 # Create Change Request
                 create = CreateNewChangeRequest()
@@ -194,7 +185,6 @@ def main():
                     except ValueError as error:
                         print(f"\n{Colors.FAIL}{error}{Colors.ENDC}\n")
             elif choice == 0:
-                print("\nExiting Program !\n")
                 break
             else:
                 print("\nInvalid choice ! Try Again.\n")
