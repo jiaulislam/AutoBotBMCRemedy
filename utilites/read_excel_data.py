@@ -1,7 +1,10 @@
-import os
+from pathlib import Path
 import sys
 
-import openpyxl
+from openpyxl import load_workbook
+from openpyxl.workbook import Workbook
+from openpyxl.worksheet.worksheet import Worksheet
+
 
 """
 All the functions that is required to read a Excel Data Format. 
@@ -9,17 +12,20 @@ All the functions that is required to read a Excel Data Format.
 written by: jiaul_islam
 """
 
+# Need to Change which worksheet need to select
+SHEET_NAME = "Change_List"
+
 
 #  Excel File Handler Class
 class Read_Data:
     def __init__(self, file_path) -> None:
         """ Read the Excel Data as per Format """
         try:
-            self.__data_driver = openpyxl.load_workbook(read_only=True, filename=file_path, data_only=True)
-            self._sheet = self.__data_driver.active
+            self._workbook: Workbook = load_workbook(read_only=True, filename=file_path, data_only=True)
+            self._sheet: Worksheet = self._workbook.active
         except FileNotFoundError:
             print(
-                f"Error! File/Directory do not exist in {os.getcwd()}."
+                f"File not found in {Path.cwd()}."
                 f"\nMake sure you have 'data_driver' folder or files in the folder.\n"
                 f"or for Draft NCR keep a draft.xlsx file in the data_driver folder.\n")
             sys.exit()
@@ -29,8 +35,7 @@ class Read_Data:
     def change_sheet(self) -> None:
         """ Change the sheet """
         try:
-            sheet_name = "Change_List"
-            self._sheet = self.__data_driver.get_sheet_by_name(sheet_name)
+            self._sheet = self._workbook.get_sheet_by_name(SHEET_NAME)
         except Exception as error:
             print(error)
 
@@ -48,37 +53,37 @@ class Read_Data:
 
         return max(number_of_change)
 
-    def parse_date(self, index) -> str:
+    def parse_date(self, index: int) -> str:
         """ get the date from excel file """
         date = self._sheet['B' + str(index)]
         return date.value
 
-    def parse_project_coordinator(self, index) -> str:
+    def parse_project_coordinator(self, index: int) -> str:
         """ get the project coordinator name from the excel """
         coordinator = self._sheet['C' + str(index)]
         return coordinator.value
 
-    def parse_project_name(self, index) -> str:
+    def parse_project_name(self, index: int) -> str:
         """ get the project name from excel file """
         project_name = self._sheet['D' + str(index)]
         return project_name.value
 
-    def parse_change_activity(self, index):
+    def parse_change_activity(self, index: int):
         """ get the change activity from excel file """
         activity = self._sheet['E' + str(index)]
         return activity.value
 
-    def parse_impact_list(self, index) -> str:
+    def parse_impact_list(self, index: int) -> str:
         """ get the impact list from excel file """
         impact_list = self._sheet['F' + str(index)]
         return impact_list.value
 
-    def parse_service_type(self, index) -> str:
+    def parse_service_type(self, index: int) -> str:
         """ get the service type from excel file """
         type_of_service = self._sheet['G' + str(index)]
         return type_of_service.value
 
-    def parse_downtime_hour(self, index) -> str:
+    def parse_downtime_hour(self, index: int) -> str:
         """ get the downtime duration from excel file """
         hour_of_downtime = self._sheet['H' + str(index)]
         return hour_of_downtime.value
@@ -116,4 +121,4 @@ class Read_Data:
 
     def close_workbook(self) -> None:
         """ close the excel file """
-        self.__data_driver.close()
+        self._workbook.close()
