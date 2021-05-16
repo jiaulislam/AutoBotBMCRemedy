@@ -7,12 +7,13 @@ import shutil
 from typing import List, Optional, Union
 
 import pdfkit
-from selenium.webdriver.chrome.webdriver import WebDriver
+import win32com.client as win32
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementClickInterceptedException,
     TimeoutException
 )
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base import BasePage
@@ -22,7 +23,6 @@ from utilites.ldmalocators import (
     LinkBudgetActivityLocator
 )
 from utilites.static_data import LDMAData
-from utilites.terminal_colors import Colors
 
 
 class ParseLinkBudget(BasePage):
@@ -123,7 +123,7 @@ class ParseLinkBudget(BasePage):
 
     def export_word_file(self, LINK_ID: str) -> None:
         """ Export the LB as Word File """
-        word = win32com.client.Dispatch('Word.Application')
+        word = win32.Dispatch('Word.Application')
         file_path = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.html"
         doc = word.Documents.Add(file_path)
         output_fileName = f"{os.getcwd()}/{self.set_filename(LINK_ID)}.doc"

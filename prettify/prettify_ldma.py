@@ -13,6 +13,7 @@ console = Console()
 
 class Header:
     """Display header with clock."""
+
     def __init__(self, header_text: str) -> None:
         self.header_text = header_text
 
@@ -21,8 +22,8 @@ class Header:
         grid.add_column(justify="center", ratio=1)
         grid.add_column(justify="right")
         grid.add_row(f"\t\t\t{self.header_text}",
-            datetime.now().ctime().replace(":", "[blink]:[/]"),
-        )
+                     datetime.now().ctime().replace(":", "[blink]:[/]"),
+                     )
         return Panel(grid, style="white")
 
 
