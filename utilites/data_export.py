@@ -1,8 +1,9 @@
 import sys
 from datetime import datetime
 
-import openpyxl
-
+from openpyxl import load_workbook
+from openpyxl.workbook import Workbook
+from openpyxl.worksheet.worksheet import Worksheet
 from .terminal_colors import Colors
 
 """
@@ -17,18 +18,18 @@ written by: jiaul_islam
 class Data_Export:
     def __init__(self, file_path: str) -> None:
         try:
-            self.is_used(file_path)
-            self._change_list_excel = openpyxl.load_workbook(filename=file_path)
-            self._sheet = self._change_list_excel.active
+            self._is_used(file_path)
+            self._change_list_excel: Workbook = load_workbook(filename=file_path)
+            self._sheet: Worksheet = self._change_list_excel.active
         except FileNotFoundError as error:
             print(error)
             sys.exit()
 
-    def change_sheet(self, sheet_name) -> None:
+    def change_sheet(self, sheet_name: str) -> None:
         try:
-            self._sheet = self._change_list_excel.get_sheet_by_name(sheet_name)
+            self._sheet = self._change_list_excel[sheet_name]
         except Exception as error:
-            print(error)
+            raise error
 
     def insert_date(self, index: int, date: str) -> None:
         """ insert the date of the Change requesting """
@@ -81,7 +82,7 @@ class Data_Export:
         """ insert the change manager in the excel file """
         self._sheet['K' + str(index)] = change_manager
 
-    def save_workbook(self, file_path) -> None:
+    def save_workbook(self, file_path: str) -> None:
         """ Save the workbook """
         self._change_list_excel.save(file_path)
 
@@ -90,13 +91,12 @@ class Data_Export:
         self._change_list_excel.close()
 
     @staticmethod
-    def is_used(my_file: str) -> None:
+    def _is_used(my_file: str) -> None:
         """ Checks if the user is already kept opened the excel file trying to write """
         while True:
             try:
-                my_file = open(my_file, 'a+')
-                my_file.close()
-                break
+                with open(my_file, "a+"):
+                    break
             except IOError:
                 input(f"{Colors.FAIL}File Already in used ! "
                       f"Please close the file. Press Enter to retry...{Colors.ENDC}")
