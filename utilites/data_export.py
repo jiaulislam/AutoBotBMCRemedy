@@ -4,7 +4,8 @@ from datetime import datetime
 from openpyxl import load_workbook
 from openpyxl.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
-from .terminal_colors import Colors
+from rich import print
+from rich.prompt import Confirm
 
 """
 This class is for exporting the all the important information
@@ -98,5 +99,5 @@ class Data_Export:
                 with open(my_file, "a+"):
                     break
             except IOError:
-                input(f"{Colors.FAIL}File Already in used ! "
-                      f"Please close the file. Press Enter to retry...{Colors.ENDC}")
+                if Confirm.ask("File Closed ?", default="(y)", show_default=True):
+                    pass
