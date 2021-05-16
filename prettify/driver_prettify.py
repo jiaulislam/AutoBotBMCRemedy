@@ -40,5 +40,5 @@ class MenuLayout:
         return self._layout
 
 def get_menu_choice() -> int:
-    choice = Prompt.ask("Enter choice")
+    choice = Prompt.ask("Enter choice", choices=["1","2","3","4","0"])
     return int(choice)

@@ -59,7 +59,7 @@ def make_sponsor_message() -> Panel:
 
 
 def get_choice() -> int:
-    choice = Prompt.ask("Enter your choice: ", choices=['1', '2', '3'])
+    choice = Prompt.ask("Enter your choice", choices=['1', '2', '0'])
     return int(choice)
 
 
@@ -86,7 +86,7 @@ class MainMenuLayout:
 
         self.table.add_row("1", "TO SEARCH WITH LINK CODE")
         self.table.add_row("2", "TO SEARCH WITH SITE ID")
-        self.table.add_row("3", "EXIT MENU")
+        self.table.add_row("0", "BACK TO MAIN MENU")
 
         self.layout["head"].update(Header("LDMA-PARSER"))
         self.layout["action_table"].update(self.table)

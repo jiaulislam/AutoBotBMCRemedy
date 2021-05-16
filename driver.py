@@ -139,57 +139,46 @@ def main():
 
     while True:
         print(MenuLayout())
-        try:
-            # choice = int(input("\nEnter the Choice -> "))
-            choice: int = get_menu_choice()
-            if choice == 1:
-                # Create Change Request
-                create = CreateNewChangeRequest()
-                create.createRequest()
-                create.tearDownDriver()
-                break
-            elif choice == 2:
-                # Close Change Request
-                close = CloseChangeRequest()
-                close.closeRequest()
-                close.tearDownDriver()
-                break
-            elif choice == 3:
-                # Cancel Change Request
-                cancel = CancelChangeRequests()
-                cancel.cancelRequests()
-                cancel.tearDownDriver()
-                break
-            elif choice == 4:
-                # Parse Link Budget from LDMA
-                while True:
-                    try:
-                        print(prettify_ldma.MainMenuLayout())
-                        choice: int = prettify_ldma.get_choice()
-                        if choice == 1:
-                            LinkID = input("\nPlease Enter LinkID: ")
-                            link_ids = LinkID.split(",")
-                            parse = ParserLDMA()
-                            parse.test_parse_ldma(link_ids=link_ids)
-                            parse.tearDownDriver()
-                        elif choice == 2:
-                            site_id = input("\nPlease Enter SiteID: ")
-                            site_ids = site_id.split(',')
-                            parse = ParserLDMA()
-                            parse.test_parse_ldma(site_ids=site_ids)
-                            parse.tearDownDriver()
-                        elif choice == 3:
-                            break
-                        else:
-                            print(f"Invalid input {choice}. Please use 1 or 2")
-                    except ValueError as error:
-                        print(f"\n{Colors.FAIL}{error}{Colors.ENDC}\n")
-            elif choice == 0:
-                break
-            else:
-                print("\nInvalid choice ! Try Again.\n")
-        except ValueError as e:
-            print(f"\n{Colors.FAIL}{e}{Colors.ENDC}\n")
+        choice: int = get_menu_choice()
+        if choice == 1:
+            # Create Change Request
+            create = CreateNewChangeRequest()
+            create.createRequest()
+            create.tearDownDriver()
+            break
+        elif choice == 2:
+            # Close Change Request
+            close = CloseChangeRequest()
+            close.closeRequest()
+            close.tearDownDriver()
+            break
+        elif choice == 3:
+            # Cancel Change Request
+            cancel = CancelChangeRequests()
+            cancel.cancelRequests()
+            cancel.tearDownDriver()
+            break
+        elif choice == 4:
+            # Parse Link Budget from LDMA
+            while True:
+                print(prettify_ldma.MainMenuLayout())
+                choice: int = prettify_ldma.get_choice()
+                if choice == 1:
+                    LinkID = input("\nPlease Enter LinkID: ")
+                    link_ids = LinkID.split(",")
+                    parse = ParserLDMA()
+                    parse.test_parse_ldma(link_ids=link_ids)
+                    parse.tearDownDriver()
+                elif choice == 2:
+                    site_id = input("\nPlease Enter SiteID: ")
+                    site_ids = site_id.split(',')
+                    parse = ParserLDMA()
+                    parse.test_parse_ldma(site_ids=site_ids)
+                    parse.tearDownDriver()
+                elif choice == 0:
+                    break
+        elif choice == 0:
+            break
 
 
 if __name__ == "__main__":
