@@ -8,7 +8,6 @@ from utilites import make_data
 from utilites.static_data import StaticData
 from alive_progress import alive_bar
 from utilites.terminal_colors import Colors
-import os
 
 class CancelChangeRequest(BasePage):
 

@@ -3,7 +3,6 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 
 from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
-from utilites.terminal_colors import Colors
 from rich.traceback import install
 from rich.table import Table
 from rich.panel import Panel
