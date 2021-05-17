@@ -40,7 +40,7 @@ class CreateChangeRequest(BasePage):
                 # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                 if self.createChangeRequest.is_home_page("IT Home"):
                     # ------- READ ALL THE DATA ------------ #
-                    m_date = self.read_data.parse_date(change)
+                    date = self.read_data.parse_date(change)
                     coordinator = self.read_data.parse_project_coordinator(change)
                     project_name = self.read_data.parse_project_name(change)
                     change_activity = self.read_data.parse_change_activity(change)
@@ -56,14 +56,13 @@ class CreateChangeRequest(BasePage):
                     notes = summary + change_activity + "\n\n"
                     impact_list = make_data.make_impact_list(impact_sites)
                     details = summary + change_activity + impact_list
-                    # file_location = os.getcwd() + "/" + commercial_zone + '.txt'
 
                     # ---------------make_data: Task Time Calculation ---------------- #
-                    cr_start_time = make_data.get_change_start_time(m_date)
-                    start_downtime = make_data.get_service_start_downtime(m_date)
+                    cr_start_time = make_data.get_change_start_time(date)
+                    start_downtime = make_data.get_service_start_downtime(date)
                     end_downtime = make_data.get_service_end_downtime(start_downtime, duration)
-                    activity_hour = make_data.get_change_close_start_time(m_date)
-                    cr_end_time = make_data.get_change_close_end_time(m_date)
+                    activity_hour = make_data.get_change_close_start_time(date)
+                    cr_end_time = make_data.get_change_close_end_time(date)
                     # ------------------------------END----------------------------- #
 
                     self.homePage.click_application_btn()
@@ -73,9 +72,9 @@ class CreateChangeRequest(BasePage):
                     self.createChangeRequest.set_change_number()
                     self.createChangeRequest.insert_text_notes(details)
                     change_number = self.createChangeRequest.get_change_number()
-                    self.createChangeRequest.select_manager_group(change_manager)
+                    self.createChangeRequest.select_manager_group()
                     self.createChangeRequest.select_change_manager(change_manager)
-                    self.createChangeRequest.insert_text_note_and_upload_files(notes)
+                    self.createChangeRequest.insert_work_info(notes)
                     self.createChangeRequest.change_location(location_service)
                     self.createChangeRequest.verify_summary(summary)
                     self.createChangeRequest.insert_schedule_date_time(cr_start_time, cr_end_time)
@@ -92,7 +91,7 @@ class CreateChangeRequest(BasePage):
                     # ---------------------------------- END -------------------------------------------- #
 
                     # ---------------------------Data_Export: Export all the data ------------------ #
-                    self.export_data.insert_date(change, m_date)
+                    self.export_data.insert_date(change, date)
                     self.export_data.insert_project_name(change, project_name)
                     self.export_data.insert_project_coordinator(change, coordinator)
                     self.export_data.insert_change_activity(change, change_activity)
@@ -117,9 +116,10 @@ class CreateChangeRequest(BasePage):
                         # self.createChangeRequest.save_change()
                         # ---------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
-                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
+                        # TODO: Add Rich Implementation here (Success)
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         self.createChangeRequest.reset_change_number()
                         self.createChangeRequest.go_back_to_homepage()
                     else:
@@ -131,9 +131,10 @@ class CreateChangeRequest(BasePage):
                         # self.createChangeRequest.save_change()
                         # ----------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
-                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         os.chdir(self.path)
                         bar()
+                        # TODO: Add Rich Implementation here (Success)
+                        print(f"{Colors.OKGREEN}NCR Created: {change_number}{Colors.ENDC}")
                         self.createChangeRequest.reset_change_number()
                         self.createChangeRequest.go_back_to_homepage()
         self.homePage.click_logout_button()

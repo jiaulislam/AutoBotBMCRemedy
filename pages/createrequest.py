@@ -1,5 +1,3 @@
-import time
-
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
     NoSuchElementException,
@@ -90,21 +88,12 @@ class CreateRequests(BasePage):
         """ Write the impact list into the Notes Section """
         self.write(SummaryAndNotesBox.NOTES_TEXTBOX, impact_list)
 
-    def insert_text_note_and_upload_files(self, notes: str) -> None:
+    def insert_work_info(self, notes: str) -> None:
         """ Write the info and attach the file in work info section """
         self.write(WorkInfoAttachment.INFO_NOTES_TEXTBOX, notes)
-        # self.click(WorkInfoAttachment.ATTACH_FILE_ICON_BUTTON)
-        # if self.__get_title_of_view_attachment_btn():
-        #     self.switch_to_frame(WorkInfoAttachment.UPLOAD_ATTACHMENT_FRAME)
-        #     self.write(WorkInfoAttachment.CHOOSE_ATTACHMENT_FRAME)
-        #     time.sleep(1)
-        #     self.click(WorkInfoAttachment.OK_ATTACHMENT_FRAME_BUTTON)
-        #     # TODO: Need to do something about this implicit wait
-        #     time.sleep(1)
-        #     self.driver.switch_to.default_content()
         self.click(WorkInfoAttachment.ADD_NOTE_ATTACHMENT_BUTTON)
 
-    def select_manager_group(self, change_manager: str) -> None:
+    def select_manager_group(self) -> None:
         """ Select the manager domain depend on the shared change-manager name """
         self.click(ChangeManagerLocators.MANAGER_GROUP_BTN)
         self.hover_over(ChangeManagerLocators.IMPLEMENTATION_MENU)
@@ -357,7 +346,7 @@ class CreateRequests(BasePage):
             value = WebDriverWait(self.driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
         except AttributeError:
-            #TODO: Need to Find out why it's giving me None Type if value is changing
+            # TODO: Need to Find out why it's giving me None Type if value is changing
             pass
         while True:
             if self.get_change_number() != value:
