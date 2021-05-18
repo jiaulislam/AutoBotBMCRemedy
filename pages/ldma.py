@@ -190,7 +190,7 @@ class ParseLinkBudget(BasePage):
         except ElementClickInterceptedException as e:
             print(f"Error Found ! Error details: {e}")
 
-    def get_link_id(self) -> Union[List[WebElement], Optional[None]]:
+    def get_link_id(self) -> Union[str, None]:
 
         try:
             elements = self.find_elements(*LinkBudgetActivityLocator.SEARCH_RESULT)
