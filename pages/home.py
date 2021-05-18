@@ -42,7 +42,6 @@ class HomePage(BasePage):
     def click_logout_button(self) -> None:
         """ Click the Logout Button on home page """
         self.click(HomePageLocators.LOGOUT_BUTTON)
-        print(f"{Colors.OKGREEN}\nLogged out Successfully.\n{Colors.ENDC}")
 
     def get_all_change_numbers(self) -> list:
         """ Get all the change number from the homepage table """

@@ -24,7 +24,7 @@ class Header:
         grid.add_row(f"\t\t\t{self.header_text}",
                      datetime.now().ctime().replace(":", "[blink]:[/]"),
                      )
-        return Panel(grid, style="white")
+        return Panel(grid, style="white", border_style="red", title="AUTOBOT")
 
 
 def make_sponsor_message() -> Panel:

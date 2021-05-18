@@ -2,6 +2,7 @@ import os
 import time
 
 from pages.base import BasePage
+from selenium.webdriver.chrome.webdriver import WebDriver
 from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
@@ -14,14 +15,16 @@ from rich.traceback import install
 from rich import print
 from prettify.create_prettifier import get_layout, get_table, add_row_table
 
+# install traceback
 install()
 
 
-class CreateChangeRequest(BasePage):
+class Create(BasePage):
+    """ Create CR E2E Actions"""
 
-    def __init__(self, driver):
-        self.layout = get_layout()
-        self.table = get_table()
+    def __init__(self, driver: WebDriver):
+        self._layout = get_layout()
+        self._table = get_table()
         self.path = os.getcwd()
         super().__init__(driver)
         self.login = LoginPage(self.driver)
@@ -30,8 +33,8 @@ class CreateChangeRequest(BasePage):
         self.read_data = Read_Data(StaticData.READ_EXCEL_FILE)
         self.export_data = Data_Export(StaticData.WRITE_EXCEL_FILE)
 
-    def test_create_change(self):
-        print(self.layout)
+    def CreateNCR(self):
+        print(self._layout)
         self.login.enter_username_textbox()
         self.login.enter_password_textbox()
         self.login.click_login_button()
@@ -39,23 +42,22 @@ class CreateChangeRequest(BasePage):
         self.export_data.change_sheet("Change_List")  # Change Sheet
         EXCEL_ROW = 2  # Need to change if need to change the starting point in Excel
         MAX_CHANGE = self.read_data.get_number_change() + EXCEL_ROW
-        with Live(self.table, refresh_per_second=4, vertical_overflow="visible") as live:
-            for change in range(EXCEL_ROW, MAX_CHANGE):
+        with Live(self._table, refresh_per_second=4, vertical_overflow="visible") as live:
+            for _excel_index in range(EXCEL_ROW, MAX_CHANGE):
 
                 # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
-                # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                 if self.createChangeRequest.is_home_page("IT Home"):
                     # ------- READ ALL THE DATA ------------ #
-                    date = self.read_data.parse_date(change)
-                    coordinator = self.read_data.parse_project_coordinator(change)
-                    project_name = self.read_data.parse_project_name(change)
-                    change_activity = self.read_data.parse_change_activity(change)
-                    impact_sites = self.read_data.parse_impact_list(change)
-                    service_type = self.read_data.parse_service_type(change)
-                    duration = self.read_data.parse_downtime_hour(change)
+                    date = self.read_data.parse_date(_excel_index)
+                    coordinator = self.read_data.parse_project_coordinator(_excel_index)
+                    project_name = self.read_data.parse_project_name(_excel_index)
+                    change_activity = self.read_data.parse_change_activity(_excel_index)
+                    impact_sites = self.read_data.parse_impact_list(_excel_index)
+                    service_type = self.read_data.parse_service_type(_excel_index)
+                    duration = self.read_data.parse_downtime_hour(_excel_index)
                     company = self.read_data.get_company_group()
-                    commercial_zone = self.read_data.parse_commercial_zone(change)
-                    change_manager = self.read_data.parse_change_manager(change)
+                    commercial_zone = self.read_data.parse_commercial_zone(_excel_index)
+                    change_manager = self.read_data.parse_change_manager(_excel_index)
                     location_service = (company, commercial_zone)
 
                     summary = project_name + " // " + service_type + "\n\n"
@@ -73,6 +75,7 @@ class CreateChangeRequest(BasePage):
 
                     self.homePage.click_application_btn()
                     self.homePage.click_new_change()
+                    # TODO: THIS THING IS BUGGING ME > NEED A WAY TO HANDLE > DON'T WANT TO USE IMPLICIT WAIT
                     time.sleep(3)
                     self.createChangeRequest.insert_text_summary(summary)
                     self.createChangeRequest.set_change_number()
@@ -97,20 +100,20 @@ class CreateChangeRequest(BasePage):
                     # ---------------------------------- END -------------------------------------------- #
 
                     # ---------------------------Data_Export: Export all the data ------------------ #
-                    self.export_data.insert_date(change, date)
-                    self.export_data.insert_project_name(change, project_name)
-                    self.export_data.insert_project_coordinator(change, coordinator)
-                    self.export_data.insert_change_activity(change, change_activity)
-                    self.export_data.insert_impact_site_list(change, impact_sites)
-                    self.export_data.insert_service_type(change, service_type)
-                    self.export_data.insert_downtime_duration(change, duration)
-                    self.export_data.insert_commercial_zone(change, commercial_zone)
-                    self.export_data.insert_change_number(change, change_number)
-                    self.export_data.insert_change_manager(change, change_manager)
+                    self.export_data.insert_date(_excel_index, date)
+                    self.export_data.insert_project_name(_excel_index, project_name)
+                    self.export_data.insert_project_coordinator(_excel_index, coordinator)
+                    self.export_data.insert_change_activity(_excel_index, change_activity)
+                    self.export_data.insert_impact_site_list(_excel_index, impact_sites)
+                    self.export_data.insert_service_type(_excel_index, service_type)
+                    self.export_data.insert_downtime_duration(_excel_index, duration)
+                    self.export_data.insert_commercial_zone(_excel_index, commercial_zone)
+                    self.export_data.insert_change_number(_excel_index, change_number)
+                    self.export_data.insert_change_manager(_excel_index, change_manager)
                     self.export_data.save_workbook(StaticData.WRITE_EXCEL_FILE)
                     # ---------------------------- END -------------------------------------------------- #
 
-                    console_data = (str(change-1), commercial_zone, service_type, coordinator, change_number, "✅")
+                    console_data = (str(_excel_index - 1), commercial_zone, service_type, coordinator, change_number, "✅")
 
                     # Save and go back to home page, need to tag site if service effective cr
                     if service_type == 'Service Effective':
@@ -125,8 +128,8 @@ class CreateChangeRequest(BasePage):
                         # ---------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
                         os.chdir(self.path)
-                        add_row_table(self.table, *console_data)
-                        live.update(self.table)
+                        add_row_table(self._table, *console_data)
+                        live.update(self._table)
                         self.createChangeRequest.reset_change_number()
                         self.createChangeRequest.go_back_to_homepage()
                     else:
@@ -139,8 +142,8 @@ class CreateChangeRequest(BasePage):
                         # ----------------------------------------------------------
                         self.createChangeRequest.goto_next_stage()
                         os.chdir(self.path)
-                        add_row_table(self.table, *console_data)
-                        live.update(self.table)
+                        add_row_table(self._table, *console_data)
+                        live.update(self._table)
                         self.createChangeRequest.reset_change_number()
                         self.createChangeRequest.go_back_to_homepage()
         self.homePage.click_logout_button()
