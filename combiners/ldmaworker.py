@@ -27,7 +27,7 @@ class Parser(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
 
-    def ParseLinkBudget(self, link_codes: list[str], site_codes: list[str]):
+    def parseLinkBudget(self, link_codes: list[str], site_codes: list[str]):
         """ Parse the Link Budget """
         if link_codes is not None:
             parse_info = ParseLinkBudget(driver=self.driver, timeout=3)

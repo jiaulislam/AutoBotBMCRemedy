@@ -48,13 +48,13 @@ def main():
                     LinkID = input("\nPlease Enter LinkID: ")
                     link_ids = LinkID.split(",")
                     parse = ParserLDMA()
-                    parse.test_parse_ldma(link_ids=link_ids)
+                    parse.parseLDMA(link_ids=link_ids)
                     parse.tearDownDriver()
                 elif choice == 2:
                     site_id = input("\nPlease Enter SiteID: ")
                     site_ids = site_id.split(',')
                     parse = ParserLDMA()
-                    parse.test_parse_ldma(site_ids=site_ids)
+                    parse.parseLDMA(site_ids=site_ids)
                     parse.tearDownDriver()
                 elif choice == 0:
                     break

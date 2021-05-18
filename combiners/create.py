@@ -34,7 +34,7 @@ class Create(BasePage):
         self.read_data = Read_Data(StaticData.READ_EXCEL_FILE)
         self.export_data = Data_Export(StaticData.WRITE_EXCEL_FILE)
 
-    def CreateNCR(self):
+    def createNCR(self):
         print(self._layout)
         self.login.enter_username_textbox()
         self.login.enter_password_textbox()

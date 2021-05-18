@@ -19,7 +19,7 @@ class Close(BasePage):
         self.close_requests = CloseRequests(self.driver)
         self.create_requests = CreateRequests(self.close_requests.driver)
 
-    def CloseRequest(self):
+    def closeRequest(self):
         # Login to the Page
         self.login_page.enter_username_textbox()
         self.login_page.enter_password_textbox()

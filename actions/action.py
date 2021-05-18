@@ -18,7 +18,7 @@ class CreateNewChangeRequest(ChromeBrowser, Create):
         """ Call all the functions from CreateChangeRequest to create change requests """
         self.get_bmc_website()
         self.__createChangeRequest = Create(self.browser)
-        self.__createChangeRequest.CreateNCR()
+        self.__createChangeRequest.createNCR()
 
 
 class CloseChangeRequest(ChromeBrowser, Close):
@@ -34,7 +34,7 @@ class CloseChangeRequest(ChromeBrowser, Close):
         """ Call all the functions from CloseChangeRequests to close change requests """
         self.get_bmc_website()
         self.__closeMyRequest = Close(self.browser)
-        self.__closeMyRequest.CloseRequest()
+        self.__closeMyRequest.closeRequest()
 
 
 class CancelChangeRequests(ChromeBrowser, Cancel):
@@ -50,7 +50,7 @@ class CancelChangeRequests(ChromeBrowser, Cancel):
         """ Call all the functions from CancelChangeRequests to cancel change requests """
         self.get_bmc_website()
         self.__cancelMyRequest = Cancel(self.browser)
-        self.__cancelMyRequest.CancelRequest()
+        self.__cancelMyRequest.cancelRequest()
 
 
 class ParserLDMA(ChromeBrowser, Parser):
@@ -60,7 +60,7 @@ class ParserLDMA(ChromeBrowser, Parser):
     def setUpDriver(cls):
         super().setUpDriver()
 
-    def test_parse_ldma(self, link_ids: list[str] = None, site_ids: list[str] = None):
+    def parseLDMA(self, link_ids: list[str] = None, site_ids: list[str] = None):
         self.get_ldma_website()
         self.__parser = Parser(self.browser)
-        self.__parser.ParseLinkBudget(link_ids, site_ids)
+        self.__parser.parseLinkBudget(link_ids, site_ids)

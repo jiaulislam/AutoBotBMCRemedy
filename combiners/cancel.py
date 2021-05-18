@@ -22,7 +22,7 @@ class Cancel(BasePage):
         self.cancel_requests = CancelRequests(self.closeRequest.driver)
         self.create_requests = CreateRequests(self.closeRequest.driver)
 
-    def CancelRequest(self):
+    def cancelRequest(self):
         """ All the functionalities in one function to mimic a user interactions to cancel a Change Request"""
 
         # Log in to the server
