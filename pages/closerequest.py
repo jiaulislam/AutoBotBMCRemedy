@@ -1,5 +1,5 @@
 import time
-from typing import NoReturn
+from typing import NoReturn, Union
 
 from selenium.common.exceptions import (
     NoSuchElementException,
@@ -53,7 +53,7 @@ class CloseRequests(BasePage):
         """ Get the Change Request type """
         return self.__change_type
 
-    def get_actual_start_date(self) -> (str, None):
+    def get_actual_start_date(self) -> Union[str, None]:
         """ Get the Closing Change Request Date & Time """
         self.click(DateSectionSelector.DATE_PAGE)
         if self.get_value_of_element(CloseChangeLocators.CHANGE_REQUEST_OPEN) != "":
@@ -62,7 +62,7 @@ class CloseRequests(BasePage):
             return None
 
     @staticmethod
-    def get_index_for_change_number(change_number: str, list_of_change_number: list) -> (int, None):
+    def get_index_for_change_number(change_number: str, list_of_change_number: list) -> Union[int, None]:
         """ returns the correct position of the change number from the list """
         try:
             return list_of_change_number.index(change_number) + 2

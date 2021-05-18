@@ -1,5 +1,6 @@
 from datetime import datetime as DateTime
 from datetime import timedelta
+from typing import List
 
 """
 Format the Date with standard requirement. All five task
@@ -91,7 +92,7 @@ def make_impact_list(site_list):
     return "\n\n" + impact_list
 
 
-def list_of_change(file_name: str):
+def list_of_change(file_name: str) -> List[str]:
     """ return the list of Change Numbers from the text file """
     change_list = []
     try:
