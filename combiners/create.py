@@ -39,7 +39,7 @@ class Create(BasePage):
         self.login.enter_password_textbox()
         self.login.click_login_button()
         self.read_data.change_sheet()
-        self.export_data.change_sheet("Change_List")  # Change Sheet
+        self.export_data.change_sheet("Main")  # Change Sheet
         EXCEL_ROW = 2  # Need to change if need to change the starting point in Excel
         MAX_CHANGE = self.read_data.get_number_change() + EXCEL_ROW
         with Live(self._table, refresh_per_second=4, vertical_overflow="visible") as live:

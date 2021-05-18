@@ -13,7 +13,7 @@ BASE_DIR = Path.cwd()
 READER_FILENAME = 'Request_CR.xlsx'
 WRITER_FILENAME = 'Output_CR.xlsx'
 CANCEL_CHANGE_FILENAME = "cancel.txt"
-CLOSE_CHANGE_FILENAME = "change.txt"
+CLOSE_CHANGE_FILENAME = "close.txt"
 
 
 class StaticData(object):
