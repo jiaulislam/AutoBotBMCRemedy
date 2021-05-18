@@ -46,10 +46,10 @@ class Parser(BasePage):
                         except TimeoutException:
                             table.add_row(f"{(_index + 1)}", f"{_link_code}", "❌")
                             continue
-                    # parse_info.export_pdf_file(id) # Export As PDF
-                    parse_info.export_file(_link_code)  # Export As HTML
-                    # parse_info.export_word_file(id) # Export As DOC
-                    # parse_info.delete_html_file(id) # Delete the Exported HTML file
+                        # parse_info.export_pdf_file(id) # Export As PDF
+                        parse_info.export_file(_link_code)  # Export As HTML
+                        # parse_info.export_word_file(id) # Export As DOC
+                        # parse_info.delete_html_file(id) # Delete the Exported HTML file
                     parse_info.logout_ldma()
                     self.driver.quit()
                 except Exception as error:
