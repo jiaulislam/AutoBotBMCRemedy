@@ -1,16 +1,17 @@
+from typing import NoReturn
+
 from selenium.common.exceptions import (
     TimeoutException,
     NoSuchElementException
 )
+
+from pages.base import BasePage
 from utilites.locators import (
     CancelRequestLocators,
     CloseChangeLocators,
     DateSectionSelector,
     CommonChangeCreateLocators
 )
-
-from pages.base import BasePage
-from typing import NoReturn
 
 """
 A class for Cancel the unused Change Requests. For cancelling a 

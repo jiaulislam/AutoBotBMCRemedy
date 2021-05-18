@@ -1,14 +1,14 @@
+from rich import print
+from rich.align import Align
+from rich.live import Live
+from rich.panel import Panel
+from rich.table import Table
+from rich.traceback import install
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
 
-from pages.ldma import ParseLinkBudget
 from pages.base import BasePage
-from rich.traceback import install
-from rich.table import Table
-from rich.panel import Panel
-from rich.align import Align
-from rich.live import Live
-from rich import print
+from pages.ldma import ParseLinkBudget
 
 # RICH Implementation for providing beautiful CLI visuals
 

@@ -1,4 +1,6 @@
+from alive_progress import alive_bar
 from selenium.webdriver.chrome.webdriver import WebDriver
+
 from pages.base import BasePage
 from pages.cancelrequest import CancelRequests
 from pages.closerequest import CloseRequests
@@ -7,7 +9,6 @@ from pages.home import HomePage
 from pages.login import LoginPage
 from utilites import make_data
 from utilites.static_data import StaticData
-from alive_progress import alive_bar
 from utilites.terminal_colors import Colors
 
 

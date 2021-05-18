@@ -1,19 +1,20 @@
 import os
 import time
 
-from pages.base import BasePage
+from rich import print
+from rich.live import Live
+from rich.traceback import install
 from selenium.webdriver.chrome.webdriver import WebDriver
+
+from pages.base import BasePage
 from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
+from prettify.create_prettifier import get_layout, get_table, add_row_table
 from utilites import make_data
 from utilites.data_export import Data_Export
 from utilites.read_excel_data import Read_Data
 from utilites.static_data import StaticData
-from rich.live import Live
-from rich.traceback import install
-from rich import print
-from prettify.create_prettifier import get_layout, get_table, add_row_table
 
 # install traceback
 install()
@@ -113,7 +114,8 @@ class Create(BasePage):
                     self.export_data.save_workbook(StaticData.WRITE_EXCEL_FILE)
                     # ---------------------------- END -------------------------------------------------- #
 
-                    console_data = (str(_excel_index - 1), commercial_zone, service_type, coordinator, change_number, "✅")
+                    console_data = (
+                    str(_excel_index - 1), commercial_zone, service_type, coordinator, change_number, "✅")
 
                     # Save and go back to home page, need to tag site if service effective cr
                     if service_type == 'Service Effective':

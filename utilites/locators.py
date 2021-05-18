@@ -6,7 +6,7 @@ written by: jiaul_islam
 from selenium.webdriver.common.by import By
 
 
-#//span[@class='loadingText'] # Loading Locator
+# //span[@class='loadingText'] # Loading Locator
 
 class LoginPageLocators(object):
     """ Login Page related XPATH class Variable are declared here """
@@ -205,4 +205,3 @@ class RelationshipQueryLocators(object):
     RELATIONSHIP_ROBI_AXIATA = (By.XPATH, "//*[contains(text(), 'Robi-Axiata')]")
 
     RELATE_THE_RELATIONSHIP_BTN = (By.XPATH, "//a[@id='WIN_0_301867500']//div[@class='f1']")
-

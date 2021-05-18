@@ -1,12 +1,12 @@
-from time import sleep
 from typing import Tuple
 
+from rich import box
 from rich.align import Align
 from rich.layout import Layout
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 from rich.table import Table
-from rich import box
+
 from prettify.prettify_ldma import Header
 
 

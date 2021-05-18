@@ -1,17 +1,19 @@
+import time
+from typing import List, Optional, Tuple, Union
+
 from selenium.common.exceptions import (
     NoSuchFrameException,
     NoSuchElementException,
     TimeoutException, ElementClickInterceptedException,
 )
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
-from typing import List, Optional, Tuple, Union
-import time
+
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
 BasePage class. Some most common method is written here that we're gonna need 

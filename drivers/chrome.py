@@ -1,13 +1,14 @@
 import os
 
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
+
 from utilites.static_data import BMCData, LDMAData
 
 
-class Driver:
+class ChromeDriver:
     """ A independent class for calling the browser WebDriver """
     browser: WebDriver = None
 
@@ -32,7 +33,7 @@ class Driver:
         del cls
 
 
-class Browser(Driver):
+class ChromeBrowser(ChromeDriver):
     """ A Sub-Class of Driver for additional functionalities.
         Example: Headless Mode, Session Handle, Cookies Handle, Open Links
     """

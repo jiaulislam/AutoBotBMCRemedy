@@ -4,7 +4,7 @@ developer : jiaul_islam
 """
 import os
 import shutil
-from typing import List, Optional, Union
+from typing import Union
 
 import pdfkit
 import win32com.client as win32
@@ -14,7 +14,6 @@ from selenium.common.exceptions import (
     TimeoutException
 )
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base import BasePage
 from utilites.ldmalocators import (
