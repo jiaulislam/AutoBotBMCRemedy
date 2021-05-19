@@ -45,8 +45,6 @@ class Cancel(BasePage):
         with Live(CancelPrettify.show_layout(), refresh_per_second=5) as live:
             while not progress.finished:
                 for task in progress.tasks:
-                    if not task.finished:
-                        progress.advance(task.id)
                     for _task_no, a_change in enumerate(all_changes_file):
                         # find the index of the change number from the list (custom algorithm is used).
                         #  Searching an element time complexity is O(1)
@@ -95,5 +93,7 @@ class Cancel(BasePage):
                                                              "Closed/Completed")
                                 live.update(CancelPrettify.show_layout())
                                 self.create_requests.go_back_to_homepage()
+                        if not task.finished:
+                            progress.advance(task.id)
 
         self.home_page.click_logout_button()

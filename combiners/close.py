@@ -38,8 +38,6 @@ class Close(BasePage):
         with Live(ClosePrettify.get_layout(), refresh_per_second=5) as live:
             while not my_progress.finished:
                 for job in my_progress.tasks:
-                    if not job.finished:
-                        my_progress.advance(job.id)
                     for _index, a_change in enumerate(user_list_for_close):
                         if a_change in all_changes_list:
                             # get the Index number for the change calculated by algorithm get_index_for_change()
@@ -100,5 +98,7 @@ class Close(BasePage):
                             ClosePrettify.add_row_table(
                                 str(_index), self.close_requests.get_change_number(), "INVALID")
                             live.update(ClosePrettify.get_layout())
+                    if not job.finished:
+                        my_progress.advance(job.id)
 
         self.home_page.click_logout_button()
