@@ -1,3 +1,4 @@
+from rich.live import Live
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from pages.base import BasePage
@@ -6,10 +7,9 @@ from pages.closerequest import CloseRequests
 from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
+from prettify.cancel_prettifier import CancelPrettify
 from utilites import make_data
 from utilites.static_data import StaticData
-from rich.live import Live
-from prettify.cancel_prettifier import CancelPrettify
 
 
 class Cancel(BasePage):
@@ -62,27 +62,37 @@ class Cancel(BasePage):
                                             self.cancel_requests.select_cancel()
                                             self.cancel_requests.save_status()
                                             # // Cancelled //
-                                            CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "CANCELLED")
+                                            CancelPrettify.add_row_table(str(_task_no),
+                                                                         self.cancel_requests.get_cancelled_cr_number(),
+                                                                         "CANCELLED")
                                             live.update(CancelPrettify.show_layout())
                                             self.create_requests.go_back_to_homepage()
                                         else:
                                             #  // Already Closed //
-                                            CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "A/C")
+                                            CancelPrettify.add_row_table(str(_task_no),
+                                                                         self.cancel_requests.get_cancelled_cr_number(),
+                                                                         "A/C")
                                             live.update(CancelPrettify.show_layout())
                                             self.create_requests.go_back_to_homepage()
                                     else:
                                         # // Already Opened //
-                                        CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "A/O")
+                                        CancelPrettify.add_row_table(str(_task_no),
+                                                                     self.cancel_requests.get_cancelled_cr_number(),
+                                                                     "A/O")
                                         live.update(CancelPrettify.show_layout())
                                         self.create_requests.go_back_to_homepage()
                                 else:
                                     # // Scheduled for Approval
-                                    CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "S/F/A")
+                                    CancelPrettify.add_row_table(str(_task_no),
+                                                                 self.cancel_requests.get_cancelled_cr_number(),
+                                                                 "S/F/A")
                                     live.update(CancelPrettify.show_layout())
                                     self.create_requests.go_back_to_homepage()
                             else:
                                 # // Already Closed or Completed
-                                CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "Closed/Completed")
+                                CancelPrettify.add_row_table(str(_task_no),
+                                                             self.cancel_requests.get_cancelled_cr_number(),
+                                                             "Closed/Completed")
                                 live.update(CancelPrettify.show_layout())
                                 self.create_requests.go_back_to_homepage()
 

@@ -115,7 +115,7 @@ class Create(BasePage):
                     # ---------------------------- END -------------------------------------------------- #
 
                     console_data = (
-                    str(_excel_index - 1), commercial_zone, service_type, coordinator, change_number, "✅")
+                        str(_excel_index - 1), commercial_zone, service_type, coordinator, change_number, "✅")
 
                     # Save and go back to home page, need to tag site if service effective cr
                     if service_type == 'Service Effective':

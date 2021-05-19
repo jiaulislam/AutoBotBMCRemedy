@@ -1,3 +1,4 @@
+from rich.live import Live
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from pages.base import BasePage
@@ -5,9 +6,8 @@ from pages.closerequest import CloseRequests
 from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
-from utilites import make_data
 from prettify.close_prettifier import ClosePrettify
-from rich.live import Live
+from utilites import make_data
 from utilites.static_data import StaticData
 
 
@@ -54,21 +54,23 @@ class Close(BasePage):
                                         actual_open_time = self.close_requests.get_actual_start_date()
                                         if actual_open_time is not None:
                                             # make closing time depending on Actual Open Time
-                                            actual_closing_time = make_data.make_downtime_from_open_time(actual_open_time)
+                                            actual_closing_time = make_data.make_downtime_from_open_time(
+                                                actual_open_time)
                                             # Grab the current sys time
                                             current_sys_time = make_data.get_current_system_time()
                                             self.close_requests.goto_task_page()
                                             # Close the 2nd task
                                             self.close_requests.close_service_downtime_duration_task(actual_open_time,
-                                                                                                    actual_closing_time)
+                                                                                                     actual_closing_time)
                                             # Close the 3rd task
                                             self.close_requests.close_service_downtime_window_task(actual_open_time,
-                                                                                                current_sys_time)
+                                                                                                   current_sys_time)
                                             # Close the 4th task
                                             self.close_requests.close_system_downtime_duration_task(actual_open_time,
                                                                                                     actual_closing_time)
                                             self.create_requests.go_back_to_homepage()
-                                            ClosePrettify.add_row_table(str(_index), self.close_requests.get_change_number(), "OK")
+                                            ClosePrettify.add_row_table(str(_index),
+                                                                        self.close_requests.get_change_number(), "OK")
                                             live.update(ClosePrettify.get_layout())
                                         else:
                                             self.close_requests.add_change_to_invalid_list(a_change)
