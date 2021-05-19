@@ -67,36 +67,36 @@ class Close(BasePage):
                                             self.close_requests.close_system_downtime_duration_task(actual_open_time,
                                                                                                     actual_closing_time)
                                             self.create_requests.go_back_to_homepage()
-                                            ClosePrettify.add_row_table(str(_index),
+                                            ClosePrettify.add_row_table(str(_index+1),
                                                                         self.close_requests.get_change_number(), "OK")
                                             live.update(ClosePrettify.get_layout())
                                         else:
                                             self.close_requests.add_change_to_invalid_list(a_change)
                                             self.create_requests.go_back_to_homepage()
                                             ClosePrettify.add_row_table(
-                                                str(_index), self.close_requests.get_change_number(), "N/O")
+                                                str(_index+1), self.close_requests.get_change_number(), "N/O")
                                             live.update(ClosePrettify.get_layout())
                                     else:
                                         self.close_requests.add_change_to_invalid_list(a_change)
                                         self.create_requests.go_back_to_homepage()
                                         ClosePrettify.add_row_table(
-                                            str(_index), self.close_requests.get_change_number(), "S/F/A")
+                                            str(_index+1), self.close_requests.get_change_number(), "S/F/A")
 
                                         live.update(ClosePrettify.get_layout())
                                 else:
                                     self.create_requests.go_back_to_homepage()
                                     ClosePrettify.add_row_table(
-                                        str(_index), self.close_requests.get_change_number(), "A/C")
+                                        str(_index+1), self.close_requests.get_change_number(), "A/C")
                                     live.update(ClosePrettify.get_layout())
                             else:
                                 self.close_requests.add_change_to_invalid_list(a_change)
                                 ClosePrettify.add_row_table(
-                                    str(_index), self.close_requests.get_change_number(), "INVALID")
+                                    str(_index+1), self.close_requests.get_change_number(), "INVALID")
                                 live.update(ClosePrettify.get_layout())
                         else:
                             self.close_requests.add_change_to_invalid_list(a_change)
                             ClosePrettify.add_row_table(
-                                str(_index), self.close_requests.get_change_number(), "INVALID")
+                                str(_index+1), self.close_requests.get_change_number(), "INVALID")
                             live.update(ClosePrettify.get_layout())
                     if not job.finished:
                         my_progress.advance(job.id)
