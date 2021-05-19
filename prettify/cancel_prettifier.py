@@ -1,15 +1,13 @@
-from typing import Tuple
-
 from rich.align import Align
 from rich.layout import Layout
 from rich.panel import Panel
-from rich.progress import Progress, BarColumn, TextColumn, SpinnerColumn
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
 from rich.table import Table
 
 from prettify.prettify_ldma import Header
 
 
-class ClosePrettify:
+class CancelPrettify:
     _layout = Layout()
     _table = Table(title="Table", expand=True)
 
@@ -19,12 +17,15 @@ class ClosePrettify:
             Layout(name="header", size=3),
             Layout(name="body")
         )
-
         cls._layout["body"].split_row(
             Layout(name="progress"),
             Layout(name="tables")
         )
-        cls._layout["header"].update(Header("Close NCR Activity"))
+        cls._layout["header"].update(Header("Cancel Request Status"))
+
+    @classmethod
+    def get_layout(cls) -> Layout:
+        return cls._layout
 
     @classmethod
     def make_table(cls) -> None:
@@ -33,11 +34,11 @@ class ClosePrettify:
         cls._table.add_column("Status")
 
     @classmethod
-    def add_row_table(cls, *table_data: Tuple[str, ...]) -> None:
-        cls._table.add_row(*table_data)
+    def add_row_table(cls, sl: str, ncr_number: str, status: str) -> None:
+        cls._table.add_row(sl, ncr_number, status)
 
     @classmethod
-    def get_layout(cls) -> Layout:
+    def show_layout(cls) -> Layout:
         return cls._layout
 
     @classmethod
@@ -59,14 +60,11 @@ class ClosePrettify:
             BarColumn(),
             TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         )
-
-        job_progress.add_task("[Closing]:", total=tasks_range)
-
         progress_table = Table.grid()
+
+        job_progress.add_task("[Cancel]:", total=tasks_range)
+
         progress_table.add_row(
             Panel.fit(job_progress, title="[b]jobs", padding=(2, 2))
         )
         return job_progress
-
-    def __str__(self):
-        return self._layout

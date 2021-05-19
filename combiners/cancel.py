@@ -1,4 +1,3 @@
-from alive_progress import alive_bar
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from pages.base import BasePage
@@ -9,7 +8,8 @@ from pages.home import HomePage
 from pages.login import LoginPage
 from utilites import make_data
 from utilites.static_data import StaticData
-from utilites.terminal_colors import Colors
+from rich.live import Live
+from prettify.cancel_prettifier import CancelPrettify
 
 
 class Cancel(BasePage):
@@ -35,43 +35,55 @@ class Cancel(BasePage):
 
         # Parse all the user requested change number from the source
         all_changes_file = make_data.list_of_change(StaticData.CANCEL_CHANGE_TXT_FILE_PATH)
-        with alive_bar(len(all_changes_file)) as bar:
-            for a_change in all_changes_file:
-                # find the index of the change number from the list (custom algorithm is used).
-                #  Searching an element time complexity is O(1)
-                index = self.closeRequest.get_index_for_change_number(a_change, all_changes_web)
-                if index is not None:
-                    # select the change number after found
-                    self.closeRequest.find_the_change_request(a_change, index)
-                    if not self.closeRequest.is_change_status_closed():
-                        if not self.closeRequest.is_status_scheduled_for_approval():
-                            if not self.cancel_requests.is_change_request_opened():
-                                if not self.cancel_requests.is_cancelled():
-                                    # Perform the user interactions to cancel
-                                    self.cancel_requests.select_cancel()
-                                    self.cancel_requests.save_status()
-                                    print(f"{Colors.OKGREEN}===>STAT: CANCELLED ===> "
-                                          f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
-                                    bar()
-                                    self.create_requests.go_back_to_homepage()
+
+        # Prettify tables
+        CancelPrettify.make_layout()
+        CancelPrettify.make_table()
+        progress = CancelPrettify.progress_bar(len(all_changes_file))
+        CancelPrettify.merge_layout(progress, CancelPrettify.get_table())
+
+        with Live(CancelPrettify.show_layout(), refresh_per_second=5) as live:
+            while not progress.finished:
+                for task in progress.tasks:
+                    if not task.finished:
+                        progress.advance(task.id)
+                    for _task_no, a_change in enumerate(all_changes_file):
+                        # find the index of the change number from the list (custom algorithm is used).
+                        #  Searching an element time complexity is O(1)
+                        index = self.closeRequest.get_index_for_change_number(a_change, all_changes_web)
+                        if index is not None:
+                            # select the change number after found
+                            self.closeRequest.find_the_change_request(a_change, index)
+                            if not self.closeRequest.is_change_status_closed():
+                                if not self.closeRequest.is_status_scheduled_for_approval():
+                                    if not self.cancel_requests.is_change_request_opened():
+                                        if not self.cancel_requests.is_cancelled():
+                                            # Perform the user interactions to cancel
+                                            self.cancel_requests.select_cancel()
+                                            self.cancel_requests.save_status()
+                                            # // Cancelled //
+                                            CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "CANCELLED")
+                                            live.update(CancelPrettify.show_layout())
+                                            self.create_requests.go_back_to_homepage()
+                                        else:
+                                            #  // Already Closed //
+                                            CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "A/C")
+                                            live.update(CancelPrettify.show_layout())
+                                            self.create_requests.go_back_to_homepage()
+                                    else:
+                                        # // Already Opened //
+                                        CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "A/O")
+                                        live.update(CancelPrettify.show_layout())
+                                        self.create_requests.go_back_to_homepage()
                                 else:
-                                    print(f"{Colors.OKGREEN}===>STAT: ALREADY CANCELLED ===> "
-                                          f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
+                                    # // Scheduled for Approval
+                                    CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "S/F/A")
+                                    live.update(CancelPrettify.show_layout())
                                     self.create_requests.go_back_to_homepage()
-                                    bar()
                             else:
-                                print(f"{Colors.FAIL}===>STAT: ALREADY OPENED ===> "
-                                      f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
+                                # // Already Closed or Completed
+                                CancelPrettify.add_row_table(str(_task_no), self.cancel_requests.get_cancelled_cr_number(), "Closed/Completed")
+                                live.update(CancelPrettify.show_layout())
                                 self.create_requests.go_back_to_homepage()
-                                bar()
-                        else:
-                            print(f"{Colors.OKCYAN}===>STAT: SCHEDULED FOR APPROVAL ===> "
-                                  f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
-                            self.create_requests.go_back_to_homepage()
-                            bar()
-                    else:
-                        print(f"{Colors.OKBLUE}===>STAT: CLOSED OR COMPLETED ===> "
-                              f"{self.cancel_requests.get_cancelled_cr_number()}{Colors.ENDC}")
-                        bar()
 
         self.home_page.click_logout_button()
