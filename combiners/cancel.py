@@ -60,35 +60,35 @@ class Cancel(BasePage):
                                             self.cancel_requests.select_cancel()
                                             self.cancel_requests.save_status()
                                             # // Cancelled //
-                                            CancelPrettify.add_row_table(str(_task_no),
+                                            CancelPrettify.add_row_table(str(_task_no+1),
                                                                          self.cancel_requests.get_cancelled_cr_number(),
                                                                          "CANCELLED")
                                             live.update(CancelPrettify.show_layout())
                                             self.create_requests.go_back_to_homepage()
                                         else:
                                             #  // Already Closed //
-                                            CancelPrettify.add_row_table(str(_task_no),
+                                            CancelPrettify.add_row_table(str(_task_no+1),
                                                                          self.cancel_requests.get_cancelled_cr_number(),
-                                                                         "A/C")
+                                                                         "A/C", style="yellow")
                                             live.update(CancelPrettify.show_layout())
                                             self.create_requests.go_back_to_homepage()
                                     else:
                                         # // Already Opened //
-                                        CancelPrettify.add_row_table(str(_task_no),
+                                        CancelPrettify.add_row_table(str(_task_no+1),
                                                                      self.cancel_requests.get_cancelled_cr_number(),
-                                                                     "A/O")
+                                                                     "A/O", style="red")
                                         live.update(CancelPrettify.show_layout())
                                         self.create_requests.go_back_to_homepage()
                                 else:
                                     # // Scheduled for Approval
-                                    CancelPrettify.add_row_table(str(_task_no),
+                                    CancelPrettify.add_row_table(str(_task_no+1),
                                                                  self.cancel_requests.get_cancelled_cr_number(),
                                                                  "S/F/A")
                                     live.update(CancelPrettify.show_layout())
                                     self.create_requests.go_back_to_homepage()
                             else:
                                 # // Already Closed or Completed
-                                CancelPrettify.add_row_table(str(_task_no),
+                                CancelPrettify.add_row_table(str(_task_no+1),
                                                              self.cancel_requests.get_cancelled_cr_number(),
                                                              "Closed/Completed")
                                 live.update(CancelPrettify.show_layout())

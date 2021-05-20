@@ -41,8 +41,8 @@ def add_row_table(table: Table, *data: Tuple[str, ...]) -> None:
 def get_layout() -> Layout:
     layout = Layout()
     layout.split(
-        Layout(name="header", size=3),
-        Layout(name="body", size=2),
+        Layout(name="header", size=3)
+        # Layout(name="body", size=2),
     )
 
     layout["header"].update(Header("NCR Creation Status"))
