@@ -35,7 +35,7 @@ class Close(BasePage):
         my_progress = ClosePrettify.progress_bar(tasks)
         ClosePrettify.merge_layout(my_progress, ClosePrettify.get_table())
         # Iterate through each user shared Change Number
-        with Live(ClosePrettify.get_layout(), refresh_per_second=5) as live:
+        with Live(ClosePrettify.get_layout(), refresh_per_second=5, vertical_overflow="visible") as live:
             while not my_progress.finished:
                 for job in my_progress.tasks:
                     for _index, a_change in enumerate(user_list_for_close):
@@ -68,35 +68,35 @@ class Close(BasePage):
                                                                                                     actual_closing_time)
                                             self.create_requests.go_back_to_homepage()
                                             ClosePrettify.add_row_table(str(_index+1),
-                                                                        self.close_requests.get_change_number(), "OK")
+                                                                        self.close_requests.get_change_number(), "[green]SUCCESS")
                                             live.update(ClosePrettify.get_layout())
                                         else:
                                             self.close_requests.add_change_to_invalid_list(a_change)
                                             self.create_requests.go_back_to_homepage()
                                             ClosePrettify.add_row_table(
-                                                str(_index+1), self.close_requests.get_change_number(), "N/O")
+                                                str(_index+1), self.close_requests.get_change_number(), "[red]NCR NOT OPENED")
                                             live.update(ClosePrettify.get_layout())
                                     else:
                                         self.close_requests.add_change_to_invalid_list(a_change)
                                         self.create_requests.go_back_to_homepage()
                                         ClosePrettify.add_row_table(
-                                            str(_index+1), self.close_requests.get_change_number(), "S/F/A")
+                                            str(_index+1), self.close_requests.get_change_number(), "[red]SFA")
 
                                         live.update(ClosePrettify.get_layout())
                                 else:
                                     self.create_requests.go_back_to_homepage()
                                     ClosePrettify.add_row_table(
-                                        str(_index+1), self.close_requests.get_change_number(), "A/C")
+                                        str(_index+1), self.close_requests.get_change_number(), "[red]AC")
                                     live.update(ClosePrettify.get_layout())
                             else:
                                 self.close_requests.add_change_to_invalid_list(a_change)
                                 ClosePrettify.add_row_table(
-                                    str(_index+1), self.close_requests.get_change_number(), "INVALID")
+                                    str(_index+1), self.close_requests.get_change_number(), "[red]INVALID")
                                 live.update(ClosePrettify.get_layout())
                         else:
                             self.close_requests.add_change_to_invalid_list(a_change)
                             ClosePrettify.add_row_table(
-                                str(_index+1), self.close_requests.get_change_number(), "INVALID")
+                                str(_index+1), self.close_requests.get_change_number(), "[red]INVALID")
                             live.update(ClosePrettify.get_layout())
                     if not job.finished:
                         my_progress.advance(job.id)

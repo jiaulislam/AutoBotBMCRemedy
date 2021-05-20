@@ -33,7 +33,7 @@ class Parser(BasePage):
             parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
-            with Live(panel, refresh_per_second=1):
+            with Live(panel, refresh_per_second=1, vertical_overflow="visible"):
                 try:
                     for _index, _link_code in enumerate(link_codes):
                         parse_info.goto_links()

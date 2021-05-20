@@ -42,7 +42,7 @@ class Cancel(BasePage):
         progress = CancelPrettify.progress_bar(len(all_changes_file))
         CancelPrettify.merge_layout(progress, CancelPrettify.get_table())
 
-        with Live(CancelPrettify.show_layout(), refresh_per_second=5) as live:
+        with Live(CancelPrettify.show_layout(), refresh_per_second=5, vertical_overflow="visible") as live:
             while not progress.finished:
                 for task in progress.tasks:
                     for _task_no, a_change in enumerate(all_changes_file):
