@@ -189,7 +189,7 @@ class BasePage(object):
                     WebDriverWait(self.driver, self.timeout).until(
                         ec.element_to_be_clickable(xpath_locator)).click()
                 except ElementClickInterceptedException:
-                    print("Grace Period | Waiting 5s ", end="")
+                    # TODO: Grace Period // Need to Work in this area
                     for i in range(5):
                         print(".", end="")
                         time.sleep(1)

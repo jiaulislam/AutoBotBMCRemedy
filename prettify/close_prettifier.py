@@ -27,10 +27,10 @@ class ClosePrettify:
         _used_memory: str = _memory[3]
         _free_memory: str = _memory[4]
 
-        table = Table.grid(expand=True, collapse_padding=False)
+        table = Table.grid(expand=True)
 
         table.add_row(
-            "Total Memory: \t\t\t", Text(_total_memory, style="yellow", justify="right")
+            "Total Memory: ", Text(_total_memory, style="yellow", justify="right")
         )
         table.add_row(
             "Available Memory: ", Text(

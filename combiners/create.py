@@ -82,6 +82,7 @@ class Create(BasePage):
                     self.createChangeRequest.set_change_number()
                     self.createChangeRequest.insert_text_notes(details)
                     change_number = self.createChangeRequest.get_change_number()
+                    live.console.print(f"Working on: [green]{change_number}")
                     self.createChangeRequest.select_manager_group()
                     self.createChangeRequest.select_change_manager(change_manager)
                     self.createChangeRequest.insert_work_info(notes)
