@@ -12,7 +12,7 @@ from prettify.prettify_ldma import Header
 
 class CancelPrettify:
     _layout = Layout()
-    _table = Table(title="Table", expand=True)
+    _table = Table(title="Cancellation Status", expand=True)
 
     @staticmethod
     def get_top_layout() -> Panel:
