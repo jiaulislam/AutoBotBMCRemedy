@@ -139,6 +139,7 @@ class CommonChangeCreateLocators(object):
 
     # ==> CHANGE CLASS TYPE SECTION LOCATORS <== #
     CHANGE_CLASS_TYPE_BUTTON = (By.XPATH, "//input[@id='arid_WIN_3_1000000568']")
+    LOADING_ICON = (By.XPATH, "//span[@class='loadingText']")
 
 
 class SaveChangeLocators(object):

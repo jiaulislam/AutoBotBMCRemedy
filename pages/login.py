@@ -11,7 +11,7 @@ written by: jiaul_islam
 
 
 class LoginPage(BasePage):
-    def __init(self, driver) -> None:
+    def __init__(self, driver) -> None:
         super().__init__(driver)
 
     def enter_username_textbox(self) -> None:

@@ -237,6 +237,7 @@ class CreateRequests(BasePage):
     def go_back_to_homepage(self) -> None:
         """ Get Back to the Homepage """
         try:
+            self.wait_for_loading_icon_disappear(*CommonChangeCreateLocators.LOADING_ICON)
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
         except ElementClickInterceptedException:
             # for click intercepted a Warning Box is available on page. Need to handle that.
