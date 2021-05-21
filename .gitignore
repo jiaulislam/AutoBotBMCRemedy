@@ -7,7 +7,6 @@ Scripts/
 pyvenv.cfg
 LinkBudgetDumps/
 test.py
-Autobot.py
 bin
 lib
 lib64
