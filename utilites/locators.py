@@ -129,6 +129,7 @@ class CommonTaskDateLocators(object):
     START_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000350']")
     END_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000362']")
     SAVE_TASK_BTN = (By.XPATH, "//div[@class='f7'][contains(text(), 'Save')]")
+    LOADING_ICON = (By.XPATH, "//span[@class='loadingText']")
 
 
 class CommonChangeCreateLocators(object):

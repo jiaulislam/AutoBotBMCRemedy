@@ -140,6 +140,25 @@ class CloseRequests(BasePage):
             self.back_to_home_page(dynamicXPATH)
         time.sleep(2)
 
+    def __common_closing_activity(self, start_time: str, end_time: str) -> NoReturn:
+        """ Perform the common closing activity in the 3 task """
+        self.write(CloseChangeLocators.CLOSE_START_DATE, start_time)
+        if self.get_change_type():
+            self.write(CloseChangeLocators.CLOSE_END_DATE, end_time)
+        else:
+            self.write(CloseChangeLocators.CLOSE_END_DATE, start_time)
+        self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
+        self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+        self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
+        time.sleep(1)
+        self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
+        try:
+            self.__back_to_change_task_page()
+            time.sleep(2)
+        except ElementClickInterceptedException:
+            self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
+            self.__back_to_change_task_page()
+
     def close_service_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
         """
         Close the Task for: Service_Downtime_Duration_Task(2) ,
@@ -218,24 +237,6 @@ class CloseRequests(BasePage):
             print("WARN: System Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
 
-    def __common_closing_activity(self, start_time: str, end_time: str) -> NoReturn:
-        """ Perform the common closing activity in the 3 task """
-        self.write(CloseChangeLocators.CLOSE_START_DATE, start_time)
-        if self.get_change_type():
-            self.write(CloseChangeLocators.CLOSE_END_DATE, end_time)
-        else:
-            self.write(CloseChangeLocators.CLOSE_END_DATE, start_time)
-        self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
-        self.hover_over(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-        self.click(CloseChangeLocators.SELECT_CLOSE_FROM_LST)
-        time.sleep(1)
-        self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
-        try:
-            self.__back_to_change_task_page()
-            time.sleep(2)
-        except ElementClickInterceptedException:
-            self.check_for_expected_frame(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
-            self.__back_to_change_task_page()
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """

@@ -1,5 +1,5 @@
 import time
-from typing import List, Optional, Tuple, Union
+from typing import Counter, List, Optional, Tuple, Union
 
 from selenium.common.exceptions import (
     NoSuchFrameException,
@@ -200,3 +200,14 @@ class BasePage(object):
                     print(f"Unexpected Error found ! --> {error}")
             except Exception as error:
                 print(f"Unexpected error found ! --> {error}")
+
+        
+    def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
+        """ Wait for 10 minutes for loading_icon to vanish """
+        _counter = 1
+        while _counter <= 600 :  # Run for 10 Minutes
+            time.sleep(1)
+            _counter+=1
+            _loading_icons: list = self.driver.find_elements(*locator)
+            if not len(_loading_icons):
+                break
