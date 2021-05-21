@@ -55,7 +55,7 @@ class CancelPrettify:
                 _pyversion, style="blue", justify="right")
         )
         return Panel(
-            Align.center(table, vertical="middle", pad=False),
+            table,
             title="System Info",
             border_style="white",
         )
@@ -84,9 +84,9 @@ class CancelPrettify:
 
     @classmethod
     def make_table(cls) -> None:
-        cls._table.add_column("SL")
-        cls._table.add_column("NCR No")
-        cls._table.add_column("Status")
+        cls._table.add_column("SL", justify="center")
+        cls._table.add_column("NCR No", justify="center")
+        cls._table.add_column("Status", justify="center")
 
     @classmethod
     def add_row_table(cls, sl: str, ncr_number: str, status: str, style="green") -> None:
@@ -108,14 +108,14 @@ class CancelPrettify:
             Align.center(table, vertical="middle"), border_style="cyan", title="Details"))
 
     @classmethod
-    def progress_bar(cls, tasks_range: int) -> Progress:
+    def progress_bar(cls, tasks_range: float) -> Progress:
         job_progress = Progress(
             "{task.description}",
             SpinnerColumn("dots", finished_text="Done", style="cyan"),
             BarColumn(),
             TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         )
-        progress_table = Table.grid()
+        progress_table = Table.grid(expand=True, padding=(1,1))
 
         job_progress.add_task("[Cancel]:", total=tasks_range)
 
