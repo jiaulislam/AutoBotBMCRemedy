@@ -206,8 +206,8 @@ class BasePage(object):
         """ Wait for 10 minutes for loading_icon to vanish """
         _counter = 1
         while _counter <= 600 :  # Run for 10 Minutes
-            time.sleep(1)
-            _counter+=1
             _loading_icons: list = self.driver.find_elements(*locator)
             if not len(_loading_icons):
                 break
+            time.sleep(1)
+            _counter+=1
