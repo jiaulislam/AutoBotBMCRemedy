@@ -15,6 +15,7 @@ from utilites.static_data import StaticData
 class Cancel(BasePage):
 
     def __init__(self, driver: WebDriver):
+        """ Cancel NCR E2E Actions """
         super().__init__(driver)
         self.login_page = LoginPage(self.driver)
         self.home_page = HomePage(self.login_page.driver)

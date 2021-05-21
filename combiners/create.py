@@ -21,13 +21,13 @@ install()
 
 
 class Create(BasePage):
-    """ Create CR E2E Actions"""
-
     def __init__(self, driver: WebDriver):
+        """ Create NCR E2E Actions"""
+        super().__init__(driver)
+
         self._layout = get_layout()
         self._table = get_table()
         self.path = os.getcwd()
-        super().__init__(driver)
         self.login = LoginPage(self.driver)
         self.homePage = HomePage(self.login.driver)
         self.createChangeRequest = CreateRequests(self.homePage.driver)

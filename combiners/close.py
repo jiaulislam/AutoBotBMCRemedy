@@ -12,9 +12,10 @@ from utilites.static_data import StaticData
 
 
 class Close(BasePage):
-
     def __init__(self, driver: WebDriver):
+        """ Close NCR E2E Actions """
         super().__init__(driver)
+        
         self.login_page = LoginPage(self.driver)
         self.home_page = HomePage(self.driver)
         self.close_requests = CloseRequests(self.driver)
