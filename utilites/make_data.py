@@ -77,7 +77,7 @@ def parse_datetime(m_date: str) -> DateTime:
     """ Get the as a formatted as required """
     return DateTime.strptime(str(m_date), '%Y-%m-%d %H:%M:%S')
 
-def __split_string(AnyStr: str) -> List[str]:
+def split_string(AnyStr: str) -> List[str]:
     """ Split the Given site codes with comma(,) semi-colon(;) backslash(/) forwardslash(\) hipen(-) string """
     _PATTERN = r"\W+|,|;|\\|/|-"
     _list_of_sites: List[str] = re.split(_PATTERN, AnyStr)
@@ -86,7 +86,7 @@ def __split_string(AnyStr: str) -> List[str]:
 
 def make_impact_list(site_list: str) -> str:
     """ Export a file with site list & return the string of site list with formatted impact list """
-    _list_of_sites: List[str] = __split_string(site_list)
+    _list_of_sites: List[str] = split_string(site_list)
     _IMPACT_LIST = "\n\nImpact List:"
 
     return f"{_IMPACT_LIST} {','.join(_list_of_sites)}"
@@ -125,7 +125,7 @@ def make_downtime_from_open_time(open_time: str) -> str:
 
 def make_query_string(site_string: str) -> str:
     """ Generate the query_list string for relationship addition """
-    sites: List[str] = __split_string(site_string)
+    sites: List[str] = split_string(site_string)
     query_list: list = []
     invalid_list: list = []
     for site in sites:
