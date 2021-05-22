@@ -246,18 +246,6 @@ class CreateRequests(BasePage):
             # after then go back to home page
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
 
-    def __get_title_of_view_attachment_btn(self) -> bool:
-
-        try:
-            if self.find_element(*WorkInfoAttachment.VIEW_ATTACHMENT_BUTTON).get_attribute(
-                    "title") == StaticData.VIEW_ATTACHMENT_DEFAULT_STATE:
-                return True
-            else:
-                return False
-        except NoSuchElementException:
-            print(f"{Colors.WARNING}Attachment status unable to fetch. {Colors.ENDC}")
-            pass
-
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:
         """ Private function for repetitive task in Filling up tasks """
         for child_window in self.driver.window_handles:
