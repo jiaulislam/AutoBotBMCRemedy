@@ -169,37 +169,35 @@ class BasePage(object):
         try:
             self.click(xpath_locator)
         except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 164]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException:
-            print("Back To Home Timeout Exception Hit")
-            try:
-                WebDriverWait(self.driver, 20).until(
-                    ec.visibility_of_element_located(xpath_locator)).click()
-            except TimeoutException as error:
-                raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
-                                f"\n{repr(error)}")
-        except ElementClickInterceptedException:
-            try:
-                WebDriverWait(self.driver, self.timeout).until(
-                    ec.visibility_of_element_located(xpath_locator)).click()
-            except ElementClickInterceptedException:
-                try:
-                    WebDriverWait(self.driver, self.timeout).until(
-                        ec.element_to_be_clickable(xpath_locator)).click()
-                except ElementClickInterceptedException:
-                    # TODO: Grace Period // Need to Work in this area
-                    for i in range(5):
-                        print(".", end="")
-                        time.sleep(1)
-                    print()
-                    WebDriverWait(self.driver, self.timeout).until(
-                        ec.element_to_be_clickable(xpath_locator)).click()
-                except Exception as error:
-                    print(f"Unexpected Error found ! --> {error}")
-            except Exception as error:
-                print(f"Unexpected error found ! --> {error}")
+            raise error
+        # except TimeoutException:
+        #     print("Back To Home Timeout Exception Hit")
+        #     try:
+        #         WebDriverWait(self.driver, 20).until(
+        #             ec.visibility_of_element_located(xpath_locator)).click()
+        #     except TimeoutException as error:
+        #         raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
+        #                         f"\n{repr(error)}")
+        # except ElementClickInterceptedException:
+        #     try:
+        #         WebDriverWait(self.driver, self.timeout).until(
+        #             ec.visibility_of_element_located(xpath_locator)).click()
+        #     except ElementClickInterceptedException:
+        #         try:
+        #             WebDriverWait(self.driver, self.timeout).until(
+        #                 ec.element_to_be_clickable(xpath_locator)).click()
+        #         except ElementClickInterceptedException:
+        #             # TODO: Grace Period // Need to Work in this area
+        #             for i in range(5):
+        #                 print(".", end="")
+        #                 time.sleep(1)
+        #             print()
+        #             WebDriverWait(self.driver, self.timeout).until(
+        #                 ec.element_to_be_clickable(xpath_locator)).click()
+        #         except Exception as error:
+        #             print(f"Unexpected Error found ! --> {error}")
+        #     except Exception as error:
+        #         print(f"Unexpected error found ! --> {error}")
 
         
     def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
