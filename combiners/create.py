@@ -127,9 +127,9 @@ class Create(BasePage):
                         #     val = input("Press q after finished")
                         #     if val == 'q':
                         #         break
-                        self.createChangeRequest.save_change()
+                        # self.createChangeRequest.save_change()
                         # ---------------------------------------------------------
-                        # self.createChangeRequest.goto_next_stage()
+                        self.createChangeRequest.goto_next_stage()
                         os.chdir(self.path)
                         add_row_table(self._table, *console_data)
                         live.update(self._table)

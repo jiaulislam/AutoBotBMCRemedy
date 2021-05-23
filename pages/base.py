@@ -1,4 +1,5 @@
 import time
+from rich.console import Console
 from typing import Counter, List, Optional, Tuple, Union
 
 from selenium.common.exceptions import (
@@ -23,6 +24,10 @@ written_by: jiaul_islam
 '''
 
 
+
+
+console = Console()
+
 class BasePage(object):
     """
         All the Page will inherit this class BasePage Class to use the common
@@ -32,6 +37,18 @@ class BasePage(object):
     def __init__(self, driver: WebDriver, timeout: int = 30) -> None:
         self.driver: WebDriver = driver
         self.timeout = timeout
+
+    def add_logging(func):
+        def wrapper(xpath_locator):
+            try:
+                func(xpath_locator)
+            except TimeoutException:
+                console.log(
+                    f"TimeoutException: [red]Related element's not visible[/red]. Source: @{BasePage.send_ctrl_plus_a.__qualname__}")
+            except AttributeError:
+                console.log(
+                    f"Can't implement [red]Actions[/red] on 'NoneType' object. Source: [yellow]@{BasePage.send_ctrl_plus_a.__qualname__}[/yellow]")
+        return wrapper
 
     def find_element(self, *locator):
         """ Find the element by the help of the locator that user shared """
@@ -47,7 +64,7 @@ class BasePage(object):
         except NoSuchElementException:
             pass
 
-    def find_elements(self, *locator) -> Union[List[WebElement], Optional[None]]:
+    def find_elements(self, *locator) -> Union[List[WebElement], None]:
         """ Find the elements by the help of the locator that user shared """
         try:
             return self.driver.find_elements(*locator)
@@ -123,26 +140,19 @@ class BasePage(object):
             ec.visibility_of_element_located(xpath_locator))
         ActionChains(self.driver).double_click(element).perform()
 
+    @add_logging
     def send_ctrl_plus_a(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
-        try:
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator)).click()
+        # try:
+        WebDriverWait(self.driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator)).click()
 
-            ActionChains(self.driver).key_down(
-                Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
-
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 130]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException as error:
-            print(f"Unexpected Timeout Error [base.py || Line - 135]"
-                  f"\n{repr(error)}")
-            pass
-        except AttributeError as error:
-            print(f"Unexpected Attribute Error -> {error}")
-            pass
+        ActionChains(self.driver).key_down(
+            Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
+        # except TimeoutException:
+        #     console.log(f"TimeoutException: [red]Related element's not visible[/red]. Source: @{BasePage.send_ctrl_plus_a.__qualname__}")
+        # except AttributeError:
+        #     console.log(f"Can't implement [red]Actions[/red] on 'NoneType' object. Source: [yellow]@{BasePage.send_ctrl_plus_a.__qualname__}[/yellow]")
 
     def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """

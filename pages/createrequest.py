@@ -264,8 +264,6 @@ class CreateRequests(BasePage):
         if contents == "" or len(contents) == 0:
             self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).clear()
             self.insert_text_summary(summary)
-        elif contents is None:
-            pass
         else:
             pass
 
