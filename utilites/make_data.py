@@ -77,6 +77,7 @@ def parse_datetime(m_date: str) -> DateTime:
     """ Get the as a formatted as required """
     return DateTime.strptime(str(m_date), '%Y-%m-%d %H:%M:%S')
 
+
 def split_string(AnyStr: str) -> List[str]:
     """ Split the Given site codes with comma(,) semi-colon(;) backslash(/) forwardslash(\) hipen(-) string """
     _PATTERN = r"\W+|,|;|\\|/|-"

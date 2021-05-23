@@ -22,7 +22,6 @@ from utilites.locators import (
     HomePageLocators,
     FrameBoxLocators
 )
-from utilites.static_data import StaticData
 from utilites.terminal_colors import Colors
 
 """
@@ -130,28 +129,28 @@ class CreateRequests(BasePage):
         """ Change the location details of the change request """
 
         # Need to store Parent windows ID cause after click new Window will pop-up
-        parent_window = self.driver.current_window_handle
+        parent_window = self._driver.current_window_handle
         self.click(LocationServiceLocators.LOCATION_MENU_BTN)
         # Handle the new window of Location
-        for child_window in self.driver.window_handles:
+        for child_window in self._driver.window_handles:
             if child_window != parent_window:
-                self.driver.switch_to.window(child_window)
+                self._driver.switch_to.window(child_window)
                 self.click(LocationServiceLocators.CLEAR_BUTTON)
                 self.click(LocationServiceLocators.SEARCH_ICON_IMG)
                 # Another window pop-up after clicking Search button.
-                for grand_child_window in self.driver.window_handles:
+                for grand_child_window in self._driver.window_handles:
                     if grand_child_window != parent_window and grand_child_window != child_window:
                         # Switch to the new Child window
-                        self.driver.switch_to.window(grand_child_window)
+                        self._driver.switch_to.window(grand_child_window)
                         # Insert all the necessary info from here
                         self.write(LocationServiceLocators.SITE_TEXTBOX, change_location_details[1])
                         self.click(LocationServiceLocators.SEARCH_LOCATION_BTN)
                         self.click(LocationServiceLocators.SELECT_LOCATION_BTN)
                         break
-                self.driver.switch_to.window(child_window)
+                self._driver.switch_to.window(child_window)
                 self.click(LocationServiceLocators.OK_LOCATION_BTN)
                 break
-        self.driver.switch_to.window(parent_window)
+        self._driver.switch_to.window(parent_window)
 
     def insert_schedule_date_time(self, start_time: str, end_time: str) -> None:
         """ Insert date into date section of the page. """
@@ -174,49 +173,49 @@ class CreateRequests(BasePage):
         self.click(TaskSectionLocators.TASK_GROUP_TEMPLATE_BTN)
         # Click on the Relate to select the Template
         self.click(TaskSectionLocators.RELATE_BTN)
-        parent_window = self.driver.current_window_handle
+        parent_window = self._driver.current_window_handle
         # A new Windows pops up, so need the parent window later
-        for new_child_window in self.driver.window_handles:
+        for new_child_window in self._driver.window_handles:
             if new_child_window != parent_window:
                 # Found the New Child Window for task template selection
-                self.driver.switch_to.window(new_child_window)
+                self._driver.switch_to.window(new_child_window)
                 # Click on the related to select the default template
                 self.click(TaskSectionLocators.TASK_RELATE_BTN)
                 # if all ok then should break the loop here, as after this child
                 # window will be vanished automatically
                 break
         # As the previous child windows vanished, default should be parent window
-        self.driver.switch_to.window(parent_window)
+        self._driver.switch_to.window(parent_window)
         # Click on the Task Group template that was created
         self.click(TaskSectionLocators.TASK_GROUP_ROW_SPAN)
 
     def fill_initiation_task(self, start_time: str, end_time: str) -> None:
         """ Fill up the date time in Initiation Phase Task """
-        task_page = self.driver.current_window_handle
+        task_page = self._driver.current_window_handle
         self.double_click(TaskSectionLocators.INITIATION_TASK_SPAN)
         self.__set_date_time_in_task(task_page, start_time, end_time)
 
     def fill_service_downtime_duration_task(self, start_downtime: str, end_downtime: str) -> None:
         """ Fill up the date time in Service Downtime duration Phase Task """
-        task_page = self.driver.current_window_handle
+        task_page = self._driver.current_window_handle
         self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_DURATION_TASK_SPAN)
         self.__set_date_time_in_task(task_page, start_downtime, end_downtime)
 
     def fill_system_downtime_window_task(self, work_window_begin: str, work_window_end: str) -> None:
         """ Fill up the date time in System Downtime Window Phase Task """
-        task_page = self.driver.current_window_handle
+        task_page = self._driver.current_window_handle
         self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
         self.__set_date_time_in_task(task_page, work_window_begin, work_window_end)
 
     def fill_system_downtime_duration_task(self, start_downtime: str, end_downtime: str) -> None:
         """ Fill up the date time in System Downtime duration Phase Task """
-        task_page = self.driver.current_window_handle
+        task_page = self._driver.current_window_handle
         self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
         self.__set_date_time_in_task(task_page, start_downtime, end_downtime)
 
     def fill_review_closure_task(self, close_start_time: str, close_end_time: str) -> None:
         """ Fill up the date time in Review & Closure Phase Task """
-        task_page = self.driver.current_window_handle
+        task_page = self._driver.current_window_handle
         self.double_click(TaskSectionLocators.REVIEW_CLOSURE_TASK_SPAN)
         self.__set_date_time_in_task(task_page, close_start_time, close_end_time)
 
@@ -248,21 +247,21 @@ class CreateRequests(BasePage):
 
     def __set_date_time_in_task(self, parent_window: object, start_time: str, end_time: str) -> None:
         """ Private function for repetitive task in Filling up tasks """
-        for child_window in self.driver.window_handles:
+        for child_window in self._driver.window_handles:
             if child_window != parent_window:
-                self.driver.switch_to.window(child_window)
+                self._driver.switch_to.window(child_window)
                 self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
                 self.write(CommonTaskDateLocators.START_TIME_IN_TASK, start_time)
                 self.write(CommonTaskDateLocators.END_TIME_IN_TASK, end_time)
                 self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
                 break
-        self.driver.switch_to.window(parent_window)
+        self._driver.switch_to.window(parent_window)
 
     def verify_summary(self, summary: str):
         """ Verify if the Summary Box is empty or not """
-        contents = self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).get_attribute('value').strip()
+        contents = self._driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).get_attribute('value').strip()
         if contents == "" or len(contents) == 0:
-            self.driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).clear()
+            self._driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).clear()
             self.insert_text_summary(summary)
         else:
             pass
@@ -270,15 +269,15 @@ class CreateRequests(BasePage):
     def add_relationship_to_change(self, relationship_query_formula: str) -> None:
         """ Add the relationship to the Change request if the Change is a Service Effective Change """
         self.click(RelationshipQueryLocators.RELATIONSHIP_TAB_BTN)
-        parent_window = self.driver.current_window_handle
+        parent_window = self._driver.current_window_handle
         self.click(RelationshipQueryLocators.RECORD_TYPE_TEXTAREA)
         self.hover_over(RelationshipQueryLocators.CONFIGURATION_ITEM_LIST)
         self.click(RelationshipQueryLocators.CONFIGURATION_ITEM_LIST)
         self.click(RelationshipQueryLocators.SEARCH_BTN)
 
-        for first_window in self.driver.window_handles:
+        for first_window in self._driver.window_handles:
             if first_window != parent_window:
-                self.driver.switch_to.window(first_window)
+                self._driver.switch_to.window(first_window)
                 self.click(RelationshipQueryLocators.RELATIONSHIP_ADVANCE_SEARCH_LINK)
                 self.write(RelationshipQueryLocators.RELATIONSHIP_QUERY_TEXTBOX, relationship_query_formula)
                 self.click(RelationshipQueryLocators.RELATIONSHIP_ADVANCE_SEARCH_BTN)
@@ -306,7 +305,7 @@ class CreateRequests(BasePage):
                         pass
                     except NoSuchWindowException:
                         break
-        self.driver.switch_to.window(parent_window)
+        self._driver.switch_to.window(parent_window)
 
     def is_home_page(self, validating_text: str = "IT HOME"):
         """ Verify if the current page is loaded and it's home page """
@@ -330,7 +329,7 @@ class CreateRequests(BasePage):
         try:
             value = self.find_element(*CommonChangeCreateLocators.CHANGE_NUMBER_VALUE).get_attribute('value')
         except NoSuchElementException:
-            value = WebDriverWait(self.driver, self.timeout).until(
+            value = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)).get_attribute('value')
         except AttributeError:
             # TODO: Need to Find out why it's giving me None Type if value is changing

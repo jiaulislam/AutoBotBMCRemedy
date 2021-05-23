@@ -30,7 +30,7 @@ class Parser(BasePage):
     def parseLinkBudget(self, link_codes: list[str], site_codes: list[str]):
         """ Parse the Link Budget """
         if link_codes is not None:
-            parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
+            parse_info = ParseLinkBudget(driver=self._driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
             with Live(panel, refresh_per_second=1, vertical_overflow="visible"):
@@ -51,11 +51,11 @@ class Parser(BasePage):
                         # parse_info.export_word_file(id) # Export As DOC
                         # parse_info.delete_html_file(id) # Delete the Exported HTML file
                     parse_info.logout_ldma()
-                    self.driver.quit()
+                    self._driver.quit()
                 except Exception as error:
                     print(error)
         else:
-            parse_info = ParseLinkBudget(driver=self.driver, timeout=3)
+            parse_info = ParseLinkBudget(driver=self._driver, timeout=3)
             parse_info.login_ldma()
             parse_info.make_dir()
 
@@ -83,4 +83,4 @@ class Parser(BasePage):
                     else:
                         table.add_row(f"{(_index + 1)}", f"{_site_code}", "❌")
             parse_info.logout_ldma()
-            self.driver.quit()
+            self._driver.quit()

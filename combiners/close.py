@@ -15,10 +15,10 @@ class Close(BasePage):
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
-        self.login_page = LoginPage(self.driver)
-        self.home_page = HomePage(self.driver)
-        self.close_requests = CloseRequests(self.driver)
-        self.create_requests = CreateRequests(self.close_requests.driver)
+        self.login_page = LoginPage(self._driver)
+        self.home_page = HomePage(self._driver)
+        self.close_requests = CloseRequests(self._driver)
+        self.create_requests = CreateRequests(self.close_requests._driver)
 
     def closeRequest(self):
         # Login to the Page
@@ -67,36 +67,38 @@ class Close(BasePage):
                                             self.close_requests.close_system_downtime_duration_task(actual_open_time,
                                                                                                     actual_closing_time)
                                             self.create_requests.go_back_to_homepage()
-                                            ClosePrettify.add_row_table(str(_index+1),
-                                                                        self.close_requests.get_change_number(), "[green]SUCCESS")
+                                            ClosePrettify.add_row_table(str(_index + 1),
+                                                                        self.close_requests.get_change_number(),
+                                                                        "[green]SUCCESS")
                                             live.update(ClosePrettify.get_layout())
                                         else:
                                             self.close_requests.add_change_to_invalid_list(a_change)
                                             self.create_requests.go_back_to_homepage()
                                             ClosePrettify.add_row_table(
-                                                str(_index+1), self.close_requests.get_change_number(), "[red]NCR NOT OPENED")
+                                                str(_index + 1), self.close_requests.get_change_number(),
+                                                "[red]NCR NOT OPENED")
                                             live.update(ClosePrettify.get_layout())
                                     else:
                                         self.close_requests.add_change_to_invalid_list(a_change)
                                         self.create_requests.go_back_to_homepage()
                                         ClosePrettify.add_row_table(
-                                            str(_index+1), self.close_requests.get_change_number(), "[red]SFA")
+                                            str(_index + 1), self.close_requests.get_change_number(), "[red]SFA")
 
                                         live.update(ClosePrettify.get_layout())
                                 else:
                                     self.create_requests.go_back_to_homepage()
                                     ClosePrettify.add_row_table(
-                                        str(_index+1), self.close_requests.get_change_number(), "[red]AC")
+                                        str(_index + 1), self.close_requests.get_change_number(), "[red]AC")
                                     live.update(ClosePrettify.get_layout())
                             else:
                                 self.close_requests.add_change_to_invalid_list(a_change)
                                 ClosePrettify.add_row_table(
-                                    str(_index+1), self.close_requests.get_change_number(), "[red]INVALID")
+                                    str(_index + 1), self.close_requests.get_change_number(), "[red]INVALID")
                                 live.update(ClosePrettify.get_layout())
                         else:
                             self.close_requests.add_change_to_invalid_list(a_change)
                             ClosePrettify.add_row_table(
-                                str(_index+1), self.close_requests.get_change_number(), "[red]INVALID")
+                                str(_index + 1), self.close_requests.get_change_number(), "[red]INVALID")
                             live.update(ClosePrettify.get_layout())
                     if not job.finished:
                         my_progress.advance(job.id)

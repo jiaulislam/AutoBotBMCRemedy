@@ -1,5 +1,5 @@
-import sys
 import re
+import sys
 from datetime import datetime
 
 from openpyxl import load_workbook

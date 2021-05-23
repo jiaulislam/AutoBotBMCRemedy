@@ -1,13 +1,14 @@
+from typing import Tuple
+
 from rich.align import Align
 from rich.layout import Layout
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
 from rich.table import Table
 from rich.text import Text
-from typing import Tuple
 
-from utilites.sysinfo import get_memory_info, get_platform, get_python_version
 from prettify.prettify_ldma import Header
+from utilites.sysinfo import get_memory_info, get_platform, get_python_version
 
 
 class CancelPrettify:
@@ -26,7 +27,7 @@ class CancelPrettify:
         _used_memory: str = _memory[3]
         _free_memory: str = _memory[4]
 
-        table = Table.grid(expand=True, padding=(1,1))
+        table = Table.grid(expand=True, padding=(1, 1))
 
         table.add_row(
             "Total Memory: ", Text(
@@ -77,7 +78,6 @@ class CancelPrettify:
         cls._layout["header"].update(Header("Cancel Request Status"))
         cls._layout["top"].update(cls.get_top_layout())
 
-
     @classmethod
     def get_layout(cls) -> Layout:
         return cls._layout
@@ -115,7 +115,7 @@ class CancelPrettify:
             BarColumn(),
             TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         )
-        progress_table = Table.grid(expand=True, padding=(1,1))
+        progress_table = Table.grid(expand=True, padding=(1, 1))
 
         job_progress.add_task("[Cancel]:", total=tasks_range)
 

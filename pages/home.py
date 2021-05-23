@@ -48,7 +48,7 @@ class HomePage(BasePage):
         table_of_change_numbers = []
         try:
             # get all the element object from the change table
-            WebDriverWait(self.driver, self.timeout).until(
+            WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(HomePageLocators.ALL_CHANGE_TABLE))
             change_number_elements = self.find_elements(*HomePageLocators.ALL_CHANGE_TABLE)
         except TimeoutException as error:

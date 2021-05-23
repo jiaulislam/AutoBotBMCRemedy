@@ -32,13 +32,13 @@ class BasePage(object):
     """
 
     def __init__(self, driver: WebDriver, timeout: int = 30) -> None:
-        self.driver: WebDriver = driver
+        self._driver: WebDriver = driver
         self.timeout = timeout
 
     def find_element(self, *locator):
         """ Find the element by the help of the locator that user shared """
         try:
-            return self.driver.find_element(*locator)
+            return self._driver.find_element(*locator)
         except TypeError as error:
             print(f"Unexpected Type Error [base.py || Line - 37]"
                   f"\n{repr(error)}")
@@ -52,7 +52,7 @@ class BasePage(object):
     def find_elements(self, *locator) -> Union[List[WebElement], None]:
         """ Find the elements by the help of the locator that user shared """
         try:
-            return self.driver.find_elements(*locator)
+            return self._driver.find_elements(*locator)
         except TypeError as error:
             print(f"Unexpected Value Error [base.py || Line - 47]"
                   f"\n{repr(error)}")
@@ -66,7 +66,7 @@ class BasePage(object):
     def is_visible(self, xpath_locator) -> bool:
         """ If the element is found in the Page then return True else False """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(
+            element = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator))
             return bool(element)
         except TimeoutException:
@@ -79,7 +79,7 @@ class BasePage(object):
     def click(self, element_locator_xpath) -> None:
         """ Click a web element by a locator shared by the user """
         try:
-            WebDriverWait(driver=self.driver,
+            WebDriverWait(driver=self._driver,
                           timeout=self.timeout,
                           ignored_exceptions=[NoSuchElementException,
                                               NoSuchFrameException]
@@ -92,7 +92,7 @@ class BasePage(object):
     def write(self, xpath_locator: Tuple[By, str], text: str) -> None:
         """ Write the text in web element by a locator shared by the user """
         try:
-            WebDriverWait(self.driver, self.timeout).until(
+            WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator)).send_keys(text)
         except NoSuchElementException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 84]"
@@ -102,9 +102,9 @@ class BasePage(object):
     def hover_over(self, xpath_locator: str) -> None:
         """ Hover over the element shared by the user locator """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(
+            element = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator))
-            ActionChains(self.driver).move_to_element(element).perform()
+            ActionChains(self._driver).move_to_element(element).perform()
         except NoSuchElementException as error:
             print(f"Unexpected NoSuchElementException Error [base.py || Line - 94]"
                   f"\n{repr(error)}")
@@ -114,31 +114,32 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
+    @add_logging
     def switch_to_frame(self, xpath_locator) -> None:
         """ Switch to a frame by a frame locator """
-        user_frame = self.driver.find_element(*xpath_locator)
-        self.driver.switch_to.frame(user_frame)
+        _frame = self._driver.find_element(*xpath_locator)
+        self._driver.switch_to.frame(_frame)
 
     @add_logging
     def double_click(self, xpath_locator: Tuple[By, str]) -> None:
         """ Double click on a element by a locator """
-        element = WebDriverWait(self.driver, self.timeout, 2).until(
+        element = WebDriverWait(self._driver, self.timeout, 2).until(
             ec.visibility_of_element_located(xpath_locator))
-        ActionChains(self.driver).double_click(element).perform()
+        ActionChains(self._driver).double_click(element).perform()
 
     @add_logging
     def send_ctrl_plus_a(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
-        WebDriverWait(self.driver, self.timeout).until(
+        WebDriverWait(self._driver, self.timeout).until(
             ec.visibility_of_element_located(xpath_locator)).click()
 
-        ActionChains(self.driver).key_down(
+        ActionChains(self._driver).key_down(
             Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
 
     def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """
         try:
-            val_of_elem: str = WebDriverWait(self.driver, self.timeout).until(
+            val_of_elem: str = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator)).get_attribute("value")
             return val_of_elem
         except TimeoutException as error:
@@ -151,7 +152,7 @@ class BasePage(object):
         try:
             self.switch_to_frame(frame_locator)
             self.click(ok_btn_locator)
-            self.driver.switch_to.default_content()
+            self._driver.switch_to.default_content()
         except (NoSuchFrameException, NoSuchElementException, TimeoutException):
             pass
 
@@ -166,7 +167,7 @@ class BasePage(object):
         """ Wait for 10 minutes for loading_icon to vanish """
         _counter = 1
         while _counter <= 600:  # Run for 10 Minutes
-            _loading_icons: list = self.driver.find_elements(*locator)
+            _loading_icons: list = self._driver.find_elements(*locator)
             if not len(_loading_icons):
                 break
             time.sleep(1)

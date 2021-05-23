@@ -28,9 +28,9 @@ class Create(BasePage):
         self._table = get_table()
         self.path = os.getcwd()
         super().__init__(driver)
-        self.login = LoginPage(self.driver)
-        self.homePage = HomePage(self.login.driver)
-        self.createChangeRequest = CreateRequests(self.homePage.driver)
+        self.login = LoginPage(self._driver)
+        self.homePage = HomePage(self.login._driver)
+        self.createChangeRequest = CreateRequests(self.homePage._driver)
         self.read_data = Read_Data(StaticData.READ_EXCEL_FILE)
         self.export_data = Data_Export(StaticData.WRITE_EXCEL_FILE)
 

@@ -31,7 +31,6 @@ def get_table_panel(table: Table) -> Panel:
     return table_panel
 
 
-
 def add_row_table(table: Table, *data: Tuple[str, ...]) -> None:
     table.add_row(*data)
 

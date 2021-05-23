@@ -191,7 +191,7 @@ class CloseRequests(BasePage):
                 except TimeoutException:
                     self.double_click(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN)
         except (StaleElementReferenceException, NoSuchElementException):
-            element = WebDriverWait(self.driver, self.timeout).until(
+            element = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(TaskSectionLocators.SERVICE_DOWNTIME_WINDOW_TASK_SPAN))
             self.double_click(element)
 
@@ -226,7 +226,7 @@ class CloseRequests(BasePage):
                     time.sleep(2)
                     self.double_click(TaskSectionLocators.SYSTEM_DOWNTIME_TASK)
         except (StaleElementReferenceException, NoSuchElementException):
-            element = WebDriverWait(self.driver, self.timeout).until(
+            element = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(TaskSectionLocators.SYSTEM_DOWNTIME_TASK))
             self.double_click(element)
 
@@ -236,7 +236,6 @@ class CloseRequests(BasePage):
         else:
             print("WARN: System Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
-
 
     def goto_next_stage(self) -> NoReturn:
         """ Take the Change Request to Next Stage after closing all 3 tasks """
