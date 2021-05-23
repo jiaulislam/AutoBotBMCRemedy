@@ -15,7 +15,7 @@ class ChromeDriver:
     @classmethod
     def setUpDriver(cls):
         options = Options()
-        # options.headless = True # Run the Chrome driver in headless mode
+        # options.add_argument("--headless") # Run the Chrome driver in headless mode
         # options.add_argument("--disable-gpu") # It's recommended to turn of GPU while headless mode
         options.add_argument("--log-level=3")  # disable Info/Error/Warning in Chrome Driver
         options.add_experimental_option('excludeSwitches',
