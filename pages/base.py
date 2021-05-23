@@ -2,7 +2,6 @@ import time
 from typing import List, Tuple, Union
 
 from selenium.common.exceptions import (
-    NoSuchFrameException,
     NoSuchElementException,
     TimeoutException,
 )
@@ -76,43 +75,26 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
+    @add_logging
     def click(self, element_locator_xpath) -> None:
         """ Click a web element by a locator shared by the user """
-        try:
-            WebDriverWait(driver=self._driver,
-                          timeout=self.timeout,
-                          ignored_exceptions=[NoSuchElementException,
-                                              NoSuchFrameException]
-                          ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
-        except AttributeError as error:
-            print(f"Unexpected Attribute Error [base.py || Line - 75]"
-                  f"\n{repr(error)}")
-            pass
+        WebDriverWait(driver=self._driver,
+                      timeout=self.timeout,
+                      ignored_exceptions=None
+                      ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
 
+    @add_logging
     def write(self, xpath_locator: Tuple[By, str], text: str) -> None:
         """ Write the text in web element by a locator shared by the user """
-        try:
-            WebDriverWait(self._driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator)).send_keys(text)
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 84]"
-                  f"\nE{repr(error)}")
-            pass
+        WebDriverWait(self._driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator)).send_keys(text)
 
+    @add_logging
     def hover_over(self, xpath_locator: str) -> None:
         """ Hover over the element shared by the user locator """
-        try:
-            element = WebDriverWait(self._driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator))
-            ActionChains(self._driver).move_to_element(element).perform()
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 94]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException as error:
-            print(f"Unexpected Timeout Error [base.py || Line - 98]"
-                  f"\n{repr(error)}")
-            pass
+        element = WebDriverWait(self._driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator))
+        ActionChains(self._driver).move_to_element(element).perform()
 
     @add_logging
     def switch_to_frame(self, xpath_locator) -> None:
@@ -128,7 +110,7 @@ class BasePage(object):
         ActionChains(self._driver).double_click(element).perform()
 
     @add_logging
-    def send_ctrl_plus_a(self, xpath_locator: Tuple[By, str]) -> None:
+    def select_all(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
         WebDriverWait(self._driver, self.timeout).until(
             ec.visibility_of_element_located(xpath_locator)).click()
@@ -136,7 +118,7 @@ class BasePage(object):
         ActionChains(self._driver).key_down(
             Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
 
-    def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
+    def get_text(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """
         try:
             val_of_elem: str = WebDriverWait(self._driver, self.timeout).until(
@@ -147,21 +129,17 @@ class BasePage(object):
                   f"\n{repr(error)}")
             pass
 
-    def check_for_expected_frame(self, frame_locator: str, ok_btn_locator: str) -> None:
+    @add_logging
+    def handle_frame_alert(self, frame_locator: str, ok_btn_locator: str) -> None:
         """ Checks for expected frames and press OK button in the frame """
-        try:
-            self.switch_to_frame(frame_locator)
-            self.click(ok_btn_locator)
-            self._driver.switch_to.default_content()
-        except (NoSuchFrameException, NoSuchElementException, TimeoutException):
-            pass
+        self.switch_to_frame(frame_locator)
+        self.click(ok_btn_locator)
+        self._driver.switch_to.default_content()
 
+    @add_logging
     def back_to_home_page(self, xpath_locator: Tuple[By, str]) -> None:
         """ Return to the homepage """
-        try:
-            self.click(xpath_locator)
-        except NoSuchElementException as error:
-            raise error
+        self.click(xpath_locator)
 
     def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
         """ Wait for 10 minutes for loading_icon to vanish """

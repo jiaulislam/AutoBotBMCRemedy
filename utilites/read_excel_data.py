@@ -47,8 +47,6 @@ class Read_Data:
                     number_of_change.append(int(no[0]))
                 else:
                     break
-            else:
-                pass
 
         return max(number_of_change)
 

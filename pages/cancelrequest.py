@@ -44,7 +44,7 @@ class CancelRequests(BasePage):
 
     def is_cancelled(self) -> bool:
         """ Checks if the Cancellation is successful or not """
-        status_value = self.get_value_of_element(CancelRequestLocators.STATUS_AREA)
+        status_value = self.get_text(CancelRequestLocators.STATUS_AREA)
         if status_value == 'Cancelled':
             return True
         else:
@@ -65,6 +65,6 @@ class CancelRequests(BasePage):
         change_number = ""
         while change_number == "" or None:
             try:
-                return self.get_value_of_element(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
+                return self.get_text(CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:
                 raise Exception("Timed out.....")

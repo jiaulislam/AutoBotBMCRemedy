@@ -1,5 +1,5 @@
 from rich.console import Console
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, NoSuchFrameException
 
 console = Console()
 
@@ -18,7 +18,11 @@ def add_logging(func):
             )
         except NoSuchElementException:
             console.log(
-                f"NoSuchElementException: [red]Element no found.[/red]. Source: [cyan italic]{func.__qualname__}[/]"
+                f"NoSuchElementException: [red]Element not found.[/red]. Source: [cyan italic]{func.__qualname__}[/]"
+            )
+        except NoSuchFrameException:
+            console.log(
+                f"NoSuchFrameException: [red]Frame not found.[/red]. Source: [cyan italic]{func.__qualname__}[/]"
             )
 
     return wrapper

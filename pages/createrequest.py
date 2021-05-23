@@ -55,7 +55,7 @@ class CreateRequests(BasePage):
         """ Set the private variable of the class """
         while self.__change_number == "":
             try:
-                self.__change_number = self.get_value_of_element(
+                self.__change_number = self.get_text(
                     CommonChangeCreateLocators.CHANGE_NUMBER_VALUE)
             except NoSuchElementException:
                 raise NoSuchElementException("SET_CHANGE_NUMBER | NO SUCH ELEMENT EXCEPTION")
@@ -240,7 +240,7 @@ class CreateRequests(BasePage):
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
         except ElementClickInterceptedException:
             # for click intercepted a Warning Box is available on page. Need to handle that.
-            self.check_for_expected_frame(
+            self.handle_frame_alert(
                 FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
             # after then go back to home page
             self.back_to_home_page(HomePageLocators.IT_HOME_BUTTON)
@@ -284,7 +284,7 @@ class CreateRequests(BasePage):
                 # Wait until the search is complete !  INFINITE LOOP
                 while True:
                     try:
-                        self.send_ctrl_plus_a(RelationshipQueryLocators.RELATIONSHIP_ROBI_AXIATA)
+                        self.select_all(RelationshipQueryLocators.RELATIONSHIP_ROBI_AXIATA)
                         while True:
                             try:
                                 self.click(RelationshipQueryLocators.RELATE_THE_RELATIONSHIP_BTN)
@@ -295,7 +295,7 @@ class CreateRequests(BasePage):
                         while True:
                             try:
                                 # After relationship add a frame is to be expected. handle the frame
-                                self.check_for_expected_frame(
+                                self.handle_frame_alert(
                                     FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
                                 # break the parent to this block loop
                                 break
