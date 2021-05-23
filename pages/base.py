@@ -1,11 +1,10 @@
 import time
-from rich.console import Console
-from typing import Counter, List, Optional, Tuple, Union
+from typing import List, Tuple, Union
 
 from selenium.common.exceptions import (
     NoSuchFrameException,
     NoSuchElementException,
-    TimeoutException, ElementClickInterceptedException,
+    TimeoutException,
 )
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -14,6 +13,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+
+from utilites.logger import add_logging
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -24,10 +25,6 @@ written_by: jiaul_islam
 '''
 
 
-
-
-console = Console()
-
 class BasePage(object):
     """
         All the Page will inherit this class BasePage Class to use the common
@@ -37,18 +34,6 @@ class BasePage(object):
     def __init__(self, driver: WebDriver, timeout: int = 30) -> None:
         self.driver: WebDriver = driver
         self.timeout = timeout
-
-    def add_logging(func):
-        def wrapper(xpath_locator):
-            try:
-                func(xpath_locator)
-            except TimeoutException:
-                console.log(
-                    f"TimeoutException: [red]Related element's not visible[/red]. Source: @{BasePage.send_ctrl_plus_a.__qualname__}")
-            except AttributeError:
-                console.log(
-                    f"Can't implement [red]Actions[/red] on 'NoneType' object. Source: [yellow]@{BasePage.send_ctrl_plus_a.__qualname__}[/yellow]")
-        return wrapper
 
     def find_element(self, *locator):
         """ Find the element by the help of the locator that user shared """
@@ -134,6 +119,7 @@ class BasePage(object):
         user_frame = self.driver.find_element(*xpath_locator)
         self.driver.switch_to.frame(user_frame)
 
+    @add_logging
     def double_click(self, xpath_locator: Tuple[By, str]) -> None:
         """ Double click on a element by a locator """
         element = WebDriverWait(self.driver, self.timeout, 2).until(
@@ -143,16 +129,11 @@ class BasePage(object):
     @add_logging
     def send_ctrl_plus_a(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
-        # try:
         WebDriverWait(self.driver, self.timeout).until(
             ec.visibility_of_element_located(xpath_locator)).click()
 
         ActionChains(self.driver).key_down(
             Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
-        # except TimeoutException:
-        #     console.log(f"TimeoutException: [red]Related element's not visible[/red]. Source: @{BasePage.send_ctrl_plus_a.__qualname__}")
-        # except AttributeError:
-        #     console.log(f"Can't implement [red]Actions[/red] on 'NoneType' object. Source: [yellow]@{BasePage.send_ctrl_plus_a.__qualname__}[/yellow]")
 
     def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """
@@ -180,42 +161,13 @@ class BasePage(object):
             self.click(xpath_locator)
         except NoSuchElementException as error:
             raise error
-        # except TimeoutException:
-        #     print("Back To Home Timeout Exception Hit")
-        #     try:
-        #         WebDriverWait(self.driver, 20).until(
-        #             ec.visibility_of_element_located(xpath_locator)).click()
-        #     except TimeoutException as error:
-        #         raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
-        #                         f"\n{repr(error)}")
-        # except ElementClickInterceptedException:
-        #     try:
-        #         WebDriverWait(self.driver, self.timeout).until(
-        #             ec.visibility_of_element_located(xpath_locator)).click()
-        #     except ElementClickInterceptedException:
-        #         try:
-        #             WebDriverWait(self.driver, self.timeout).until(
-        #                 ec.element_to_be_clickable(xpath_locator)).click()
-        #         except ElementClickInterceptedException:
-        #             # TODO: Grace Period // Need to Work in this area
-        #             for i in range(5):
-        #                 print(".", end="")
-        #                 time.sleep(1)
-        #             print()
-        #             WebDriverWait(self.driver, self.timeout).until(
-        #                 ec.element_to_be_clickable(xpath_locator)).click()
-        #         except Exception as error:
-        #             print(f"Unexpected Error found ! --> {error}")
-        #     except Exception as error:
-        #         print(f"Unexpected error found ! --> {error}")
 
-        
     def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
         """ Wait for 10 minutes for loading_icon to vanish """
         _counter = 1
-        while _counter <= 600 :  # Run for 10 Minutes
+        while _counter <= 600:  # Run for 10 Minutes
             _loading_icons: list = self.driver.find_elements(*locator)
             if not len(_loading_icons):
                 break
             time.sleep(1)
-            _counter+=1
+            _counter += 1
