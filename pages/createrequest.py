@@ -221,17 +221,11 @@ class CreateRequests(BasePage):
 
     def save_change(self) -> None:
         """ Save the Change Request """
-        try:
-            self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
-        except ElementClickInterceptedException:
-            self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
+        self.click(SaveChangeLocators.SAVE_CHANGE_BTN)
 
     def goto_next_stage(self) -> None:
         """ Take the Change request to the next stage """
-        try:
-            self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
-        except ElementClickInterceptedException:
-            self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
+        self.click(SaveChangeLocators.GOTO_NEXT_STAGE_BTN)
 
     def go_back_to_homepage(self) -> None:
         """ Get Back to the Homepage """
@@ -263,8 +257,6 @@ class CreateRequests(BasePage):
         if contents == "" or len(contents) == 0:
             self._driver.find_element(*SummaryAndNotesBox.SUMMARY_TEXTBOX).clear()
             self.insert_text_summary(summary)
-        else:
-            pass
 
     def add_relationship_to_change(self, relationship_query_formula: str) -> None:
         """ Add the relationship to the Change request if the Change is a Service Effective Change """
