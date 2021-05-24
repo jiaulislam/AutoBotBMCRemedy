@@ -89,12 +89,8 @@ class CloseRequests(BasePage):
     def get_invalid_change_numbers(self) -> NoReturn:
         """ Fetch all the invalid change numbers from the list """
         if len(self.__invalid_change_numbers):
-            print("Below change request number not found:")
-            for inv in self.__invalid_change_numbers:
-                print(inv)
-            print("\n")
-        else:
-            pass
+            print("Below change request number not found:", end=" ")
+            print(",".join(self.__invalid_change_numbers))
 
     def __is_task_closed_already(self) -> bool:
         """ Check if the task is already closed or not """
@@ -172,7 +168,6 @@ class CloseRequests(BasePage):
             self.__set_change_type()
             self.__common_closing_activity(actual_start_time, actual_end_time)
         else:
-            print("WARN: Service Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
 
     def close_service_downtime_window_task(self, actual_start_time: str, current_time_of_user: str) -> NoReturn:
@@ -206,7 +201,6 @@ class CloseRequests(BasePage):
             self.click(CommonTaskDateLocators.SAVE_TASK_BTN)
             self.__back_to_change_task_page()
         else:
-            print("WARN: Service Downtime Window Task is closed already !")
             self.__back_to_change_task_page()
 
     def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
@@ -234,7 +228,6 @@ class CloseRequests(BasePage):
             self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.__common_closing_activity(actual_start_time, actual_end_time)
         else:
-            print("WARN: System Downtime Duration Task is closed already !")
             self.__back_to_change_task_page()
 
     def goto_next_stage(self) -> NoReturn:

@@ -13,7 +13,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-from utilites.logger import add_logging
+from utilites.decorators import add_logging
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -34,7 +34,7 @@ class BasePage(object):
         self._driver: WebDriver = driver
         self.timeout = timeout
 
-    def find_element(self, *locator):
+    def find_element(self, *locator) -> WebElement:
         """ Find the element by the help of the locator that user shared """
         try:
             return self._driver.find_element(*locator)
@@ -92,20 +92,23 @@ class BasePage(object):
     @add_logging
     def hover_over(self, xpath_locator: str) -> None:
         """ Hover over the element shared by the user locator """
-        element = WebDriverWait(self._driver, self.timeout).until(
+        element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout).until(
             ec.visibility_of_element_located(xpath_locator))
-        ActionChains(self._driver).move_to_element(element).perform()
+        if element is not None:
+            ActionChains(self._driver).move_to_element(element).perform()
+        else:
+            raise AttributeError
 
     @add_logging
     def switch_to_frame(self, xpath_locator) -> None:
         """ Switch to a frame by a frame locator """
-        _frame = self._driver.find_element(*xpath_locator)
+        _frame: Union[WebElement, None] = self._driver.find_element(*xpath_locator)
         self._driver.switch_to.frame(_frame)
 
     @add_logging
     def double_click(self, xpath_locator: Tuple[By, str]) -> None:
         """ Double click on a element by a locator """
-        element = WebDriverWait(self._driver, self.timeout, 2).until(
+        element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout, 2).until(
             ec.visibility_of_element_located(xpath_locator))
         ActionChains(self._driver).double_click(element).perform()
 
@@ -127,7 +130,6 @@ class BasePage(object):
         except TimeoutException as error:
             print(f"Unexpected Timeout Error [base.py || Line - 145]"
                   f"\n{repr(error)}")
-            pass
 
     @add_logging
     def handle_frame_alert(self, frame_locator: str, ok_btn_locator: str) -> None:
@@ -141,12 +143,12 @@ class BasePage(object):
         """ Return to the homepage """
         self.click(xpath_locator)
 
-    def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
-        """ Wait for 10 minutes for loading_icon to vanish """
+    def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str], _frequency: float = 1, _range: int = 600) -> None:
+        """ Wait for loading_icon to vanish """
         _counter = 1
-        while _counter <= 600:  # Run for 10 Minutes
+        while _counter <= _range:
             _loading_icons: list = self._driver.find_elements(*locator)
             if not len(_loading_icons):
                 break
-            time.sleep(1)
+            time.sleep(_frequency)
             _counter += 1
