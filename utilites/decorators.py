@@ -1,39 +1,30 @@
-import logging
-from rich.console import Console
 from functools import wraps
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, NoSuchFrameException
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-logging.basicConfig(filename='autobot.log',
-                    level=logging.ERROR, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-console = Console(color_system='truecolor')
-
-
-def add_logging(fn):
+def add_logger(fn):
     """ trace the exceptions """
     @wraps(fn)
     def wrapper(*args):
         try:
             fn(*args)
         except TimeoutException:
-            logging.error(f'TimeoutException at {fn.__qualname__}')
-            console.log(
-                f"⚠️ TimeoutException: [red]Element not visible.[/red]. Source: [cyan italic]{fn.__qualname__}[/]"
-            )
+            logger.error(
+                f"TimeoutException: Request Couldn't finished due to timeout.", exc_info=True)
         except AttributeError:
-            logging.error(f'AttributeError at {fn.__qualname__}')
-            console.log(
-                f"⚠️ 'Nonetype' object found. Source: [cyan italic]{fn.__qualname__}[/]"
-            )
+            logger.error(
+                f"'Nonetype' object found.", exc_info=True)
         except NoSuchElementException:
-            logging.error(f'NoSuchElementException at {fn.__qualname__}')
-            console.log(
-                f"⚠️ NoSuchElementException: [red]Element not found.[/red]. Source: [cyan italic]{fn.__qualname__}[/]"
-            )
+            logger.error(
+                f"NoSuchElementException: ElementNotFound in the DOM.", exc_info=True)
         except NoSuchFrameException:
-            logging.error(f'NoSuchFrameException at {fn.__qualname__}')
-            console.log(
-                f"⚠️ NoSuchFrameException: [red]Frame not found.[/red]. Source: [cyan italic]{fn.__qualname__}[/]"
-            )
+            logger.error(
+                f"NoSuchFrameException: FrameNotFound in the DOM.", exc_info=True)
+        except TypeError:
+            logger.error(
+                f"TypeError: Element Type mismatch", exc_info=True)
 
     return wrapper

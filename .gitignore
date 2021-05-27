@@ -13,4 +13,4 @@ lib64
 share
 *.txt
 *.xlsx
-autobot.log
+logs/

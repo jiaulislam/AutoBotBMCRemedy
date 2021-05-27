@@ -13,7 +13,10 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-from utilites.decorators import add_logging
+from utilites.decorators import add_logger
+import logging
+
+logger = logging.getLogger(__name__)
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -71,7 +74,7 @@ class BasePage(object):
         else:
             return bool(_element)
 
-    @add_logging
+    @add_logger
     def click(self, element_locator_xpath) -> None:
         """ Click a web element by a locator shared by the user """
         WebDriverWait(driver=self._driver,
@@ -79,13 +82,13 @@ class BasePage(object):
                       ignored_exceptions=None
                       ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
 
-    @add_logging
+    @add_logger
     def write(self, xpath_locator: Tuple[By, str], text: str) -> None:
         """ Write the text in web element by a locator shared by the user """
         WebDriverWait(self._driver, self.timeout).until(
             ec.visibility_of_element_located(xpath_locator)).send_keys(text)
 
-    @add_logging
+    @add_logger
     def hover_over(self, xpath_locator: str) -> None:
         """ Hover over the element shared by the user locator """
         _element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout).until(
@@ -95,20 +98,20 @@ class BasePage(object):
         else:
             raise AttributeError
 
-    @add_logging
+    @add_logger
     def switch_to_frame(self, xpath_locator) -> None:
         """ Switch to a frame by a frame locator """
         _frame: Union[WebElement, None] = self._driver.find_element(*xpath_locator)
         self._driver.switch_to.frame(_frame)
 
-    @add_logging
+    @add_logger
     def double_click(self, xpath_locator: Tuple[By, str]) -> None:
         """ Double click on a element by a locator """
         _element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout, 2).until(
             ec.visibility_of_element_located(xpath_locator))
         ActionChains(self._driver).double_click(_element).perform()
 
-    @add_logging
+    @add_logger
     def select_all(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
         WebDriverWait(self._driver, self.timeout).until(
@@ -128,14 +131,14 @@ class BasePage(object):
         else:
             return _val_of_elem
 
-    @add_logging
+    @add_logger
     def handle_frame_alert(self, frame_locator: str, ok_btn_locator: str) -> None:
         """ Checks for expected frames and press OK button in the frame """
         self.switch_to_frame(frame_locator)
         self.click(ok_btn_locator)
         self._driver.switch_to.default_content()
 
-    @add_logging
+    @add_logger
     def back_to_home_page(self, xpath_locator: Tuple[By, str]) -> None:
         """ Return to the homepage """
         self.click(xpath_locator)
