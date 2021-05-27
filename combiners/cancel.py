@@ -58,6 +58,7 @@ class Cancel(BasePage):
                                     if not self.cancel_requests.is_change_request_opened():
                                         if not self.cancel_requests.is_cancelled():
                                             # Perform the user interactions to cancel
+                                            self.cancel_requests.wait_for_loading_icon_disappear()
                                             self.cancel_requests.select_cancel()
                                             self.cancel_requests.save_status()
                                             # // Cancelled //
