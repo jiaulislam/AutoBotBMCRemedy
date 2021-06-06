@@ -38,11 +38,12 @@ class Parser(BasePage):
                     for _index, _link_code in enumerate(link_codes):
                         parse_info.goto_links()
                         parse_info.insert_link_code(_link_code)
-                        parse_info.select_all_dropdown()
+                        # parse_info.select_all_dropdown()
                         parse_info.click_search()
                         try:
                             parse_info.select_found_link_code(_link_code)
                             table.add_row(f"{(_index + 1)}", f"{_link_code}", "✅")
+                            # TODO: Need a way to verify if LB is blank
                         except TimeoutException:
                             table.add_row(f"{(_index + 1)}", f"{_link_code}", "❌")
                             continue
@@ -62,7 +63,7 @@ class Parser(BasePage):
             with Live(panel, refresh_per_second=1):
                 for _index, _site_code in enumerate(site_codes):
                     parse_info.goto_links()
-                    parse_info.select_all_dropdown()
+                    # parse_info.select_all_dropdown()
                     parse_info.insert_site_code_1(_site_code)
                     parse_info.click_search()
                     if parse_info.is_available_site_1():
