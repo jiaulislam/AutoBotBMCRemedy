@@ -38,7 +38,6 @@ class Parser(BasePage):
                     for _index, _link_code in enumerate(link_codes):
                         parse_info.goto_links()
                         parse_info.insert_link_code(_link_code)
-                        # parse_info.select_all_dropdown()
                         parse_info.click_search()
                         try:
                             parse_info.select_found_link_code(_link_code)
