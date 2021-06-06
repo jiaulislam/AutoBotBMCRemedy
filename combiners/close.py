@@ -15,18 +15,10 @@ class Close(BasePage):
     def __init__(self, driver: WebDriver):
         """ Close NCR E2E Actions """
         super().__init__(driver)
-<<<<<<< HEAD
-        
-        self.login_page = LoginPage(self.driver)
-        self.home_page = HomePage(self.driver)
-        self.close_requests = CloseRequests(self.driver)
-        self.create_requests = CreateRequests(self.close_requests.driver)
-=======
         self.login_page = LoginPage(self._driver)
         self.home_page = HomePage(self._driver)
         self.close_requests = CloseRequests(self._driver)
         self.create_requests = CreateRequests(self.close_requests._driver)
->>>>>>> _dev
 
     def closeRequest(self):
         # Login to the Page
