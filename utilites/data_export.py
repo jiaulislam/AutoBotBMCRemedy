@@ -1,3 +1,4 @@
+import re
 import sys
 from datetime import datetime
 
@@ -52,15 +53,10 @@ class Data_Export:
 
     def insert_impact_site_list(self, index: int, impact_site_list: str) -> None:
         """ insert the impact site list in the excel """
-        ctr = 0
-        sites = impact_site_list.split(',')
-        site_list = ""
-        for site in sites:
-            site.strip()
-            site_list += site
-            if ctr != len(sites) - 1:
-                site_list += ','
-                ctr += 1
+        _PATTERN = r"\W+|,|;|\\|/|-"
+        sites = re.split(_PATTERN, impact_site_list)
+        site_list = ",".join(sites)
+
         self._sheet['F' + str(index)] = site_list
 
     def insert_service_type(self, index: int, service_type: str) -> None:

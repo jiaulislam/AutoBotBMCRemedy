@@ -1,3 +1,4 @@
+import re
 from datetime import datetime as DateTime
 from datetime import timedelta
 from typing import List
@@ -72,24 +73,24 @@ def get_change_close_end_time(m_date: str) -> str:
     return close_start_time.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
-def parse_datetime(m_date: str):
+def parse_datetime(m_date: str) -> DateTime:
     """ Get the as a formatted as required """
     return DateTime.strptime(str(m_date), '%Y-%m-%d %H:%M:%S')
 
 
-def make_impact_list(site_list):
-    """ Export a file with site list & return the string of site list with formatted impact list """
-    ctr = 0
-    site_str = site_list.strip()
-    sites = site_str.split(',')
-    impact_list = "Impact List: "
+def split_string(AnyStr: str) -> List[str]:
+    """ Split the Given site codes with comma(,) semi-colon(;) backslash(/) forwardslash(\\) hipen(-) string """
+    _PATTERN = r'\b[A-Z]{3}[A-Z0-9]{3}[0-9]{1}\b'
+    _list_of_sites: List[str] = re.findall(_PATTERN, AnyStr)
+    return _list_of_sites
 
-    for site in sites:
-        impact_list += site
-        if ctr != len(sites) - 1:
-            impact_list += ','
-            ctr += 1
-    return "\n\n" + impact_list
+
+def make_impact_list(site_list: str) -> str:
+    """ Export a file with site list & return the string of site list with formatted impact list """
+    _list_of_sites: List[str] = split_string(site_list)
+    _IMPACT_LIST = "\n\nImpact List:"
+
+    return f"{_IMPACT_LIST} {','.join(_list_of_sites)}"
 
 
 def list_of_change(file_name: str) -> List[str]:
@@ -107,13 +108,13 @@ def list_of_change(file_name: str) -> List[str]:
     return change_list
 
 
-def get_current_system_time():
+def get_current_system_time() -> str:
     """ parse the current system time with formatted string """
     current_time = DateTime.now()
     return current_time.strftime("%m/%d/%Y %I:%M %p")
 
 
-def make_downtime_from_open_time(open_time: str):
+def make_downtime_from_open_time(open_time: str) -> str:
     """ make and return e downtime duration with the help of open time """
     original_date = DateTime.strptime(
         open_time, "%m/%d/%Y %I:%M:%S %p")
@@ -125,7 +126,7 @@ def make_downtime_from_open_time(open_time: str):
 
 def make_query_string(site_string: str) -> str:
     """ Generate the query_list string for relationship addition """
-    sites: list = site_string.strip().split(",")
+    sites: List[str] = split_string(site_string)
     query_list: list = []
     invalid_list: list = []
     for site in sites:

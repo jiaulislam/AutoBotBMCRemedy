@@ -1,10 +1,9 @@
 import time
-from typing import Counter, List, Optional, Tuple, Union
+from typing import List, Tuple, Union
 
 from selenium.common.exceptions import (
-    NoSuchFrameException,
     NoSuchElementException,
-    TimeoutException, ElementClickInterceptedException,
+    TimeoutException,
 )
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -13,6 +12,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+
+from utilites.decorators import add_logger
+import logging
+
+logger = logging.getLogger(__name__)
 
 ''' 
 The BasePage class is a base class that all the Pages that will inherit from this
@@ -30,184 +34,121 @@ class BasePage(object):
     """
 
     def __init__(self, driver: WebDriver, timeout: int = 30) -> None:
-        self.driver: WebDriver = driver
+        self._driver: WebDriver = driver
         self.timeout = timeout
 
-    def find_element(self, *locator):
+    def find_element(self, *locator) -> WebElement:
         """ Find the element by the help of the locator that user shared """
         try:
-            return self.driver.find_element(*locator)
+            return self._driver.find_element(*locator)
         except TypeError as error:
             print(f"Unexpected Type Error [base.py || Line - 37]"
                   f"\n{repr(error)}")
-            pass
         except AttributeError as error:
             print(f"Unexpected Attribute Error in find_element() ||\n{repr(error)}")
-            pass
         except NoSuchElementException:
             pass
 
-    def find_elements(self, *locator) -> Union[List[WebElement], Optional[None]]:
+    def find_elements(self, *locator) -> Union[List[WebElement], None]:
         """ Find the elements by the help of the locator that user shared """
         try:
-            return self.driver.find_elements(*locator)
+            return self._driver.find_elements(*locator)
         except TypeError as error:
             print(f"Unexpected Value Error [base.py || Line - 47]"
                   f"\n{repr(error)}")
-            pass
         except AttributeError as error:
             print(f"Unexpected Attribute Error in find_elements() ||\n{repr(error)}")
-            pass
         except NoSuchElementException:
             pass
 
     def is_visible(self, xpath_locator) -> bool:
         """ If the element is found in the Page then return True else False """
         try:
-            element = WebDriverWait(self.driver, self.timeout).until(
+            _element = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator))
-            return bool(element)
         except TimeoutException:
             pass
         except AttributeError as error:
             print(f"Unexpected Attribute Error [base.py || Line - 60]"
                   f"\n{repr(error)}")
-            pass
+        else:
+            return bool(_element)
 
+    @add_logger
     def click(self, element_locator_xpath) -> None:
         """ Click a web element by a locator shared by the user """
-        try:
-            WebDriverWait(driver=self.driver,
-                          timeout=self.timeout,
-                          ignored_exceptions=[NoSuchElementException,
-                                              NoSuchFrameException]
-                          ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
-        except AttributeError as error:
-            print(f"Unexpected Attribute Error [base.py || Line - 75]"
-                  f"\n{repr(error)}")
-            pass
+        WebDriverWait(driver=self._driver,
+                      timeout=self.timeout,
+                      ignored_exceptions=None
+                      ).until(ec.visibility_of_element_located(element_locator_xpath)).click()
 
+    @add_logger
     def write(self, xpath_locator: Tuple[By, str], text: str) -> None:
         """ Write the text in web element by a locator shared by the user """
-        try:
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator)).send_keys(text)
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 84]"
-                  f"\nE{repr(error)}")
-            pass
+        WebDriverWait(self._driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator)).send_keys(text)
 
+    @add_logger
     def hover_over(self, xpath_locator: str) -> None:
         """ Hover over the element shared by the user locator """
-        try:
-            element = WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator))
-            ActionChains(self.driver).move_to_element(element).perform()
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 94]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException as error:
-            print(f"Unexpected Timeout Error [base.py || Line - 98]"
-                  f"\n{repr(error)}")
-            pass
+        _element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator))
+        if _element is not None:
+            ActionChains(self._driver).move_to_element(_element).perform()
+        else:
+            raise AttributeError
 
+    @add_logger
     def switch_to_frame(self, xpath_locator) -> None:
         """ Switch to a frame by a frame locator """
-        user_frame = self.driver.find_element(*xpath_locator)
-        self.driver.switch_to.frame(user_frame)
+        _frame: Union[WebElement, None] = self._driver.find_element(*xpath_locator)
+        self._driver.switch_to.frame(_frame)
 
+    @add_logger
     def double_click(self, xpath_locator: Tuple[By, str]) -> None:
         """ Double click on a element by a locator """
-        element = WebDriverWait(self.driver, self.timeout, 2).until(
+        _element: Union[WebElement, None] = WebDriverWait(self._driver, self.timeout, 2).until(
             ec.visibility_of_element_located(xpath_locator))
-        ActionChains(self.driver).double_click(element).perform()
+        ActionChains(self._driver).double_click(_element).perform()
 
-    def send_ctrl_plus_a(self, xpath_locator: Tuple[By, str]) -> None:
+    @add_logger
+    def select_all(self, xpath_locator: Tuple[By, str]) -> None:
         """ Sends CTRL + A action to a page """
-        try:
-            WebDriverWait(self.driver, self.timeout).until(
-                ec.visibility_of_element_located(xpath_locator)).click()
+        WebDriverWait(self._driver, self.timeout).until(
+            ec.visibility_of_element_located(xpath_locator)).click()
 
-            ActionChains(self.driver).key_down(
-                Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
+        ActionChains(self._driver).key_down(
+            Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
 
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 130]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException as error:
-            print(f"Unexpected Timeout Error [base.py || Line - 135]"
-                  f"\n{repr(error)}")
-            pass
-        except AttributeError as error:
-            print(f"Unexpected Attribute Error -> {error}")
-            pass
-
-    def get_value_of_element(self, xpath_locator: Tuple[By, str]) -> str:
+    def get_text(self, xpath_locator: Tuple[By, str]) -> str:
         """ Get the text value of a web element shared by a user """
         try:
-            val_of_elem: str = WebDriverWait(self.driver, self.timeout).until(
+            _val_of_elem: str = WebDriverWait(self._driver, self.timeout).until(
                 ec.visibility_of_element_located(xpath_locator)).get_attribute("value")
-            return val_of_elem
         except TimeoutException as error:
             print(f"Unexpected Timeout Error [base.py || Line - 145]"
                   f"\n{repr(error)}")
-            pass
+        else:
+            return _val_of_elem
 
-    def check_for_expected_frame(self, frame_locator: str, ok_btn_locator: str) -> None:
+    @add_logger
+    def handle_frame_alert(self, frame_locator: str, ok_btn_locator: str) -> None:
         """ Checks for expected frames and press OK button in the frame """
-        try:
-            self.switch_to_frame(frame_locator)
-            self.click(ok_btn_locator)
-            self.driver.switch_to.default_content()
-        except (NoSuchFrameException, NoSuchElementException, TimeoutException):
-            pass
+        self.switch_to_frame(frame_locator)
+        self.click(ok_btn_locator)
+        self._driver.switch_to.default_content()
 
+    @add_logger
     def back_to_home_page(self, xpath_locator: Tuple[By, str]) -> None:
         """ Return to the homepage """
-        try:
-            self.click(xpath_locator)
-        except NoSuchElementException as error:
-            print(f"Unexpected NoSuchElementException Error [base.py || Line - 164]"
-                  f"\n{repr(error)}")
-            pass
-        except TimeoutException:
-            print("Back To Home Timeout Exception Hit")
-            try:
-                WebDriverWait(self.driver, 20).until(
-                    ec.visibility_of_element_located(xpath_locator)).click()
-            except TimeoutException as error:
-                raise Exception(f"Unexpected TimeoutException Error [base.py || Line - 172]"
-                                f"\n{repr(error)}")
-        except ElementClickInterceptedException:
-            try:
-                WebDriverWait(self.driver, self.timeout).until(
-                    ec.visibility_of_element_located(xpath_locator)).click()
-            except ElementClickInterceptedException:
-                try:
-                    WebDriverWait(self.driver, self.timeout).until(
-                        ec.element_to_be_clickable(xpath_locator)).click()
-                except ElementClickInterceptedException:
-                    # TODO: Grace Period // Need to Work in this area
-                    for i in range(5):
-                        print(".", end="")
-                        time.sleep(1)
-                    print()
-                    WebDriverWait(self.driver, self.timeout).until(
-                        ec.element_to_be_clickable(xpath_locator)).click()
-                except Exception as error:
-                    print(f"Unexpected Error found ! --> {error}")
-            except Exception as error:
-                print(f"Unexpected error found ! --> {error}")
+        self.click(xpath_locator)
 
-        
-    def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str]) -> None:
-        """ Wait for 10 minutes for loading_icon to vanish """
+    def wait_for_loading_icon_disappear(self, *locator: Tuple[By, str], _time: float = 1, _range: int = 600) -> None:
+        """ Wait for loading_icon to vanish """
         _counter = 1
-        while _counter <= 600 :  # Run for 10 Minutes
-            _loading_icons: list = self.driver.find_elements(*locator)
+        while _counter <= _range:
+            _loading_icons: list = self._driver.find_elements(*locator)
             if not len(_loading_icons):
                 break
-            time.sleep(1)
-            _counter+=1
+            time.sleep(_time)
+            _counter += 1

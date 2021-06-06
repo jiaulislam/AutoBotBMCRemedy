@@ -16,12 +16,12 @@ class LoginPage(BasePage):
 
     def enter_username_textbox(self) -> None:
         """ Search & Enter the data in username textbox """
-        self.driver.find_element(*LoginPageLocators.USERNAME_TEXTBOX).clear()
+        self._driver.find_element(*LoginPageLocators.USERNAME_TEXTBOX).clear()
         self.write(LoginPageLocators.USERNAME_TEXTBOX, BMCData.USERNAME)
 
     def enter_password_textbox(self) -> None:
         """ Search & Enter the data in password textbox """
-        self.driver.find_element(*LoginPageLocators.PASSWORD_TEXTBOX).clear()
+        self._driver.find_element(*LoginPageLocators.PASSWORD_TEXTBOX).clear()
         self.write(LoginPageLocators.PASSWORD_TEXTBOX, BMCData.PASSWORD)
 
     def click_login_button(self) -> None:

@@ -12,7 +12,7 @@ written by: jiaul_islam
 """
 
 # Need to Change which worksheet need to select
-SHEET_NAME = "Main"
+SHEET_NAME = "Change_List"
 
 
 #  Excel File Handler Class
@@ -47,8 +47,6 @@ class Read_Data:
                     number_of_change.append(int(no[0]))
                 else:
                     break
-            else:
-                pass
 
         return max(number_of_change)
 

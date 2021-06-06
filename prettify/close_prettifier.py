@@ -1,4 +1,5 @@
 from typing import Tuple
+
 from rich import box
 from rich.align import Align
 from rich.layout import Layout
@@ -7,8 +8,8 @@ from rich.progress import Progress, BarColumn, TextColumn, SpinnerColumn
 from rich.table import Table
 from rich.text import Text
 
-from utilites.sysinfo import get_memory_info, get_platform, get_python_version
 from prettify.prettify_ldma import Header
+from utilites.sysinfo import get_memory_info, get_platform, get_python_version
 
 
 class ClosePrettify:
@@ -58,8 +59,7 @@ class ClosePrettify:
             Align.center(table, vertical="middle", pad=False),
             title="System Info",
             border_style="white",
-            )
-
+        )
 
     @classmethod
     def make_layout(cls) -> None:
