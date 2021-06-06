@@ -123,6 +123,20 @@ def make_downtime_from_open_time(open_time: str) -> str:
 
     return str(original_date.strftime("%m/%d/%Y %I:%M:%S %p"))
 
+def make_downtime_from_open_time_2(open_time: str, schedule_start_time: str, schedule_end_time: str):
+    _original_date = DateTime.strptime(
+        open_time, "%m/%d/%Y %I:%M:%S %p")
+    _start_date = DateTime.strptime(
+        schedule_start_time, "%m/%d/%Y %I:%M:%S %p"
+    )
+    _end_date = DateTime.strptime(
+        schedule_end_time, "%m/%d/%Y %I:%M:%S %p"
+    )
+    _time_diff = divmod((_end_date - _start_date).total_seconds(),60)
+    _original_date += timedelta(minutes=_time_diff[0])
+
+    return _original_date.strftime("%m/%d/%Y %I:%M:%S %p")
+
 
 def make_query_string(site_string: str) -> str:
     """ Generate the query_list string for relationship addition """
