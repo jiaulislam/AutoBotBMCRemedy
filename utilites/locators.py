@@ -6,8 +6,6 @@ written by: jiaul_islam
 from selenium.webdriver.common.by import By
 
 
-# //span[@class='loadingText'] # Loading Locator
-
 class LoginPageLocators(object):
     """ Login Page related XPATH class Variable are declared here """
     LOGO_IMG = (By.XPATH, "//img[@src='images/login_logo.gif']")

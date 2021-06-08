@@ -99,8 +99,7 @@ class CloseRequests(BasePage):
         time.sleep(1)
         if self.get_text(Close_Locators.TASK_INIT_STATUS) == "Closed":
             return True
-        else:
-            return False
+        return False
 
     def is_change_status_closed(self) -> bool:
         """
@@ -110,8 +109,7 @@ class CloseRequests(BasePage):
 
         if status == 'Closed' or status == 'Completed':
             return True
-        else:
-            return False
+        return False
 
     def __is_service_effective(self) -> bool:
         """Check if the current working Change is service effective or not.
@@ -122,8 +120,6 @@ class CloseRequests(BasePage):
                 if self.get_text(Close_Locators.TASK_PLAN_START_DATE) != self.get_text(
                         Close_Locators.TASK_PLAN_END_DATE):
                     return True
-                else:
-                    pass
         except NoSuchElementException as error:
             print(error)
 
@@ -252,5 +248,4 @@ class CloseRequests(BasePage):
         status = self.get_text(Close_Locators.CURRENT_CR_STATUS)
         if status == "Scheduled For Approval":
             return True
-        else:
-            return False
+        return False
