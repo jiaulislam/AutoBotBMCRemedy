@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import BasePage
+from utilites.make_data import make_downtime_from_open_time_2
 from utilites.locators import (
     CloseChangeLocators,
     CancelRequestLocators,
@@ -136,11 +137,14 @@ class CloseRequests(BasePage):
             self.back_to_home_page(dynamicXPATH)
         time.sleep(2)
 
-    def __common_closing_activity(self, start_time: str, end_time: str) -> NoReturn:
+    def __common_closing_activity(self, start_time: str) -> NoReturn:
         """ Perform the common closing activity in the 3 task """
         self.write(CloseChangeLocators.CLOSE_START_DATE, start_time)
         if self.get_change_type():
-            self.write(CloseChangeLocators.CLOSE_END_DATE, end_time)
+            _start_date = self.get_text(CloseChangeLocators.START_TIME_IN_TASK)
+            _end_date = self.get_text(CloseChangeLocators.END_TIME_IN_TASK)
+            _actual_end_date = make_downtime_from_open_time_2(start_time, _start_date, _end_date)
+            self.write(CloseChangeLocators.CLOSE_END_DATE, _actual_end_date)
         else:
             self.write(CloseChangeLocators.CLOSE_END_DATE, start_time)
         self.click(CloseChangeLocators.CLOSE_MENU_SELECT)
@@ -155,7 +159,7 @@ class CloseRequests(BasePage):
             self.handle_frame_alert(FrameBoxLocators.FRAME_OF_CONFIRMATION, FrameBoxLocators.FRAME_OK_BUTTON)
             self.__back_to_change_task_page()
 
-    def close_service_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
+    def close_service_downtime_duration_task(self, actual_start_time: str) -> NoReturn:
         """
         Close the Task for: Service_Downtime_Duration_Task(2) ,
         If CR Task Status is already closed then will go back to
@@ -166,7 +170,7 @@ class CloseRequests(BasePage):
         if not self.__is_task_closed_already():
             self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
             self.__set_change_type()
-            self.__common_closing_activity(actual_start_time, actual_end_time)
+            self.__common_closing_activity(actual_start_time)
         else:
             self.__back_to_change_task_page()
 
@@ -203,7 +207,7 @@ class CloseRequests(BasePage):
         else:
             self.__back_to_change_task_page()
 
-    def close_system_downtime_duration_task(self, actual_start_time: str, actual_end_time: str) -> NoReturn:
+    def close_system_downtime_duration_task(self, actual_start_time: str) -> NoReturn:
         """
             Close the Task for: System_Downtime_Task(4) ,
             If CR Task Status is already closed then will go back to
@@ -226,7 +230,7 @@ class CloseRequests(BasePage):
 
         if not self.__is_task_closed_already():
             self.click(CommonTaskDateLocators.DATE_SECTOR_IN_TASK)
-            self.__common_closing_activity(actual_start_time, actual_end_time)
+            self.__common_closing_activity(actual_start_time)
         else:
             self.__back_to_change_task_page()
 

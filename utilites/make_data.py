@@ -132,8 +132,8 @@ def make_downtime_from_open_time_2(open_time: str, schedule_start_time: str, sch
     _end_date = DateTime.strptime(
         schedule_end_time, "%m/%d/%Y %I:%M:%S %p"
     )
-    _time_diff = divmod((_end_date - _start_date).total_seconds(),60)
-    _original_date += timedelta(minutes=_time_diff[0])
+    _time_diff = int(divmod((_end_date - _start_date).total_seconds(),60)[0])
+    _original_date += timedelta(minutes=_time_diff)
 
     return _original_date.strftime("%m/%d/%Y %I:%M:%S %p")
 
