@@ -16,8 +16,7 @@ CANCEL_CHANGE_FILENAME = "cancel.txt"
 CLOSE_CHANGE_FILENAME = "close.txt"
 
 
-class StaticData(object):
-    BMC_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
+class StaticData:
     USERNAME = os.environ.get("BMC_USER")  # Get the username
     PASSWORD = os.environ.get("BMC_PASS")  # Get the password
     IT_HOME = 'IT Home'
@@ -28,19 +27,13 @@ class StaticData(object):
     VIEW_ATTACHMENT_DEFAULT_STATE = 'View Attachment Disabled'
 
 
-class BMCData(object):
+class BMCData:
     BMC_URL = 'http://itsm-web.robi.com.bd:8080/arsys/shared/login.jsp?/arsys/home'
     USERNAME = os.environ.get("BMC_USER")  # Get the username
     PASSWORD = os.environ.get("BMC_PASS")  # Get the password
 
 
-class LDMAData(object):
+class LDMAData:
     LDMA_URL = 'http://ldma.robi.com.bd/view/common/login.php'
     LDMA_USERNAME = os.environ.get("LDMA_USER")
     LDMA_PASSWORD = os.environ.get("LDMA_PASS")
-
-
-class ROCData(object):
-    ROC_URL = 'https://roc.robi.com.bd/ROC/ROCPages/Pages/ROBIROC_Login.aspx'
-    ROC_USERNAME = os.environ.get("ROC_USERNAME")
-    ROC_PASSWORD = os.environ.get("ROC_PASSWORD")
