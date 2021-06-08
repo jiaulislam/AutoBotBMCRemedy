@@ -6,7 +6,7 @@ written by: jiaul_islam
 from selenium.webdriver.common.by import By
 
 
-class LoginPageLocators(object):
+class LoginPageLocators:
     """ Login Page related XPATH class Variable are declared here """
     LOGO_IMG = (By.XPATH, "//img[@src='images/login_logo.gif']")
     USERNAME_TEXTBOX = (By.XPATH, "//*[@id='username-id']")
@@ -14,7 +14,7 @@ class LoginPageLocators(object):
     LOGIN_BUTTON = (By.XPATH, "//input[@name='login']")
 
 
-class HomePageLocators(object):
+class HomePageLocators:
     """ All the home page locators should be kept here """
     IT_HOME_TEXT = (By.XPATH, "//label[@id='label80137'][contains(text(), 'IT Home')]")
     APPLICATION_BUTTON = (By.XPATH, "//*[@id='reg_img_304316340']")
@@ -26,7 +26,7 @@ class HomePageLocators(object):
     IT_HOME_BUTTON = (By.XPATH, "//a[@class='btn'][contains(text(),'IT Home')]")
 
 
-class ChangeManagerLocators(object):
+class ChangeManagerLocators:
     """ All the change manager section locators """
     MANAGER_GROUP_BTN = (By.XPATH, "//div[@id='WIN_3_1000000015']//a[@class='btn btn3d menu']")
     IMPLEMENTATION_MENU = (
@@ -55,7 +55,7 @@ class ChangeManagerLocators(object):
     CHANGE_MANAGER_SUDIPTA = (By.XPATH, "//div[@class='MenuOuter']//*[text()='Sudipta Das']")
 
 
-class LocationServiceLocators(object):
+class LocationServiceLocators:
     """ All the change location service locators """
     LOCATION_MENU_BTN = (By.XPATH, "//img[@id='reg_img_303935000']")
     CLEAR_BUTTON = (By.XPATH, "//*[@id='WIN_0_303915400']/div/div")
@@ -69,7 +69,7 @@ class LocationServiceLocators(object):
     OK_LOCATION_BTN = (By.XPATH, "//div[contains(text(),'OK')]")
 
 
-class TaskSectionLocators(object):
+class TaskSectionLocators:
     """ All the task creation or closing related locators """
     TASK_PAGE = (By.XPATH, "//a[contains(text(),'Tasks')]")
     REQUEST_TYPE_BTN = (By.XPATH, "//input[@type='text' and @id='arid_WIN_3_10003042']")
@@ -94,7 +94,7 @@ class TaskSectionLocators(object):
     REVIEW_CLOSURE_TASK_SPAN = (By.XPATH, "//span[contains(text(), 'Review and Closure Task (SOC)')]")
 
 
-class WorkInfoAttachment(object):
+class WorkInfoAttachment:
     """ Work info & attachment area """
     INFO_NOTES_TEXTBOX = (By.XPATH, "//div[@id='WIN_3_304247080']//*[@id='arid_WIN_3_304247080']")
     ATTACH_FILE_ICON_BUTTON = (By.XPATH, "//img[@id='reg_img_304247100']")
@@ -108,20 +108,20 @@ class WorkInfoAttachment(object):
     VIEW_ATTACHMENT_BUTTON = (By.ID, "reg_img_304252650")
 
 
-class SummaryAndNotesBox(object):
+class SummaryAndNotesBox:
     """ Summary and Notes Textbox """
     SUMMARY_TEXTBOX = (By.XPATH, "//*[@id='arid_WIN_3_1000000000']")
     NOTES_TEXTBOX = (By.XPATH, "//*[@id='arid_WIN_3_1000000151']")
 
 
-class DateSectionSelector(object):
+class DateSectionSelector:
     """ Date section locators """
     DATE_PAGE = (By.XPATH, "//a[contains(text(),'Date')]")
     START_DATE_INPUT = (By.XPATH, "//input[@id='arid_WIN_3_1000000350']")
     END_DATE_INPUT = (By.XPATH, "//input[@id='arid_WIN_3_1000000362']")
 
 
-class CommonTaskDateLocators(object):
+class CommonTaskDateLocators:
     """ Date Page locators in the Task stage """
     DATE_SECTOR_IN_TASK = (By.XPATH, "//a[contains(text(), 'Dates')]")
     START_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_0_1000000350']")
@@ -129,7 +129,7 @@ class CommonTaskDateLocators(object):
     SAVE_TASK_BTN = (By.XPATH, "//div[@class='f7'][contains(text(), 'Save')]")
 
 
-class CommonChangeCreateLocators(object):
+class CommonChangeCreateLocators:
     """ Some Common locators for Creating a new Change """
 
     # ==> GET CHANGE NUMBER <== #
@@ -140,20 +140,20 @@ class CommonChangeCreateLocators(object):
     LOADING_ICON = (By.XPATH, "//span[@class='loadingText']")
 
 
-class SaveChangeLocators(object):
+class SaveChangeLocators:
     """ Save & Send the Change to Request for Authorization locators """
     SAVE_CHANGE_BTN = (By.XPATH, "//a[@id='WIN_3_1001']")
     GOTO_NEXT_STAGE_BTN = (By.XPATH, "//div[@class='f7'][contains(text(), 'Next Stage')]")
 
 
-class FrameBoxLocators(object):
+class FrameBoxLocators:
     """ Frame object locators """
     FRAME_OF_CONFIRMATION = (
         By.XPATH, "//iframe[@src='http://itsm-web.robi.com.bd:8080/arsys/resources/html/MessagePopup.html']")
     FRAME_OK_BUTTON = (By.XPATH, "//div[@id='PopupMsgFooter']//a[contains(text(),'OK')]")
 
 
-class CloseChangeLocators(object):
+class CloseChangeLocators:
     """ This Class is going to store all the required new locators for Closing a Change Request """
 
     CURRENT_CR_STATUS = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
@@ -176,7 +176,7 @@ class CloseChangeLocators(object):
         return By.XPATH, dynamic_xpath
 
 
-class CancelRequestLocators(object):
+class CancelRequestLocators:
     """ A class variable holder for Canceling the Change Request """
     CHANGE_MANAGEMENT_CONSOLE = (By.XPATH, "//*[text()='Change Management Console']")
     MENU_FOR_STATUS = (By.XPATH, "//div[@id='WIN_3_303502600']//a[@class='btn btn3d menu']")
@@ -186,7 +186,7 @@ class CancelRequestLocators(object):
     STATUS_AREA = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
 
 
-class RelationshipQueryLocators(object):
+class RelationshipQueryLocators:
     """ A class for all the variable to relate the relationship query """
     RELATIONSHIP_TAB_BTN = (
         By.XPATH, "//a[@class='btn f1'][contains(text(), 'Relationships')]")
