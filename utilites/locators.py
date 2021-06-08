@@ -159,17 +159,17 @@ class CloseChangeLocators(object):
     """ This Class is going to store all the required new locators for Closing a Change Request """
 
     CURRENT_CR_STATUS = (By.XPATH, "//textarea[@id='arid_WIN_3_303502600']")
-    CHANGE_REQUEST_OPEN = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
+    ACTUAL_OPEN_DATE = (By.XPATH, "//input[@id = 'arid_WIN_3_1000000348']")
     CLOSE_MENU_SELECT = (By.XPATH, "//input[@id= 'arid_WIN_4_7']")
-    SELECT_CLOSE_FROM_LST = (By.XPATH, "//tr[@class='MenuTableRow']//td[contains(text(), 'Closed')]")
+    SELECT_CLOSE = (By.XPATH, "//tr[@class='MenuTableRow']//td[contains(text(), 'Closed')]")
     TASK_INIT_STATUS = (By.XPATH, "//input[@id='arid_WIN_4_7']")
     NEXT_STAGE_BUTTON = (By.XPATH, "//div[@class='f7'][contains(text(), 'Next Stage')]")
     CHANGE_STATUS_INPUT = (By.XPATH, "//input[@id='arid_WIN_4_7']")
 
-    START_TIME_IN_TASK = (By.XPATH, "//input[@id='arid_WIN_4_1000000350']")
-    END_TIME_IN_TASK = (By.XPATH, "//input[@id= 'arid_WIN_4_1000000362']")
-    CLOSE_START_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000348']")
-    CLOSE_END_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000364']")
+    TASK_PLAN_START_DATE = (By.XPATH, "//input[@id='arid_WIN_4_1000000350']")
+    TASK_PLAN_END_DATE = (By.XPATH, "//input[@id= 'arid_WIN_4_1000000362']")
+    TASK_ACTUAL_START_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000348']")
+    TASK_ACTUAL_END_DATE = (By.XPATH, "//input[@id = 'arid_WIN_4_1000000364']")
 
     # Below is a special requirement where i need a changeable XPATH
     @staticmethod
