@@ -21,18 +21,18 @@ def add_logger(fn):
             fn(*args)
         except TimeoutException:
             logger.error(
-                f"TimeoutException: Request Couldn't finished due to timeout.", exc_info=True)
+                f"TimeoutException: Request Couldn't finished due to timeout.")
         except AttributeError:
             logger.error(
-                f"'Nonetype' object found.", exc_info=True)
+                f"'Nonetype' object found.")
         except NoSuchElementException:
             logger.error(
-                f"NoSuchElementException: ElementNotFound in the DOM.", exc_info=True)
+                f"NoSuchElementException: ElementNotFound in the DOM.")
         except NoSuchFrameException:
             logger.error(
-                f"NoSuchFrameException: FrameNotFound in the DOM.", exc_info=True)
+                f"NoSuchFrameException: FrameNotFound in the DOM.")
         except TypeError:
             logger.error(
-                f"TypeError: Element Type mismatch", exc_info=True)
+                f"TypeError: Element Type mismatch")
 
     return wrapper

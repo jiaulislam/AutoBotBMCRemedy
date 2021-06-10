@@ -1,5 +1,6 @@
 import re
 import sys
+from typing import List
 from datetime import datetime
 
 from openpyxl import load_workbook
@@ -53,11 +54,10 @@ class Data_Export:
 
     def insert_impact_site_list(self, index: int, impact_site_list: str) -> None:
         """ insert the impact site list in the excel """
-        _PATTERN = r"\W+|,|;|\\|/|-"
-        sites = re.split(_PATTERN, impact_site_list)
-        site_list = ",".join(sites)
+        _PATTERN = r'([A-Z]{5}(?:(?:[A-Z0-9][0-9])|(?:[0-9][A-Z0-9])))'
+        sites: List[str] = re.findall(_PATTERN, impact_site_list)
 
-        self._sheet['F' + str(index)] = site_list
+        self._sheet['F' + str(index)] = ",".join(sites)
 
     def insert_service_type(self, index: int, service_type: str) -> None:
         """ insert the service type of the change request in the excel file"""

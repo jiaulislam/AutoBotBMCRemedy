@@ -80,7 +80,7 @@ def parse_datetime(m_date: str) -> DateTime:
 
 def split_string(AnyStr: str) -> List[str]:
     """ Split the Given site codes with comma(,) semi-colon(;) backslash(/) forwardslash(\\) hipen(-) string """
-    _PATTERN = r'\b[A-Z]{3}[A-Z0-9]{3}[0-9]{1}\b'
+    _PATTERN = r'([A-Z]{5}(?:(?:[A-Z0-9][0-9])|(?:[0-9][A-Z0-9])))'
     _list_of_sites: List[str] = re.findall(_PATTERN, AnyStr)
     return _list_of_sites
 
@@ -122,6 +122,20 @@ def make_downtime_from_open_time(open_time: str) -> str:
     original_date += timedelta(minutes=30)
 
     return str(original_date.strftime("%m/%d/%Y %I:%M:%S %p"))
+
+def make_downtime_from_open_time_2(open_time: str, schedule_start_time: str, schedule_end_time: str):
+    _original_date = DateTime.strptime(
+        open_time, "%m/%d/%Y %I:%M:%S %p")
+    _start_date = DateTime.strptime(
+        schedule_start_time, "%m/%d/%Y %I:%M:%S %p"
+    )
+    _end_date = DateTime.strptime(
+        schedule_end_time, "%m/%d/%Y %I:%M:%S %p"
+    )
+    _time_diff = int(divmod((_end_date - _start_date).total_seconds(),60)[0])
+    _original_date += timedelta(minutes=_time_diff)
+
+    return _original_date.strftime("%m/%d/%Y %I:%M:%S %p")
 
 
 def make_query_string(site_string: str) -> str:
