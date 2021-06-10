@@ -43,9 +43,11 @@ def test_impact_list_format_7():
     _splited_str = split_string(_string)
     assert _splited_str == []
     assert len(_splited_str) == 0
+    assert isinstance(_splited_str, list)
 
 def test_impact_list_format_8():
     _string = "DKD , DHKHL32@;D@KHL21, ,1,3,4,56,78,8,8, DH98K01"
     _splited_str = split_string(_string)
     assert _splited_str == ["DHKHL32"]
     assert len(_splited_str) == 1
+    assert isinstance(_splited_str, list)
