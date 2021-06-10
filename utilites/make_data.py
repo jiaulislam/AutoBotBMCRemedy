@@ -80,7 +80,7 @@ def parse_datetime(m_date: str) -> DateTime:
 
 def split_string(AnyStr: str) -> List[str]:
     """ Split the Given site codes with comma(,) semi-colon(;) backslash(/) forwardslash(\\) hipen(-) string """
-    _PATTERN = r'\b[A-Z]{3}[A-Z0-9]{3}[0-9]{1}\b'
+    _PATTERN = r'([A-Z]{5}(?:(?:[A-Z0-9][0-9])|(?:[0-9][A-Z0-9])))'
     _list_of_sites: List[str] = re.findall(_PATTERN, AnyStr)
     return _list_of_sites
 
