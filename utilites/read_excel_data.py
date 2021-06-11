@@ -1,5 +1,7 @@
+from abc import ABC, abstractmethod
 import sys
 from pathlib import Path
+from typing import Dict
 
 from openpyxl import load_workbook
 from openpyxl.workbook import Workbook
@@ -110,7 +112,7 @@ class Read_Data:
         _last_blank_row = 0
 
         for row in range(1, self._sheet.max_row):
-            if self._sheet[f"A{row}"].value is None:
+            if self._sheet[f"A{row}"].value is None or self._sheet[f"A{row}"].value == "0":
                 break
             else:
                 _last_blank_row += 1
