@@ -6,7 +6,7 @@ from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from rich.prompt import Confirm
 
-import make_data
+from utilites import make_data
 
 
 class OpenExcel:
@@ -29,7 +29,7 @@ class OpenExcel:
                         break
                     pass
 
-        self._file: Workbook = load_workbook(file, read_only)
+        self._file: Workbook = load_workbook(self._file_path, self._read_only)
         self._sheet: Worksheet = self._file["Main"]
 
     def __enter__(self) -> Worksheet:
@@ -38,6 +38,8 @@ class OpenExcel:
     def __exit__(self, exc_type, exc_value, exc_traceback) -> None:
         if not self._read_only:
             self._file.save(self._file_path)
+        if exc_type:
+            print(exc_type, exc_value, exc_traceback)
         self._file.close()
 
 
