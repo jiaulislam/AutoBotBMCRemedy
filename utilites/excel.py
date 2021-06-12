@@ -6,6 +6,8 @@ from openpyxl.workbook.workbook import Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from rich.prompt import Confirm
 
+import make_data
+
 
 class OpenExcel:
     """ Safe open excel file """
@@ -79,6 +81,9 @@ def pull(file: str, row_num: int) -> Dict[str, str]:
         _cell_data: Dict[str, str] = {}
         for _cell_name in range(65, 76):
             _cell = f"{chr(_cell_name)}{row_num}"
+            if _cell[-2] == "F":
+                _cell_data[_cell[-2]] = ",".join(make_data.split_string(file[_cell].value))
+                continue
             _cell_data[_cell[-2]] = file[_cell].value
         return _cell_data
 
