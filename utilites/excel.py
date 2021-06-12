@@ -1,4 +1,3 @@
-import json
 import os
 from typing import Dict
 
@@ -23,13 +22,13 @@ class OpenExcel:
                 try:
                     with open(file, "a+"):
                         break
-                except IOError:     # File is open, Handle the situation
+                except IOError:  # File is open, Handle the situation
                     if Confirm.ask("File is in used mode. Is closed ?", default="(y)", show_default=True):
                         break
                     pass
 
         self._file: Workbook = load_workbook(file, read_only)
-        self._sheet: Worksheet = self._file.active
+        self._sheet: Worksheet = self._file["Main"]
 
     def __enter__(self) -> Worksheet:
         return self._sheet
@@ -41,7 +40,7 @@ class OpenExcel:
 
 
 def get_last_empty_cell(sheet: Worksheet) -> int:
-    """ Return the last empty row number in a worksheet """
+    """ Return the last empty row number in a worksheet by sheet"""
     _last_blank_row: int = 0
 
     for row in range(1, sheet.max_row):
@@ -49,10 +48,23 @@ def get_last_empty_cell(sheet: Worksheet) -> int:
             break
         else:
             _last_blank_row += 1
-    return _last_blank_row
+    return _last_blank_row + 1
 
 
-def pull(file: str, row_num: int, read_only: bool = True) -> Dict[str, str]:
+def get_last_empty_row(file: str) -> int:
+    """ Return the last empty row number in a worksheet by file"""
+    _last_row: int = 0
+
+    with OpenExcel(file, read_only=True) as sheet:
+        for row in range(1, sheet.max_row):
+            if sheet[f'A{row}'].value is None:
+                break
+            _last_row += 1
+
+    return _last_row + 1
+
+
+def pull(file: str, row_num: int) -> Dict[str, str]:
     """ Pull data from shared excel
         :Args
             file_path: str
@@ -63,7 +75,7 @@ def pull(file: str, row_num: int, read_only: bool = True) -> Dict[str, str]:
                 read the spcific number row
         :Returns A key value pair as cell : value
     """
-    with OpenExcel(file, read_only) as file:
+    with OpenExcel(file, read_only=True) as file:
         _cell_data: Dict[str, str] = {}
         for _cell_name in range(65, 76):
             _cell = f"{chr(_cell_name)}{row_num}"
@@ -80,17 +92,7 @@ def put(file: str, data_obj: Dict[str, str]) -> None:
                 dictionary object that contains the key value pair data
     """
     with OpenExcel(file) as file:
-        _start_row: int = get_last_empty_cell(file) + 1
+        _start_row: int = get_last_empty_cell(file)
         for _cell_name in range(65, 76):
             _cell = f"{chr(_cell_name)}{_start_row}"
             file[_cell] = data_obj.get(_cell[-2])
-
-
-file_path = "E:\devs\AutoBotBMCRemedy\data_driver\Request_CR.xlsx"
-
-write_path = "E:\devs\AutoBotBMCRemedy\data_driver\Output_CR.xlsx"
-
-data = json.dumps(pull(file_path, 4), indent=4, default=str)
-
-put(write_path, pull(file_path, 4))
-print(data)
