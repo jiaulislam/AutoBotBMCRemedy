@@ -30,30 +30,23 @@ class CancelPrettify:
         table = Table.grid(expand=True, padding=(1, 1))
 
         table.add_row(
-            "Total Memory: ", Text(
-                _total_memory, style="yellow", justify="right")
+            "Total Memory: ", Text(_total_memory, style="yellow", justify="right")
         )
         table.add_row(
-            "Available Memory: ", Text(
-                _available_memory, style="green", justify="right")
+            "Available Memory: ",
+            Text(_available_memory, style="green", justify="right"),
         )
-        table.add_row(
-            "Used Memory: ", Text(_used_memory, style="red", justify="right")
-        )
+        table.add_row("Used Memory: ", Text(_used_memory, style="red", justify="right"))
         table.add_row(
             "Free Memory: ", Text(_free_memory, style="green", justify="right")
         )
         table.add_row(
-            "Used Percentage: ", Text(
-                _used_percentage, style="magenta", justify="right")
+            "Used Percentage: ",
+            Text(_used_percentage, style="magenta", justify="right"),
         )
+        table.add_row("OS: ", Text(_platform, style="blue", justify="right"))
         table.add_row(
-            "OS: ", Text(
-                _platform, style="blue", justify="right")
-        )
-        table.add_row(
-            "Python Version: ", Text(
-                _pyversion, style="blue", justify="right")
+            "Python Version: ", Text(_pyversion, style="blue", justify="right")
         )
         return Panel(
             table,
@@ -63,17 +56,10 @@ class CancelPrettify:
 
     @classmethod
     def make_layout(cls) -> None:
-        cls._layout.split(
-            Layout(name="header", size=3),
-            Layout(name="body")
-        )
-        cls._layout["body"].split_row(
-            Layout(name="left"),
-            Layout(name="tables")
-        )
+        cls._layout.split(Layout(name="header", size=3), Layout(name="body"))
+        cls._layout["body"].split_row(Layout(name="left"), Layout(name="tables"))
         cls._layout["left"].split_column(
-            Layout(name="top", ratio=1),
-            Layout(name="progress", size=6)
+            Layout(name="top", ratio=1), Layout(name="progress", size=6)
         )
         cls._layout["header"].update(Header("Cancel Request Status"))
         cls._layout["top"].update(cls.get_top_layout())
@@ -89,7 +75,9 @@ class CancelPrettify:
         cls._table.add_column("Status", justify="center")
 
     @classmethod
-    def add_row_table(cls, sl: str, ncr_number: str, status: str, style="green") -> None:
+    def add_row_table(
+        cls, sl: str, ncr_number: str, status: str, style="green"
+    ) -> None:
         cls._table.add_row(sl, ncr_number, status, style=style)
 
     @classmethod
@@ -102,10 +90,20 @@ class CancelPrettify:
 
     @classmethod
     def merge_layout(cls, progress, table) -> None:
-        cls._layout["progress"].update(Panel(
-            Align.center(progress, vertical="middle"), border_style="green", title="Overall Status"))
-        cls._layout["tables"].update(Panel(
-            Align.center(table, vertical="middle"), border_style="cyan", title="Details"))
+        cls._layout["progress"].update(
+            Panel(
+                Align.center(progress, vertical="middle"),
+                border_style="green",
+                title="Overall Status",
+            )
+        )
+        cls._layout["tables"].update(
+            Panel(
+                Align.center(table, vertical="middle"),
+                border_style="cyan",
+                title="Details",
+            )
+        )
 
     @classmethod
     def progress_bar(cls, tasks_range: float) -> Progress:
@@ -119,7 +117,5 @@ class CancelPrettify:
 
         job_progress.add_task("[Cancel]:", total=tasks_range)
 
-        progress_table.add_row(
-            Panel.fit(job_progress, title="[b]jobs", padding=(2, 2))
-        )
+        progress_table.add_row(Panel.fit(job_progress, title="[b]jobs", padding=(2, 2)))
         return job_progress

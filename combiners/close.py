@@ -35,7 +35,6 @@ class Close(BasePage):
         ClosePrettify.make_table()
         my_progress = ClosePrettify.progress_bar(tasks)
         ClosePrettify.merge_layout(my_progress, ClosePrettify.get_table())
-        print(user_list_for_close)
         # Iterate through each user shared Change Number
         with Live(
             ClosePrettify.get_layout(),

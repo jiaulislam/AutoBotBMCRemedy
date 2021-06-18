@@ -15,7 +15,7 @@ class Excel(IExcel):
         self._file: str = file
 
         if not os.path.exists(self._file):
-            raise FileNotFoundError("File dosen't exist")
+            raise FileNotFoundError("File doesn't exist")
 
         while True:
             try:
@@ -31,12 +31,12 @@ class Excel(IExcel):
                 pass
 
         self._wb: Workbook = load_workbook(
-            filename=self._file, read_only=False, keep_vba=False, data_only=True
+            filename=self._file, data_only=True
         )
         self._ws: Worksheet = self.__change_sheet(EXCEL_SHEET_NAME)
 
     def __change_sheet(self, _sheet_name: str) -> Worksheet:
-        self._ws = self._wb[_sheet_name]
+        return self._wb[_sheet_name]
 
     def get_row(self, row_num: int) -> Dict[str, str]:
         _row_data = {}
@@ -52,7 +52,7 @@ class Excel(IExcel):
 
         return _row_data
 
-    def insert_cr(self, row_num: int, cr_number: str) -> None:
+    def insert(self, row_num: int, cr_number: str) -> None:
         _cell = f"J{row_num}"
         self._ws[_cell] = cr_number
 

@@ -27,8 +27,8 @@ class Create(BasePage):
     """Create CR E2E Actions"""
 
     def __init__(self, driver: WebDriver):
-        self._xcel: Excel = Excel(StaticData.READ_EXCEL_FILE)
-        self._MAX: int = self._xcel.get_last_row()
+        self._excel: Excel = Excel(StaticData.READ_EXCEL_FILE)
+        self._MAX: int = self._excel.get_last_row()
         self._layout = get_layout()
         self._table = get_table()
         self._path = os.getcwd()
@@ -49,7 +49,7 @@ class Create(BasePage):
             for _excel_index in range(START_ROW, self._MAX):
                 # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
                 if self._create.is_home_page("IT Home"):
-                    data: Dict[str, str] = self._xcel.get_row(_excel_index)
+                    data: Dict[str, str] = self._excel.get_row(_excel_index)
                     location_service = ("e.co", data.get("I"))
 
                     summary = f"{data.get('D')} || {data.get('G')}"
@@ -97,8 +97,8 @@ class Create(BasePage):
                     # ---------------------------------- END -------------------------------------------- #
 
                     # Write Data
-                    self._xcel.insert_cr(_excel_index, change_number)
-                    self._xcel.save()
+                    self._excel.insert(_excel_index, change_number)
+                    self._excel.save()
 
                     # Console Data
                     console_data = (
@@ -142,4 +142,4 @@ class Create(BasePage):
                         self._create.reset_change_number()
                         self._create.go_back_to_homepage()
         self._home.click_logout_button()
-        self._xcel.close()
+        self._excel.close()

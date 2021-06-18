@@ -10,7 +10,9 @@ from prettify.prettify_ldma import Header
 
 
 def get_table() -> Table:
-    table = Table(title="NCR Creation Status", box=box.ROUNDED, show_lines=True, expand=True)
+    table = Table(
+        title="NCR Creation Status", box=box.ROUNDED, show_lines=True, expand=True
+    )
 
     table.add_column("SL", justify="center")
     table.add_column("Zone", justify="center")
@@ -23,10 +25,11 @@ def get_table() -> Table:
 
 def get_table_panel(table: Table) -> Panel:
     table_panel = Panel(
-        Align.center(
-            table,
-            vertical="middle"
-        ), title="Task Details", border_style="yellow", padding=(1, 0), expand=True
+        Align.center(table, vertical="middle"),
+        title="Task Details",
+        border_style="yellow",
+        padding=(1, 0),
+        expand=True,
     )
     return table_panel
 

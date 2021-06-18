@@ -34,26 +34,20 @@ class ClosePrettify:
             "Total Memory: ", Text(_total_memory, style="yellow", justify="right")
         )
         table.add_row(
-            "Available Memory: ", Text(
-                _available_memory, style="green", justify="right")
+            "Available Memory: ",
+            Text(_available_memory, style="green", justify="right"),
         )
-        table.add_row(
-            "Used Memory: ", Text(_used_memory, style="red", justify="right")
-        )
+        table.add_row("Used Memory: ", Text(_used_memory, style="red", justify="right"))
         table.add_row(
             "Free Memory: ", Text(_free_memory, style="green", justify="right")
         )
         table.add_row(
-            "Used Percentage: ", Text(
-                _used_percentage, style="magenta", justify="right")
+            "Used Percentage: ",
+            Text(_used_percentage, style="magenta", justify="right"),
         )
+        table.add_row("OS: ", Text(_platform, style="blue", justify="right"))
         table.add_row(
-            "OS: ", Text(
-                _platform, style="blue", justify="right")
-        )
-        table.add_row(
-            "Python Version: ", Text(
-                _pyversion, style="blue", justify="right")
+            "Python Version: ", Text(_pyversion, style="blue", justify="right")
         )
         return Panel(
             Align.center(table, vertical="middle", pad=False),
@@ -63,26 +57,19 @@ class ClosePrettify:
 
     @classmethod
     def make_layout(cls) -> None:
-        cls._layout.split(
-            Layout(name="header", size=3),
-            Layout(name="body")
-        )
+        cls._layout.split(Layout(name="header", size=3), Layout(name="body"))
 
-        cls._layout["body"].split_row(
-            Layout(name="left"),
-            Layout(name="tables")
-        )
-        cls._layout["left"].split_column(
-            Layout(name="top"),
-            Layout(name="progress")
-        )
+        cls._layout["body"].split_row(Layout(name="left"), Layout(name="tables"))
+        cls._layout["left"].split_column(Layout(name="top"), Layout(name="progress"))
         cls._layout["header"].update(Header("Close NCR Activity"))
         cls._layout["top"].update(cls.get_top_layout())
 
     @classmethod
     def make_table(cls) -> None:
         cls._table.add_column("SL", justify="right", no_wrap=True)
-        cls._table.add_column("NCR No", justify="center", no_wrap=True, header_style="green")
+        cls._table.add_column(
+            "NCR No", justify="center", no_wrap=True, header_style="green"
+        )
         cls._table.add_column("Status", justify="center", no_wrap=True)
 
     @classmethod
@@ -99,10 +86,20 @@ class ClosePrettify:
 
     @classmethod
     def merge_layout(cls, progress, table) -> None:
-        cls._layout["progress"].update(Panel(
-            Align.center(progress, vertical="middle"), border_style="green", title="Overall Status"))
-        cls._layout["tables"].update(Panel(
-            Align.center(table, vertical="middle"), border_style="cyan", title="Details"))
+        cls._layout["progress"].update(
+            Panel(
+                Align.center(progress, vertical="middle"),
+                border_style="green",
+                title="Overall Status",
+            )
+        )
+        cls._layout["tables"].update(
+            Panel(
+                Align.center(table, vertical="middle"),
+                border_style="cyan",
+                title="Details",
+            )
+        )
 
     @classmethod
     def progress_bar(cls, tasks_range: int) -> Progress:
@@ -116,9 +113,7 @@ class ClosePrettify:
         job_progress.add_task("[Closing]:", total=tasks_range)
 
         progress_table = Table.grid()
-        progress_table.add_row(
-            Panel.fit(job_progress, title="[b]jobs", padding=(2, 2))
-        )
+        progress_table.add_row(Panel.fit(job_progress, title="[b]jobs", padding=(2, 2)))
         return job_progress
 
     def __str__(self):

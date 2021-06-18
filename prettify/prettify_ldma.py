@@ -22,9 +22,10 @@ class Header:
         grid = Table.grid(expand=True)
         grid.add_column(justify="center", ratio=1)
         grid.add_column(justify="right")
-        grid.add_row(f"\t\t\t{self.header_text}",
-                     datetime.now().ctime().replace(":", "[blink]:[/]"),
-                     )
+        grid.add_row(
+            f"\t\t\t{self.header_text}",
+            datetime.now().ctime().replace(":", "[blink]:[/]"),
+        )
         return Panel(grid, style="white", border_style="red", title="AUTOBOT")
 
 
@@ -61,12 +62,12 @@ def make_sponsor_message() -> Panel:
 
 
 def get_choice() -> int:
-    choice = Prompt.ask("Enter your choice", choices=['1', '2', '0'])
+    choice = Prompt.ask("Enter your choice", choices=["1", "2", "0"])
     return int(choice)
 
 
 class MainMenuLayout:
-    """ Return the main menu layout """
+    """Return the main menu layout"""
 
     def __init__(self) -> None:
         self.layout = Layout()
@@ -79,11 +80,13 @@ class MainMenuLayout:
         )
 
         self.layout["body"].split_column(
-            Layout(name='should_be_unused', visible=False),
-            Layout(name='table2'),
-            Layout(name='action_table'),
+            Layout(name="should_be_unused", visible=False),
+            Layout(name="table2"),
+            Layout(name="action_table"),
         )
-        self.table.add_column("Action Button", justify="center", style="cyan", no_wrap=True)
+        self.table.add_column(
+            "Action Button", justify="center", style="cyan", no_wrap=True
+        )
         self.table.add_column("Actions", style="magenta", justify="center")
 
         self.table.add_row("1", "TO SEARCH WITH LINK CODE")
