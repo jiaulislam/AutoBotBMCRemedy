@@ -21,7 +21,6 @@ install()
 
 # Starting ROW
 START_ROW = 2  # Need to change if need to change the starting point in Excel
-# MAX ROW USED
 
 
 class Create(BasePage):
