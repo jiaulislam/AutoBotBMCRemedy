@@ -22,13 +22,13 @@ panel = Panel(Align.center(table, vertical="middle"), border_style="cyan")
 
 
 class Parser(BasePage):
-    """ LinkBudget Parser """
+    """LinkBudget Parser"""
 
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
 
     def parseLinkBudget(self, link_codes: list[str], site_codes: list[str]):
-        """ Parse the Link Budget """
+        """Parse the Link Budget"""
         if link_codes is not None:
             parse_info = ParseLinkBudget(driver=self._driver, timeout=3)
             parse_info.login_ldma()

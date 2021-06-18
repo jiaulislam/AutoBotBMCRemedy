@@ -1,3 +1,4 @@
+from excel.excel import Excel
 import os
 import time
 from typing import Dict
@@ -12,7 +13,6 @@ from pages.createrequest import CreateRequests
 from pages.home import HomePage
 from pages.login import LoginPage
 from prettify.create_prettifier import get_layout, get_table, add_row_table
-from utilites import excel
 from utilites import make_data
 from utilites.static_data import StaticData
 
@@ -22,13 +22,14 @@ install()
 # Starting ROW
 START_ROW = 2  # Need to change if need to change the starting point in Excel
 # MAX ROW USED
-MAX_CHANGE = excel.get_last_empty_row(StaticData.READ_EXCEL_FILE)
 
 
 class Create(BasePage):
-    """ Create CR E2E Actions"""
+    """Create CR E2E Actions"""
 
     def __init__(self, driver: WebDriver):
+        self._xcel: Excel = Excel(StaticData.READ_EXCEL_FILE)
+        self._MAX: int = self._xcel.get_last_row()
         self._layout = get_layout()
         self._table = get_table()
         self._path = os.getcwd()
@@ -42,24 +43,28 @@ class Create(BasePage):
         self._login.enter_username_textbox()
         self._login.enter_password_textbox()
         self._login.click_login_button()
-        with Live(self._table, refresh_per_second=4, vertical_overflow="visible") as live:
+        with Live(
+            self._table, refresh_per_second=4, vertical_overflow="visible"
+        ) as live:
 
-            for _excel_index in range(START_ROW, MAX_CHANGE):
+            for _excel_index in range(START_ROW, self._MAX):
                 # --------------------- BMCRemedy Create the Change Request as provided data ------------ #
                 if self._create.is_home_page("IT Home"):
-                    data: Dict[str, str] = excel.pull(StaticData.READ_EXCEL_FILE, _excel_index)
-                    location_service = ("e.co", data.get('I'))
+                    data: Dict[str, str] = self._xcel.get_row(_excel_index)
+                    location_service = ("e.co", data.get("I"))
 
                     summary = f"{data.get('D')} || {data.get('G')}"
-                    impact_list = make_data.make_impact_list(data.get('F'))
+                    impact_list = make_data.make_impact_list(data.get("F"))
                     details = f"{summary}\n\n{data.get('E')}\n\n{impact_list}"
 
                     # ---------------make_data: Task Time Calculation ---------------- #
-                    cr_start_time = make_data.get_change_start_time(data.get('B'))
-                    start_downtime = make_data.get_service_start_downtime(data.get('B'))
-                    end_downtime = make_data.get_service_end_downtime(start_downtime, data.get('H'))
-                    activity_hour = make_data.get_change_close_start_time(data.get('B'))
-                    cr_end_time = make_data.get_change_close_end_time(data.get('B'))
+                    cr_start_time = make_data.get_change_start_time(data.get("B"))
+                    start_downtime = make_data.get_service_start_downtime(data.get("B"))
+                    end_downtime = make_data.get_service_end_downtime(
+                        start_downtime, data.get("H")
+                    )
+                    activity_hour = make_data.get_change_close_start_time(data.get("B"))
+                    cr_end_time = make_data.get_change_close_end_time(data.get("B"))
                     # ------------------------------END----------------------------- #
 
                     self._home.click_application_btn()
@@ -72,7 +77,7 @@ class Create(BasePage):
                     change_number = self._create.get_change_number()
                     live.console.print(f"Working on: [green]{change_number}")
                     self._create.select_manager_group()
-                    self._create.select_change_manager(data.get('K'))
+                    self._create.select_change_manager(data.get("K"))
                     self._create.insert_work_info(details)
                     self._create.change_location(location_service)
                     self._create.verify_summary(summary)
@@ -81,25 +86,34 @@ class Create(BasePage):
 
                     self._create.fill_initiation_task(cr_start_time, start_downtime)
                     self._create.fill_service_downtime_duration_task(
-                        start_downtime, end_downtime)
+                        start_downtime, end_downtime
+                    )
                     self._create.fill_system_downtime_window_task(
-                        start_downtime, activity_hour)
-                    self._create.fill_system_downtime_duration_task(start_downtime, end_downtime)
-                    self._create.fill_review_closure_task(
-                        activity_hour, cr_end_time)
+                        start_downtime, activity_hour
+                    )
+                    self._create.fill_system_downtime_duration_task(
+                        start_downtime, end_downtime
+                    )
+                    self._create.fill_review_closure_task(activity_hour, cr_end_time)
                     # ---------------------------------- END -------------------------------------------- #
 
-                    # Export Data
-                    data["J"] = change_number
-                    excel.put(StaticData.WRITE_EXCEL_FILE, data)
+                    # Write Data
+                    self._xcel.insert_cr(_excel_index, change_number)
+                    self._xcel.save()
 
                     # Console Data
                     console_data = (
-                        str(_excel_index - 1), data.get('I'), data.get('G'), data.get('C'), change_number, "✅")
+                        str(_excel_index - 1),
+                        data.get("I"),
+                        data.get("G"),
+                        data.get("C"),
+                        change_number,
+                        "✅",
+                    )
 
                     # Save and go back to home page, need to tag site if service effective cr
-                    if data.get('G') == 'Service Effective':
-                        query_formula = make_data.make_query_string(data.get('F'))
+                    if data.get("G") == "Service Effective":
+                        query_formula = make_data.make_query_string(data.get("F"))
                         self._create.add_relationship_to_change(query_formula)
                         # ----------------------------------------------------------
                         # while True:
@@ -129,3 +143,4 @@ class Create(BasePage):
                         self._create.reset_change_number()
                         self._create.go_back_to_homepage()
         self._home.click_logout_button()
+        self._xcel.close()

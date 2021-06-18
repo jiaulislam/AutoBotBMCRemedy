@@ -10,7 +10,7 @@ from excel import IExcel
 EXCEL_SHEET_NAME = "MAIN"
 
 
-class ExcelWork(IExcel):
+class Excel(IExcel):
     def __init__(self, file: str) -> None:
         self._file: str = file
 
@@ -48,7 +48,7 @@ class ExcelWork(IExcel):
                     make_data.split_string(self._ws[_cell_idx].value)
                 )
                 continue
-            _row_data[_cell_idx[0]] = self._ws[_cell_idx].value
+            _row_data[chr(_cell_chr)] = self._ws[_cell_idx].value
 
         return _row_data
 
