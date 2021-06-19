@@ -44,8 +44,8 @@ def test_status_cell_1():
 
 def test_last_row_data():
     _controller = CRController(StaticData.CONTROLLER_FILE)
-    data = _controller.get_row(50)
-    assert data.get(2) == "CRQ000000335285"
+    data = _controller.get_row(12)
+    assert data.get(2) == "CRQ000000335358"
 
 
 def test_insert_1():
@@ -59,9 +59,8 @@ def test_insert_1():
 def test_insert_2():
     _controller = CRController(StaticData.CONTROLLER_FILE)
     _col_count = _controller.get_column_count()
-    for i in range(2, _col_count+2):
+    for i in range(2, _col_count + 2):
         _controller.insert("CLOSED", i)
     _controller.save()
     _controller.close()
     assert True
-
